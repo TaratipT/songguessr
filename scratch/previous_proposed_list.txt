@@ -1,0 +1,139 @@
+จัดทำลิสต์พร้อม **หมายเลขกำกับ 1 - 100** เรียบร้อยครับ (ตรวจสอบแล้วว่ายังไม่มีในระบบเกมแน่นอน 100%) คุณสามารถพิมพ์บอกแค่หมายเลขได้เลย เช่น *"เอา 1, 3, 16, 51, 77"* หรือ *"เอา 1-20 กับ 51-70"* หรือจะเอาหมดเลยก็ได้ครับ:
+
+---
+
+### 🇹🇭 ศิลปินไทย (หมายเลข 1 – 50)
+
+#### ซูเปอร์สตาร์ & ดีว่าระดับตำนาน
+1. **เบิร์ด ธงไชย** — *(หมอกหรือควัน, บูมเมอแรง, พริกขี้หนู, สบาย สบาย, แฟนจ๋า)*
+2. **บี้ สุกฤษฎิ์** — *(จังหวะหัวใจ, Wait a Minute, I Need Somebody, มากมาย)*
+3. **ดา เอ็นโดรฟิน** — *(เพื่อนสนิท, สิ่งสำคัญ, ได้ยินไหม, น้ำเต็มแก้ว, คืนข้ามปี)*
+4. **โบ สุนิตา** — *(ฉันรู้, พรุ่งนี้จะไปกับเธอ, ขอเป็นคนของเธอ, อธิษฐาน)*
+5. **ปาน ธนพร** — *(เรื่องง่ายๆ ที่ผู้ชายไม่รู้, ตบมือข้างเดียว, นรกในใจ, หวง)*
+6. **Lula (ลุลา)** — *(ตุ๊กตาหน้ารถ, ทะเลสีดำ, มันคือความรัก, เรื่องที่ขอ)*
+
+#### ยุค 90s - 2000s แดนซ์ & ทีนป็อป (RS & GMM)
+7. **เจ เจตริน** — *(กองไว้, คาใจ, เจ็บไปเจ็บมา, ฝากเลี้ยง, All I Wanna Do)*
+8. **คริสติน่า อากีล่าร์** — *(พลิกล็อค, นินจา, พูดอีกที, ประวัติศาสตร์, ไม่ยากหรอก)*
+9. **ทาทา ยัง** — *(โอ๊ะ...โอ๊ย, รบกวนมารักกัน, ซักกะนิด, อาโบเดเบ, Dhoom Dhoom)*
+10. **มอส ปฏิภาณ** — *(เหลวไหล, ด้วยรักและปลาทู, สลัดสะบัด, คืออะไร)*
+11. **เต๋า สมชาย** — *(สมชายจรดปลายเท้า, บอดี้การ์ด, โลกทั้งใบให้นายคนเดียว)*
+12. **นิโคล เทริโอ** — *(กะโปโล, บุษบา, ไม่แน่ใจ, เปรี้ยวใจ)*
+13. **แดน-บีม (D2B)** — *(คนใจง่าย, ต่อหน้าฉัน...เธอทำอย่างนั้นได้อย่างไร, ซ่าส์...สั่นๆ)*
+14. **แร็พเตอร์ (Raptor)** — *(เกรงใจ, อย่าพูดเลย, รู้สึกอย่างไร, คิดถึงเธอ)*
+15. **ลิฟท์-ออย** — *(รมณ์บ่จอย, ขรม, นิ้วก้อย, ดูมั้ย)*
+16. **Four-Mod** — *(หายใจเป็นเธอ, เด็กมีปัญหา, ละลาย, Love Love)*
+17. **หวาย (Waii)** — *(ตกหลุมรัก, ยอมให้จับนะ, ห่างกันสักพัก, ถามผิดมั้ง)*
+18. **Golf-Mike** — *(Bounce, ตลกดี, เรื่องเล็กของเธอ, ไม่ว่างกำลังเต้น)*
+19. **โดม ปกรณ์ ลัม** — *(ยิ่งรักเธอ, สมมุติ, อย่าให้ใจกันเลย)*
+
+#### T-POP & ไอดอลเกิร์ลกรุ๊ป / บอยแบนด์
+20. **BNK48** — *(คุกกี้เสี่ยงทาย, วันแรก, โดดดิด่ง, เธอคือ...เมโลดี้)*
+21. **CGM48** — *(เชียงใหม่ 106, มะลิ, ลา ลา รัก, ผูกพันวัลเล่ย์)*
+22. **ALALA** — *(ร้องไห้ดังๆ, ซึ้งอยู่, บังเอิญตั้งใจ)*
+23. **MXFRUIT** — *(strawberry ice cream, ทำไมไม่ตอบ, มีใจก็ทัก)*
+24. **Pretzelle** — *(ต้องชอบแค่ไหน, ไม่รับสาย, ถ้าหากเธอไม่เคยรัก)*
+25. **VIIS** — *(Barbie (Oops! Oops!), Mirage, Don't Mind)*
+26. **QRRA** — *(Miracle, ไม่ง้อ)*
+27. **Ice Paris** — *(รักติดไซเรน, รอยยิ้มที่อบอุ่น, ดี๊ดี)*
+28. **JAYLERR** — *(ดี๊ดี, ระเบียง, Very Very Sorry)*
+
+#### อินดี้ไทย / นีโอโซล / โฟล์กเพื่อชีวิต
+29. **Whal & Dolph** — *(ใจเดียว, ยิ้ม, นานอีกหน่อย, ไม่รู้ทำไม)*
+30. **YENTED** — *(หินหยดลงน้ำ, อย่าสงสัย, Her, ถ้าหาก)*
+31. **เขียนไขและวานิช** — *(แก้มน้องนางนั้นแดงกว่าใคร, หนีห่าง, ภาพถ่าย)*
+32. **ไววิทย์** — *(ศิลปินไส้แห้ง, ไววิทย์, กวีร้องไห้)*
+33. **คณะขวัญใจ** — *(ย้ายป่า, ฉันรักเธอ, ฟ้าครึ้ม)*
+34. **เรืองฤทธิ์** — *(เธอคือดวงจันทร์, คนที่เธอไม่มอง)*
+35. **Singular** — *(เบา เบา, 24.7, ลอง)*
+36. **ETC.** — *(เธอคือใคร, เปลี่ยน, สิ่งมีชีวิตที่คิดได้และเจ็บเป็น)*
+37. **Plastic Plastic** — *(ฮัม, อยากรู้, Merry Go Round)*
+38. **Uncle Tree** — *(ต้นไม้แห่งความหลัง, สบายดี)*
+
+#### ร็อก & อัลเทอร์เนทีฟ
+39. **Modern Dog** — *(บุษบา, ตาสว่าง, ก่อน, กะลา, ติ๋ม)*
+40. **Hangman** — *(ช็อกโกแลต, พยายามกี่ครั้งก็ตามแต่, สัญญาณ)*
+41. **No More Tear** — *(ฉันเป็นดีเจให้เธอ, หัวใจหมดแรง, ความพยายาม)*
+
+#### ฮิปฮอป & แร็ปไทย
+42. **DIAMOND MQT** — *(Gucci Belt, เพลงรักเพลงหนึ่ง, ไม่บอก)*
+43. **YOUNGGU** — *(วิ่งแบบพี่ตูน, Shishi)*
+44. **CDGUNTEE** — *(Microphone, ดึกแล้ว, เธอคนเดียว)*
+
+#### เพื่อชีวิต & เพลงใต้ร้อยล้านวิว
+45. **วงกางเกง** — *(กางเกงตัวร้ายๆ, สัญญาณเตือน)*
+46. **วงพัทลุง** — *(มหาลัยวัวชน, ที่อยู่ตรงนี้ก็มีหัวใจ)*
+47. **มหาหิงค์** — *(ปัดโธ่เอ๊ย, ปล่อยมือ, สิ่งรอบข้าง)*
+48. **วง L.ก.ฮ.** — *(เสร็จแล้ว, ผู้หญิงกินผัว, ถอย)*
+49. **เต๋า ภูศิลป์** — *(ก้อนขี้ฟ้า, สิ่งที่ควรทำตอนนี้)*
+50. **เน็ค นฤพล** — *(เจ็บแท้เด้, คำแพง, คนบ่ฮักดี)*
+
+---
+
+### 🌐 ศิลปินสากล (หมายเลข 51 – 100)
+
+#### ป็อปสตาร์ & ชาร์ตบิลบอร์ดโลก
+51. **Rihanna** — *(Umbrella, Diamonds, We Found Love, Work)*
+52. **Chappell Roan** — *(Good Luck, Babe!, HOT TO GO!, Red Wine Supernova)*
+53. **Charli xcx** — *(Apple, 360, Boom Clap, Speed Drive)*
+54. **Benson Boone** — *(Beautiful Things, In the Stars, Ghost Town)*
+55. **Lorde** — *(Royals, Green Light, Solar Power, Team)*
+56. **Carly Rae Jepsen** — *(Call Me Maybe, I Really Like You, Run Away With Me)*
+57. **Meghan Trainor** — *(All About That Bass, Made You Look, Like I'm Gonna Lose You)*
+58. **Ava Max** — *(Sweet but Psycho, Kings & Queens, My Head & My Heart)*
+59. **Ellie Goulding** — *(Love Me Like You Do, Lights, Burn)*
+60. **Bebe Rexha** — *(Meant to Be, In the Name of Love, I'm Good (Blue))*
+
+#### อินดี้ป็อป / ชิลล์ / R&B ยอดฮิต
+61. **LANY** — *(ILYSB, Malibu Nights, Mean It, dna)*
+62. **keshi** — *(beside you, LIMBO, drunk, 2 soon, UNDERSTAND)*
+63. **Jeremy Zucker** — *(comethru, all the kids are depressed, you were good to me)*
+64. **Cigarettes After Sex** — *(Apocalypse, K., Sweet, Sunsetz)*
+65. **Stephen Sanchez** — *(Until I Found You, High, Be More)*
+66. **Hozier** — *(Take Me to Church, Too Sweet, Cherry Wine)*
+67. **Lewis Capaldi** — *(Someone You Loved, Before You Go, Wish You Were Sober)*
+68. **James Arthur** — *(Say You Won't Let Go, Impossible, Can I Be Him)*
+69. **ZAYN** — *(PILLOWTALK, Dusk Till Dawn, I Don't Wanna Live Forever)*
+70. **Niall Horan** — *(Slow Hands, This Town, Heaven)*
+71. **Frank Ocean** — *(Lost, Thinkin Bout You, Chanel, Pink + White)*
+72. **Giveon** — *(Heartbreak Anniversary, For Tonight, Peaches)*
+73. **Steve Lacy** — *(Bad Habit, Dark Red, Static)*
+74. **Kali Uchis** — *(telepatía, Moonlight, Melting)*
+
+#### ร็อกระดับตำนาน & อัลเทอร์เนทีฟ
+75. **Nirvana** — *(Smells Like Teen Spirit, Come As You Are, Lithium)*
+76. **Radiohead** — *(Creep, Karma Police, No Surprises, High and Dry)*
+77. **Green Day** — *(Boulevard of Broken Dreams, American Idiot, 21 Guns)*
+78. **The 1975** — *(Somebody Else, Robbers, Chocolate, About You)*
+79. **Red Hot Chili Peppers** — *(Californication, Can't Stop, Under the Bridge)*
+80. **Guns N' Roses** — *(Sweet Child O' Mine, November Rain, Paradise City)*
+81. **AC/DC** — *(Back in Black, Highway to Hell, Thunderstruck)*
+82. **Metallica** — *(Enter Sandman, Nothing Else Matters, Master of Puppets)*
+83. **Paramore** — *(Misery Business, Ain't It Fun, Still Into You)*
+84. **Fall Out Boy** — *(Centuries, Sugar We're Goin Down, Thnks fr th Mmrs)*
+85. **The Killers** — *(Mr. Brightside, Somebody Told Me, When You Were Young)*
+86. **Gorillaz** — *(Feel Good Inc., Clint Eastwood, DARE)*
+87. **Fleetwood Mac** — *(Dreams, Go Your Own Way, Everywhere)*
+
+#### ฮิปฮอปไอคอน
+88. **Kanye West** — *(Stronger, Heartless, Runaway, Gold Digger)*
+89. **Snoop Dogg** — *(Drop It Like It's Hot, Young Wild and Free, Gin and Juice)*
+90. **50 Cent** — *(In Da Club, 21 Questions, Candy Shop)*
+91. **Mac Miller** — *(Self Care, Congratulations, Weekend)*
+92. **21 Savage** — *(Bank Account, A Lot, Redrum)*
+
+#### EDM & เฟสติวัลดีเจระดับโลก
+93. **Calvin Harris** — *(Summer, Feel So Close, This Is What You Came For)*
+94. **Martin Garrix** — *(Animals, Scared to Be Lonely, In the Name of Love)*
+95. **DJ Snake** — *(Turn Down for What, Lean On, Let Me Love You)*
+96. **Kygo** — *(Firestone, Stole the Show, It Ain't Me)*
+97. **Skrillex** — *(Bangarang, Scary Monsters and Nice Sprites)*
+98. **Daft Punk** — *(Get Lucky, One More Time, Harder Better Faster Stronger)*
+
+#### บอยแบนด์ & ป็อปร็อก 2000s
+99. **Backstreet Boys** — *(I Want It That Way, Everybody, As Long As You Love Me)*
+100. **Avril Lavigne** — *(Complicated, Sk8er Boi, Girlfriend, When You're Gone)*
+
+---
+
+บอกตัวเลขที่ต้องการได้เลยครับ! จะเลือกเฉพาะเบอร์ที่ชอบ หรือบอกช่วงตัวเลขได้ตามสะดวกครับ

@@ -1,0 +1,12 @@
+{
+  "AllowMultiple": false,
+  "Description": "Add lobby category filter tabs and region chips styling to App.css",
+  "EndLine": 4526,
+  "Instruction": "Insert lobby category filter tabs and region chips styles",
+  "ReplacementContent": ".categories-subtitle {\n  font-size: 0.8rem;\n  color: var(--text-muted);\n}\n\n/* Lobby Category Filter Tabs */\n.lobby-category-filter-tabs {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-wrap: wrap;\n}\n\n.btn-lobby-tab {\n  background: #ffffff;\n  color: #475569;\n  border: 1px solid #cbd5e1;\n  border-radius: 18px;\n  padding: 5px 14px;\n  font-size: 0.8rem;\n  font-weight: 700;\n  cursor: pointer;\n  transition: all 0.15s ease;\n  white-space: nowrap;\n}\n\n.btn-lobby-tab:hover {\n  background: #f8fafc;\n  color: #0f172a;\n  border-color: #94a3b8;\n}\n\n.btn-lobby-tab.active {\n  background: #ea580c;\n  color: #ffffff;\n  border-color: #ea580c;\n  box-shadow: 0 2px 6px rgba(234, 88, 12, 0.25);\n}\n\n/* Region Filter Chips Row */\n.lobby-region-chips-row {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  flex-wrap: wrap;\n  padding: 2px 0 4px;\n}\n\n.region-pill-btn {\n  background: #ffffff;\n  color: #64748b;\n  border: 1px solid #e2e8f0;\n  border-radius: 14px;\n  padding: 4px 12px;\n  font-size: 0.74rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.15s ease;\n}\n\n.region-pill-btn:hover {\n  border-color: #cbd5e1;\n  color: #334155;\n  background: #f8fafc;\n}\n\n.region-pill-btn.active {\n  background: #ffedd5;\n  color: #c2410c;\n  border-color: #fdba74;\n  font-weight: 700;\n}\n\n.cat-tag-pill.preset-tag {\n  background: #ffedd5;\n  color: #c2410c;\n  border-color: #fdba74;\n}\n\n.clean-category-grid.wide-dashboard-grid {",
+  "StartLine": 4519,
+  "TargetContent": ".categories-subtitle {\n  font-size: 0.8rem;\n  color: var(--text-muted);\n}\n\n.clean-category-grid.wide-dashboard-grid {",
+  "TargetFile": "d:/Test/songguessr/src/App.css",
+  "toolAction": "Updating App.css with lobby filter styles",
+  "toolSummary": "Add lobby category filter tabs CSS"
+}

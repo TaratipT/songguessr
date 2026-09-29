@@ -1,0 +1,359 @@
+import type { Category } from '../types';
+
+export const CATEGORIES: Category[] = [
+  // ==========================================
+  // 🇹🇭 หมวดหมู่เพลงไทย (Thai Music - 11 หมวด)
+  // ==========================================
+  {
+    id: 'thai_hits',
+    name: 'Thai Classic Hits',
+    thaiName: 'เพลงไทยฮิตยอดนิยม',
+    emoji: '🎸',
+    badge: 'ยอดนิยม',
+    description: 'รวมเพลงร็อกและสตริงระดับตำนานของไทย',
+    region: 'thai',
+    gradient: 'from-amber-600 to-red-600',
+    searchQueries: [
+      'Bodyslam', 'Potato', 'Cocktail', 'Getsunova', 'Labanoon', 'Clash', 'Big Ass', 'Palmy',
+      'Singto Numchok', 'Stamp Apiwat', '25hours', 'Klear', 'Zeal', 'Paradox', 'Lomosonic',
+      'Slot Machine', 'Nuvo', 'Micro', 'Silly Fools', 'Endorphine', 'Loso', 'Modern Dog',
+      'Flure', 'Asanee Wasan', 'So Cool', 'Kala', 'Ebola', 'Blackhead', 'Taxi', 'Polycat'
+    ]
+  },
+  {
+    id: 'tpop_indie',
+    name: 'T-POP & Modern Wave',
+    thaiName: 'T-POP & ไอดอลคลื่นลูกใหม่',
+    emoji: '✨',
+    badge: 'ฮิตติดกระแส',
+    description: 'ทีป็อป บอยแบนด์ เกิร์ลกรุ๊ป และเพลงฮิตติดกระแส',
+    region: 'thai',
+    gradient: 'from-pink-500 to-purple-600',
+    searchQueries: [
+      'Three Man Down', 'Tilly Birds', 'Jeff Satur', 'NONT TANONT', 'Bowkylion', 'Ink Waruntorn',
+      'Fellow Fellow', 'PROXIE', '4EVE', 'PiXXiE', 'PERSES', 'LYKN', 'BUS', 'DICE', 'ATLAS',
+      'bamm', 'Paper Planes', 'The TOYS', 'URBOYTJ', 'Billkin', 'PP Krit', 'Serious Bacon',
+      'Violette Wautier', 'Zom Marie'
+    ]
+  },
+  {
+    id: 'thai_indie',
+    name: 'Thai Indie & Synthpop',
+    thaiName: 'อินดี้ไทย & ซินธ์ป็อป',
+    emoji: '🌙',
+    badge: 'ฟังสบาย',
+    description: 'เพลงอินดี้ไทยฟังสบาย บรรยากาศคาเฟ่และซินธ์ไนท์',
+    region: 'thai',
+    gradient: 'from-indigo-500 to-blue-600',
+    searchQueries: [
+      'Safeplanet', 'Dept', 'HYBS', "Zweed n' Roll", 'เรนิษรา', "AYLA's", 'Anatomy Rabbit',
+      'Mirrr', 'Fellow Fellow', 'Polycat', 'Scrubb', 'Whal & Dolph', 'YENTED', 'The TOYS',
+      'PURPEECH', 'YourMOOD', 'Landokmai', 'Television Off', 'guncharlie', 'SOYBAD',
+      'Blackbeans', 'Moving and Cut', 'Loserpop', 'Uncle Ben'
+    ]
+  },
+  {
+    id: 'thai_rock_2000s',
+    name: 'Thai Rock 2000s',
+    thaiName: 'ร็อกไทย 2000s โดดสุดตัว',
+    emoji: '🤘',
+    badge: 'ร็อกมันส์ๆ',
+    description: 'ร็อกยุค 2000s มันส์สะใจ โดดสุดตัว ร้องตามได้ทุกท่อน',
+    region: 'thai',
+    gradient: 'from-red-600 to-orange-600',
+    searchQueries: [
+      'Bodyslam', 'Potato', 'Cocktail', 'Clash', 'Big Ass', 'The Richman Toy', 'Labanoon',
+      'Getsunova', 'Klear', 'Zeal', '25hours', 'So Cool', 'Kala', 'Paradox', 'Slot Machine',
+      'Dr.Fuu', 'Silly Fools', 'Loso', 'Ebola', 'Blackhead', 'Hangman'
+    ]
+  },
+  {
+    id: 'y2k_90s',
+    name: 'Kamikaze & Y2K Pop',
+    thaiName: 'วัยรุ่นกามิกาเซ่ & Y2K',
+    emoji: '📼',
+    badge: 'ย้อนวัยหวาน',
+    description: 'เพลงฮิตวัยรุ่น Kamikaze และเพลงป็อปยุค 90s-2000s',
+    region: 'thai',
+    gradient: 'from-emerald-600 to-teal-700',
+    searchQueries: [
+      'Four Mod', 'K-OTIC', 'Waii', '3.2.1', 'Faye Fang Kaew', 'Knomjean', 'Timethai',
+      'Golf Mike', 'Dan & Beam', 'D2B', 'Girly Berry', 'Neko Jump', 'China Dolls',
+      'Katreeya English', 'Raptor', 'Boyscout', 'C-Quint', 'Chin Chinawut', 'Ice Saranyu', 'Bie Sukrit'
+    ]
+  },
+  {
+    id: 'thai_hiphop',
+    name: 'Thai Hip-Hop & Rap',
+    thaiName: 'ฮิปฮอป & แร็ปไทย',
+    emoji: '🕶️',
+    badge: 'แร็ปดุ',
+    description: 'เพลงแร็ป ฮิปฮอป และ Trap ยอดฮิตของเมืองไทย',
+    region: 'thai',
+    gradient: 'from-zinc-700 to-stone-900',
+    searchQueries: [
+      'YOUNGOHM', 'illslick', 'UrboyTJ', 'AUTTA', 'GAVIN:D', 'SURIYA MQT', 'P6ICK', 'BLVCKHEART',
+      'SPRITE', 'F.HERO', 'SARAN', 'D GERRARD', 'Twopee Southside', 'LAZYLOXY', 'MILLI',
+      'RachYO', 'TangBadVoice', '1MILL', 'MAIYARAP', 'DIAMOND MQT', 'WONDERFRAME', 'OG-ANIC'
+    ]
+  },
+  {
+    id: 'lukthung_indie',
+    name: 'Thai Country & Isan Hits',
+    thaiName: 'ลูกทุ่งอินดี้ & อีสานร้อยล้านวิว',
+    emoji: '🌾',
+    badge: 'ม่วนหลาย',
+    description: 'ลูกทุ่งอินดี้อีสานและเพลงม่วนซื่นยอดวิวสูงสุด',
+    region: 'thai',
+    gradient: 'from-yellow-600 to-amber-700',
+    searchQueries: [
+      'โจอี้ ภูวศิษฐ์', 'มนต์แคน แก่นคูน', 'ลำไย ไหทองคำ', 'ก้อง ห้วยไร่', 'ไผ่ พงศธร', 'ต่าย อรทัย',
+      'ตั๊กแตน ชลดา', 'เบิ้ล ปทุมราช', 'แซ็ค ชุมแพ', 'กระแต อาร์สยาม', 'จ๊ะ นงผณี', 'เบลล์ นิภาดา',
+      'ครูเต้ย อภิวัฒน์', 'มีนตรา อินทิรา', 'ลำเพลิน วงศกร'
+    ]
+  },
+  {
+    id: 'lukthung_lifesong',
+    name: 'Classic Country & Life Songs',
+    thaiName: 'ลูกทุ่งแท้ & เพื่อชีวิตอมตะ',
+    emoji: '👑',
+    badge: 'ตำนาน',
+    description: 'มรดกเพลงลูกทุ่งแท้และเพลงเพื่อชีวิตระดับตำนาน',
+    region: 'thai',
+    gradient: 'from-amber-700 to-yellow-800',
+    searchQueries: [
+      'พุ่มพวง ดวงจันทร์', 'สุนารี ราชสีมา', 'ศิริพร อำไพพงษ์', 'จินตหรา พูนลาภ', 'ยอดรัก สลักใจ',
+      'ไรอัล กาจบัณฑิต', 'คาราบาว', 'พงษ์สิทธิ์ คำภีร์', 'เสก โลโซ', 'ป้าง นครินทร์',
+      'มาลีฮวนน่า', 'อัสนี วสันต์', 'หินเหล็กไฟ', 'วงฟลาย (Fly)'
+    ]
+  },
+  {
+    id: 'thai_feelgood',
+    name: 'Feel-Good Pop & Acoustic',
+    thaiName: 'ป็อปฟีลกู๊ด & อคูสติกอบอุ่น',
+    emoji: '☕',
+    badge: 'ฟีลกู๊ด',
+    description: 'ป็อปอบอุ่น ฟังสบาย เหมาะกับคนคลั่งรัก อารมณ์ดี',
+    region: 'thai',
+    gradient: 'from-rose-400 to-orange-400',
+    searchQueries: [
+      'แสตมป์ อภิวัชร์', 'สิงโต นำโชค', 'Zom Marie', 'TWO Popetorn', 'Lipta', 'No One Else',
+      'Sarah Salola', 'Patrickananda', 'First Anuwat', 'Bell Supol', 'Wan Thanakrit',
+      'Pop Pongkool', 'Boy Peacemaker', 'SERIOUS BACON', 'Armchair', 'Superbaker',
+      'Room39', 'Wanyai', 'WhatChaRaWaLee', 'Atom Chanakan', 'Oat Pramote'
+    ]
+  },
+  {
+    id: 'thai_diva',
+    name: 'Thai Divas & 90s-2000s',
+    thaiName: 'ดีว่า & ตัวแม่เพลงเศร้า 90s-2000s',
+    emoji: '🎤',
+    badge: 'กินใจ',
+    description: 'เพลงป็อปอกหักและเสียงร้องทรงพลังระดับดีว่าไทย',
+    region: 'thai',
+    gradient: 'from-fuchsia-600 to-pink-600',
+    searchQueries: [
+      'Bird Thongchai', 'New & Jiew', 'Christina Aguilar', 'Nicole Theriault', 'Mos Patiparn',
+      'Ploychompoo', 'Jay Jetrin', 'Peck Palitchoke', 'Bie Sukrit', 'Ice Saranyu',
+      'Aof Pongsak', 'Palmy', 'Endorphine', 'Tata Young', 'Ben Chalatit', 'James Ruangsak'
+    ]
+  },
+  {
+    id: 'thai_heavy_rock',
+    name: 'Heavy Rock & Metal',
+    thaiName: 'ร็อกว๊าก & นูเมทัลไทย',
+    emoji: '🔥',
+    badge: 'ว๊ากสะใจ',
+    description: 'สายว๊าก เมทัล และร็อกหนักแน่นสะใจ',
+    region: 'thai',
+    gradient: 'from-red-800 to-zinc-900',
+    searchQueries: [
+      'Retrospect', 'Sweet Mullet', 'Ebola', 'Lomosonic', 'Taitosmith',
+      'Bomb at Track', 'Oblivious', 'The Yers', 'Silly Fools', 'Blackhead'
+    ]
+  },
+
+  // ==========================================
+  // 🌎 หมวดหมู่เพลงสากล (International - 4 หมวด)
+  // ==========================================
+  {
+    id: 'inter_pop',
+    name: 'Global Billboard Hits',
+    thaiName: 'เพลงสากล Billboard Hot 100',
+    emoji: '🎧',
+    badge: 'ระดับโลก',
+    description: 'เพลงสากลยอดฮิตติดชาร์ต Billboard ระดับโลก',
+    region: 'inter',
+    gradient: 'from-blue-600 to-indigo-700',
+    searchQueries: [
+      'Taylor Swift', 'Bruno Mars', 'The Weeknd', 'Billie Eilish', 'Sabrina Carpenter',
+      'Ed Sheeran', 'Ariana Grande', 'Coldplay', 'Maroon 5', 'Dua Lipa', 'Adele',
+      'Justin Bieber', 'Drake', 'Post Malone', 'Olivia Rodrigo', 'Harry Styles',
+      'Shawn Mendes', 'Charlie Puth', 'Sam Smith'
+    ]
+  },
+  {
+    id: 'inter_queens',
+    name: 'Global Pop Queens',
+    thaiName: 'Global Pop Queens',
+    emoji: '👑',
+    badge: 'ตัวแม่สากล',
+    description: 'ตัวแม่เพลงป็อปสากล ฮิตติดหูและทรงพลังระดับโลก',
+    region: 'inter',
+    gradient: 'from-pink-600 to-rose-700',
+    searchQueries: [
+      'Taylor Swift', 'Billie Eilish', 'Sabrina Carpenter', 'Dua Lipa', 'Ariana Grande',
+      'Lady Gaga', 'Katy Perry', 'Beyoncé', 'Rihanna', 'Olivia Rodrigo', 'Adele',
+      'Britney Spears', 'Miley Cyrus', 'Sia', 'Camila Cabello', 'Selena Gomez', 'Lana Del Rey'
+    ]
+  },
+  {
+    id: 'inter_rock',
+    name: 'Stadium Rock & Alternative',
+    thaiName: 'Stadium Rock & Alternative',
+    emoji: '🎸',
+    badge: 'ร็อกสากล',
+    description: 'ร็อกสากล อัลเทอร์เนทีฟ และเพลงฮิตสเตเดียมระดับตำนาน',
+    region: 'inter',
+    gradient: 'from-cyan-600 to-blue-800',
+    searchQueries: [
+      'Coldplay', 'Imagine Dragons', 'Linkin Park', 'Maroon 5', 'Queen', 'Oasis',
+      'Green Day', 'OneRepublic', 'Arctic Monkeys', 'Twenty One Pilots', 'The Killers',
+      'Panic! At The Disco', 'My Chemical Romance', 'Fall Out Boy', 'Bon Jovi', 'Nirvana'
+    ]
+  },
+  {
+    id: 'inter_edm',
+    name: 'EDM & Festival Party',
+    thaiName: 'EDM & Festival Party',
+    emoji: '🪩',
+    badge: 'ปาร์ตี้',
+    description: 'เพลงแดนซ์ อีดีเอ็ม และเพลงตื๊ดเปิดในมิวสิกเฟสติวัล',
+    region: 'inter',
+    gradient: 'from-violet-600 to-purple-800',
+    searchQueries: [
+      'Avicii', 'The Chainsmokers', 'Alan Walker', 'David Guetta', 'Marshmello',
+      'Calvin Harris', 'Martin Garrix', 'DJ Snake', 'Zedd', 'Kygo', 'Major Lazer',
+      'Tiësto', 'Swedish House Mafia', 'Alesso'
+    ]
+  },
+
+  // ==========================================
+  // 🇰🇷 หมวดหมู่ K-POP (3 หมวด)
+  // ==========================================
+  {
+    id: 'kpop',
+    name: 'K-POP Mega Hits',
+    thaiName: 'K-POP Mega Hits',
+    emoji: '💖',
+    badge: 'เคป็อปฟีเวอร์',
+    description: 'เพลงเกิร์ลกรุ๊ปและบอยแบนด์เกาหลียอดนิยมทั่วโลก',
+    region: 'kpop',
+    gradient: 'from-purple-600 to-violet-800',
+    searchQueries: [
+      'NewJeans', 'aespa', 'BLACKPINK', 'BTS', 'IVE', 'LE SSERAFIM', 'TWICE',
+      'Stray Kids', 'SEVENTEEN', '(G)I-DLE', 'BABYMONSTER', 'ILLIT', 'RIIZE',
+      'ZEROBASEONE', 'EXO', 'Red Velvet', 'ITZY', 'NCT 127', 'TOMORROW X TOGETHER', 'ENHYPEN'
+    ]
+  },
+  {
+    id: 'kpop_queens',
+    name: 'K-POP Girl Groups',
+    thaiName: 'K-POP Girl Groups ตัวแม่',
+    emoji: '💃',
+    badge: 'เกิร์ลกรุ๊ป',
+    description: 'รวมเพลงเกิร์ลกรุ๊ปเกาหลีสุดปังทุกเจนเนอเรชัน',
+    region: 'kpop',
+    gradient: 'from-pink-500 to-fuchsia-700',
+    searchQueries: [
+      'BLACKPINK', 'NewJeans', 'aespa', 'IVE', 'TWICE', 'LE SSERAFIM', '(G)I-DLE',
+      'Red Velvet', 'ITZY', "Girls' Generation", '2NE1', 'BABYMONSTER', 'ILLIT',
+      'MAMAMOO', 'NMIXX', 'FIFTY FIFTY', 'IZ*ONE'
+    ]
+  },
+  {
+    id: 'kpop_kings',
+    name: 'K-POP Boy Groups',
+    thaiName: 'K-POP Boy Groups ตัวท็อป',
+    emoji: '🕺',
+    badge: 'บอยแบนด์',
+    description: 'บอยแบนด์เกาหลีเพอร์ฟอร์แมนซ์สุดโหดและเพลงฮิตติดหู',
+    region: 'kpop',
+    gradient: 'from-blue-600 to-indigo-800',
+    searchQueries: [
+      'BTS', 'Stray Kids', 'SEVENTEEN', 'NCT 127', 'NCT DREAM', 'TOMORROW X TOGETHER',
+      'ENHYPEN', 'EXO', 'BIGBANG', 'TREASURE', 'RIIZE', 'ZEROBASEONE', 'GOT7', 'iKON', 'SHINee'
+    ]
+  },
+
+  // ==========================================
+  // 🎌 หมวดหมู่ Anime & J-POP (2 หมวด)
+  // ==========================================
+  {
+    id: 'anime_jpop',
+    name: 'Anime & J-POP',
+    thaiName: 'Anime & J-POP Top Tracks',
+    emoji: '🌸',
+    badge: 'อนิเมะฮิต',
+    description: 'เพลงประกอบอนิเมะและเพลงเจป็อปยอดฮิตติดชาร์ต',
+    region: 'anime_jpop',
+    gradient: 'from-rose-500 to-red-600',
+    searchQueries: [
+      'YOASOBI', 'LiSA', 'Kenshi Yonezu', 'Ado', 'Radwimps', 'King Gnu',
+      'Official HIGE DANdism', 'Eve', 'Vaundy', 'Aimyon', 'Fujii Kaze',
+      'ONE OK ROCK', 'Aimer', 'milet', 'Yuuri', 'Creepy Nuts', 'Mrs. GREEN APPLE'
+    ]
+  },
+  {
+    id: 'anime_rock',
+    name: 'Modern J-Rock & Shonen',
+    thaiName: 'Modern J-Rock & Shonen',
+    emoji: '⚡',
+    badge: 'เจร็อก',
+    description: 'ร็อกญี่ปุ่นสุดเดือด มันส์สะใจสไตล์การ์ตูนโชเน็น',
+    region: 'anime_jpop',
+    gradient: 'from-amber-600 to-red-700',
+    searchQueries: [
+      'ONE OK ROCK', 'King Gnu', 'SPYAIR', 'FLOW', 'MAN WITH A MISSION',
+      'coldrain', 'SiM', 'Survive Said The Prophet', 'Maximum The Hormone',
+      'Asian Kung-Fu Generation', 'Linked Horizon', 'KANA-BOON', 'TK from Ling tosite sigure'
+    ]
+  },
+
+  // ==========================================
+  // 🎲 หมวดหมู่สุ่มรวมทุกแนวเพลง (Special Mix)
+  // ==========================================
+  {
+    id: 'all_stars',
+    name: 'Random Mega Mix',
+    thaiName: 'สุ่มรวมมิตรทุกแนวเพลง',
+    emoji: '🎲',
+    badge: 'ท้าทายสุดๆ',
+    description: 'รวมเพลงฮิตทุกแนวเพลงแบบสุ่มความท้าทาย',
+    region: 'all',
+    gradient: 'from-orange-500 to-amber-600',
+    searchQueries: [
+      // Thai Rock & Alternative
+      'Bodyslam', 'Potato', 'Clash', 'Big Ass', 'Labanoon', 'Cocktail', 'Tilly Birds',
+      'Three Man Down', 'TaitosmitH', 'Slot Machine', 'Safeplanet', 'Dept', 'Anatomy Rabbit',
+      'Loso', 'Silly Fools', 'Paradox', 'Palmy',
+      // Thai Pop, R&B & T-Pop
+      'Jeff Satur', 'NONT TANONT', 'Billkin', 'PP Krit', 'Bowkylion', 'Violette Wautier',
+      'INK WARUNTORN', 'THE TOYS', 'Stamp Apiwat', '4EVE', 'PROXIE', 'BUS because of you i shine',
+      'PERSES', 'LYKN', 'NuNew', 'Fellow Fellow', 'URBOYTJ',
+      // Thai Country, Folk & Luk Thung
+      'มนต์แคน แก่นคูน', 'ไผ่ พงศธร', 'ลำไย ไหทองคำ', 'คาราบาว', 'ต่าย อรทัย',
+      'จินตหรา พูนลาภ', 'ก้อง ห้วยไร่', 'เบิ้ล ปทุมราช',
+      // International Pop & Rock
+      'Taylor Swift', 'Bruno Mars', 'The Weeknd', 'Billie Eilish', 'Coldplay', 'Maroon 5',
+      'Ed Sheeran', 'Ariana Grande', 'Dua Lipa', 'Justin Bieber', 'Post Malone',
+      'Olivia Rodrigo', 'Lady Gaga', 'Imagine Dragons', 'Queen', 'Adele', 'Charlie Puth',
+      // K-Pop
+      'BTS', 'BLACKPINK', 'NewJeans', 'TWICE', 'Stray Kids', 'aespa', 'SEVENTEEN',
+      'IVE', 'LE SSERAFIM', 'BABYMONSTER', 'ENHYPEN', 'ITZY',
+      // J-Pop & Anime
+      'YOASOBI', 'LiSA', 'Official HIGE DANDism', 'Ado', 'Kenshi Yonezu', 'Mrs. GREEN APPLE',
+      'Vaundy', 'ONE OK ROCK', 'RADWIMPS', 'King Gnu', 'Fujii Kaze'
+    ]
+  }
+];

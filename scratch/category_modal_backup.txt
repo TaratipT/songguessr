@@ -1,0 +1,108 @@
+Created At: 2026-09-27T13:15:17+07:00
+Completed At: 2026-09-27T13:15:17+07:00
+File Path: `file:///d:/Test/songguessr/src/components/CategorySelectModal.tsx`
+Total Lines: 1215
+Total Bytes: 52976
+Showing lines 1 to 100
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import React, { useState, useEffect, useMemo } from 'react';
+2: import { CATEGORIES } from '../data/categories';
+3: import type { Category, AnswerMode, PlayerSession, RoomState } from '../types';
+4: import { GLOBAL_ARTISTS, ARTIST_PRESETS, type ArtistRegion } from '../data/artistsData';
+5: import {
+6:   Play,
+7:   Users,
+8:   User,
+9:   Link as LinkIcon,
+10:   Check,
+11:   Copy,
+12:   ArrowRight,
+13:   ArrowLeft,
+14:   LogOut,
+15:   SlidersHorizontal,
+16:   Disc,
+17:   Loader2,
+18:   Dice5
+19: } from 'lucide-react';
+20: import { soundFX } from '../services/soundEffects';
+21: import { GlobalArtistPickerModal, type ArtistSelectionMeta } from './GlobalArtistPickerModal';
+22: import { getRandomITPlayerName } from '../data/chuunibyouNames';
+23: import { TimeLimitStepper } from './TimeLimitStepper';
+24: import { storageService } from '../services/storageService';
+25: 
+26: interface CategorySelectModalProps {
+27:   onStartSolo: (category: Category, totalRounds: number, answerMode: AnswerMode) => void;
+28:   onStartCustomArtist: (artistName: string, totalRounds: number, answerMode: AnswerMode) => void;
+29:   onCreateOnlineRoom: (hostName: string, category: Category, totalRounds: number, answerMode: AnswerMode) => void;
+30:   onJoinOnlineRoom: (roomCode: string, playerName: string) => void;
+31:   onLeaveRoom?: () => void;
+32:   roomState: RoomState | null;
+33:   isHost: boolean;
+34:   onHostStartGame: () => void;
+35:   onUpdateRoomSettings?: (category: Category, totalRounds: number, answerMode: AnswerMode, roundTimeLimit?: number, autoAdvance?: boolean) => void;
+36:   isLoading: boolean;
+37:   multiplayerError: string | null;
+38:   roundTimeLimit: number;
+39:   onRoundTimeLimitChange: (limit: number) => void;
+40:   autoAdvance: boolean;
+41:   onAutoAdvanceChange: (val: boolean) => void;
+42:   currentAnswerMode?: AnswerMode;
+43:   onAnswerModeChange?: (mode: AnswerMode) => void;
+44:   currentTotalRounds?: number;
+45:   onTotalRoundsChange?: (rounds: number) => void;
+46: }
+47: 
+48: const AVATARS = ['🎧', '🎸', '🎤', '🎹', '🐱', '🦊', '⚡', '🌟'];
+49: export const TIME_LIMIT_OPTIONS = [20, 25, 30, 0];
+50: export const TIME_LIMIT_LABELS = ['20s', '25s', '30s', '∞ ไม่จำกัด'];
+51: 
+52: export interface CategoryOption {
+53:   id: string;
+54:   type: 'main' | 'preset';
+55:   thaiName: string;
+56:   emoji: string;
+57:   badge: string;
+58:   description: string;
+59:   region: ArtistRegion | 'all';
+60:   category: Category;
+61: }
+62: 
+63: const MAIN_CATEGORY_ARTISTS_MAP: Record<string, string> = {
+64:   thai_hits: 'Bodyslam, Potato, Cocktail, Clash, Getsunova, Labanoon, Big Ass, Palmy',
+65:   tpop_indie: 'Three Man Down, Tilly Birds, Jeff Satur, NONT TANONT, Bowkylion, 4EVE, PiXXiE',
+66:   inter_pop: 'Taylor Swift, Bruno Mars, The Weeknd, Billie Eilish, Sabrina Carpenter, Ed Sheeran',
+67:   billboard_hot_100: 'Taylor Swift, Bruno Mars, The Weeknd, Billie Eilish, Sabrina Carpenter, Ed Sheeran',
+68:   y2k_90s: 'D2B, Dan & Beam, Raptor, Mos Patiparn, Tata Young, Nicole, Four Mod, Bird Thongchai',
+69:   '90s_2000s': 'D2B, Dan & Beam, Raptor, Mos Patiparn, Tata Young, Nicole, Four Mod, Bird Thongchai',
+70:   kpop: 'NewJeans, aespa, BLACKPINK, BTS, IVE, Stray Kids, LE SSERAFIM, TWICE',
+71:   kpop_mega_hits: 'NewJeans, aespa, BLACKPINK, BTS, IVE, Stray Kids, LE SSERAFIM, TWICE',
+72:   lukthung_indie: 'มนต์แคน แก่นคูน, ลำไย ไหทองคำ, โจอี้ ภูวศิษฐ์, ก้อง ห้วยไร่, คาราบาว, พงษ์สิทธิ์',
+73:   lukthung_lifesong: 'มนต์แคน แก่นคูน, ลำไย ไหทองคำ, โจอี้ ภูวศิษฐ์, ก้อง ห้วยไร่, คาราบาว, พงษ์สิทธิ์',
+74:   anime_jpop: 'YOASOBI, LiSA, Ado, RADWIMPS, Kenshi Yonezu, Fujii Kaze, ONE OK ROCK, Eve',
+75:   all_stars: 'สุ่มผสมผสานทุกแนวเพลง: ไทย, สากล, K-POP, Anime & J-POP',
+76:   all_mix: 'สุ่มผสมผสานทุกแนวเพลง: ไทย, สากล, K-POP, Anime & J-POP'
+77: };
+78: 
+79: const MAIN_CATEGORY_BADGE_MAP: Record<string, string> = {
+80:   thai_hits: 'ร็อก & สตริงไทย',
+81:   tpop_indie: 'T-POP & อินดี้',
+82:   inter_pop: 'Billboard 100',
+83:   billboard_hot_100: 'Billboard 100',
+84:   y2k_90s: 'วัยรุ่น Y2K & 90s',
+85:   '90s_2000s': 'วัยรุ่น Y2K & 90s',
+86:   kpop: 'K-POP ฮิตติดชาร์ต',
+87:   kpop_mega_hits: 'K-POP ฮิตติดชาร์ต',
+88:   lukthung_indie: 'ลูกทุ่ง & เพื่อชีวิต',
+89:   lukthung_lifesong: 'ลูกทุ่ง & เพื่อชีวิต',
+90:   anime_jpop: 'Anime & J-POP',
+91:   all_stars: 'สุ่มรวมทุกแนว',
+92:   all_mix: 'สุ่มรวมทุกแนว'
+93: };
+94: 
+95: const MAIN_CATEGORY_OPTIONS: CategoryOption[] = CATEGORIES.map((cat) => {
+96:   let region: ArtistRegion | 'all' = 'all';
+97:   if (
+98:     cat.id === 'thai_hits' ||
+99:     cat.id === 'tpop_indie' ||
+100:     cat.id === 'y2k_90s' ||
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

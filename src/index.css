@@ -1,0 +1,90 @@
+:root {
+  --bg-primary: #f5f2eb;
+  --bg-secondary: #f0ebe1;
+  --bg-card: #ffffff;
+  --border-color: rgba(60, 45, 30, 0.12);
+  --border-focus: #df6034;
+  --text-main: #27221d;
+  --text-muted: #756a5e;
+  --accent-orange: #e46132;
+  --accent-orange-hover: #cf5225;
+  --accent-green: #2e7d32;
+  --accent-blue: #1e56a0;
+  --accent-purple: #6a2c70;
+  --player-bg: #161514;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.08);
+
+  /* Primary Font: Krub (ฟอนต์มีหัวโมเดิร์น) */
+  --font-main: 'Krub', sans-serif;
+  --font-heading: 'Krub', sans-serif;
+  --font-body: 'Krub', sans-serif;
+  --font-input: 'Krub', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
+}
+
+button, input, select, textarea {
+  font-family: var(--font-input);
+}
+
+/* Smooth Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4c8b8;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b5a593;
+}
+
+/* Subtle Pulse Animation */
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(228, 97, 50, 0.35);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 10px rgba(228, 97, 50, 0);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2.2s infinite ease-in-out;
+}
+
+/* Focus styles */
+input:focus, button:focus-visible {
+  outline: none;
+}
