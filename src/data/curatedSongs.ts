@@ -724,3 +724,24 @@ export const CURATED_SONGS: Record<string, Song[]> = {
     }
   ]
 };
+
+// Mega Hits Curated Pools
+CURATED_SONGS.mega_thai_hits = [
+  ...(CURATED_SONGS.thai_hits || []).slice(0, 8),
+  ...(CURATED_SONGS.tpop_indie || []).slice(0, 10)
+];
+
+CURATED_SONGS.mega_inter_hits = [
+  ...(CURATED_SONGS.inter_pop || [])
+];
+
+CURATED_SONGS.mega_kpop_hits = [
+  ...(CURATED_SONGS.kpop || [])
+];
+
+CURATED_SONGS.mega_all_stars = [
+  ...(CURATED_SONGS.mega_thai_hits || []).slice(0, 6),
+  ...(CURATED_SONGS.mega_inter_hits || []).slice(0, 6),
+  ...(CURATED_SONGS.mega_kpop_hits || []).slice(0, 6)
+];
+

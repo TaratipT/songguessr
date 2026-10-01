@@ -280,11 +280,22 @@ export function shuffleArray<T>(array: T[]): T[] {
 export function getStorefrontForCategory(categoryId: string): string {
   switch (categoryId) {
     case 'anime_jpop':
+    case 'anime_rock':
       return 'JP';
     case 'kpop':
+    case 'kpop_queens':
+    case 'kpop_kings':
+    case 'mega_kpop_hits':
       return 'US';
     case 'inter_pop':
+    case 'inter_queens':
+    case 'inter_rock':
+    case 'inter_edm':
+    case 'mega_inter_hits':
       return 'US';
+    case 'mega_all_stars':
+    case 'all_stars':
+    case 'mega_thai_hits':
     case 'thai_hits':
     case 'tpop_indie':
     case 'y2k_90s':
@@ -387,6 +398,84 @@ export function isMainArtistMatch(trackArtist: string, targetArtist: string): bo
 
 // Fetch songs from iTunes Search API with clean fallback
 export async function getSongsForGame(category: Category, count: number = 10): Promise<Song[]> {
+  // 🌟 Dedicated Mega Hits Handler (Fetches ONLY verified iconic mega hit songs)
+  if (category.isMegaHits) {
+    const pool = shuffleArray(category.searchQueries);
+    const chosenQueries = pool.slice(0, Math.min(pool.length, count + 6));
+
+    try {
+      const fetchPromises = chosenQueries.map(async (query) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4800);
+
+        let termStorefront = getStorefrontForCategory(category.id);
+        if (/[\u0e00-\u0e7f]/.test(query)) {
+          termStorefront = 'TH';
+        } else if (category.region === 'kpop' || category.region === 'inter' || /[\uac00-\ud7af]/.test(query)) {
+          termStorefront = 'US';
+        }
+
+        const searchUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&country=${termStorefront}&entity=song&limit=4`;
+
+        try {
+          const res = await fetch(searchUrl, { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (!res.ok) return null;
+          const data = await res.json();
+          const results = data.results || [];
+
+          // Find the best valid track (avoid karaoke, tribute, instrumental, or unmapped karaoke romanization in TH)
+          const item = results.find((it: { previewUrl?: string; trackName?: string; artistName?: string }) => {
+            if (!it.previewUrl || !it.trackName || !it.artistName) return false;
+            const lowerArtist = it.artistName.toLowerCase();
+            const lowerTitle = it.trackName.toLowerCase();
+            if (lowerArtist.includes('karaoke') || lowerArtist.includes('tribute') || lowerArtist.includes('instrumental')) return false;
+            if (lowerTitle.includes('karaoke') || lowerTitle.includes('backing track')) return false;
+            if (termStorefront === 'TH' && isRomanizedThaiKaraoke(it.trackName)) return false;
+            return true;
+          });
+
+          if (!item) return null;
+
+          const cleanTitle = cleanSongTitle(item.trackName, item.artistName);
+          const song: Song = {
+            id: String(item.trackId),
+            title: cleanTitle,
+            artist: item.artistName,
+            album: item.collectionName || 'Single',
+            year: item.releaseDate ? new Date(item.releaseDate).getFullYear() : 'ไม่ระบุ',
+            genre: item.primaryGenreName || 'Mega Hits',
+            previewUrl: item.previewUrl.replace(/^http:/, 'https:'),
+            artworkUrl: item.artworkUrl100 ? item.artworkUrl100.replace('100x100bb', '600x600bb') : '',
+            lyricsHint: `ผลงานเพลงดังระดับปรากฏการณ์ของ ${item.artistName}`,
+            firstCharHint: cleanTitle.charAt(0) || '🎵'
+          };
+          return song;
+        } catch {
+          return null;
+        }
+      });
+
+      const fetched = await Promise.all(fetchPromises);
+      const validSongs = fetched.filter((s): s is Song => s !== null && !!s.previewUrl && !!s.title);
+
+      if (validSongs.length >= Math.min(3, count)) {
+        return balanceSongsByArtist(validSongs, count);
+      }
+    } catch (err) {
+      console.warn('Could not fetch mega hits from iTunes:', err);
+    }
+
+    // Emergency curated fallback
+    const fallbackSongs = CURATED_SONGS[category.id] || (
+      category.region === 'thai' ? CURATED_SONGS.thai_hits :
+      category.region === 'inter' ? CURATED_SONGS.inter_pop :
+      category.region === 'kpop' ? CURATED_SONGS.kpop :
+      Object.values(CURATED_SONGS).flat()
+    );
+    return balanceSongsByArtist(fallbackSongs, count);
+  }
+
   const hasSelectedArtists = Boolean(category.selectedArtists && category.selectedArtists.length > 0);
 
   // Determine queries

@@ -2,6 +2,38 @@ import type { Category } from '../types';
 
 export const CATEGORIES: Category[] = [
   // ==========================================
+  // 🔥 รวมมิตรเพลงดังยอดนิยม (Mega Hits - เพลงดังระดับปรากฏการณ์)
+  // ==========================================
+  {
+    id: 'mega_thai_hits',
+    name: 'Mega Thai Hits (100M+ Views)',
+    thaiName: '🇹🇭 รวมมิตรเพลงดังไทย (100M+ วิว)',
+    emoji: '🔥',
+    badge: '100M+ วิว',
+    description: 'รวมเฉพาะเพลงไทยยอดฮิตระดับปรากฏการณ์ ทะลุร้อยล้านวิว ร้องตามได้ทุกคน',
+    region: 'thai',
+    gradient: 'from-rose-600 via-amber-600 to-red-600',
+    isMegaHits: true,
+    searchQueries: [
+      'ทรงอย่างแบด Paper Planes', 'เสแสร้ง Paper Planes', 'รักแรก นนท์ ธนนท์', 'โต๊ะริม NONT TANONT',
+      'พิง นนท์ ธนนท์', 'วาดไว้ BOWKYLION', 'บานปลาย BOWKYLION', 'คิดแต่ไม่ถึง Tilly Birds',
+      'ถ้าเราเจอกันอีก Tilly Birds', 'เพื่อนเล่น ไม่เล่นเพื่อน Tilly Birds', 'ถ้าเธอรักฉันจริง Three Man Down',
+      'ฝนตกไหม Three Man Down', 'ข้างกัน Three Man Down', 'นะหน้าทอง โจอี้ ภูวศิษฐ์', 'ดวงเดือน โจอี้ ภูวศิษฐ์',
+      'เชือกวิเศษ Labanoon', 'แพ้ทาง Labanoon', 'คุกเข่า Cocktail', 'เธอ Cocktail', 'คู่ชีวิต Cocktail',
+      'ไกลแค่ไหน คือ ใกล้ Getsunova', 'คนไม่จำเป็น Getsunova', 'คนละชั้น Jaonaay', 'เลือดกรุ๊ปบี เอิ้ก ชาลิสา',
+      'วัดปะหล่ะ 4EVE', 'คนไม่คุย PROXIE', 'เกินต้าน PiXXiE', 'ไม่ได้ก็ไม่เอา PiXXiE',
+      'ซ่อนกลิ่น Palmy', 'คิดมาก Palmy', 'ดาวหางฮัลเลย์ fellow fellow', 'สองใจ ดา เอ็นโดรฟิน',
+      'แสงสุดท้าย Bodyslam', 'ยาพิษ Bodyslam', 'คนที่ถูกรัก Bodyslam', 'ที่เดิม Potato',
+      'ขอบคุณที่รักกัน Potato', 'ทิ้งไว้กลางทาง Potato', 'ขอเช็ดน้ำตา Clash', 'ใจนักเลง พงษ์พัฒน์',
+      'สายตาหลอกกันไม่ได้ Ink Waruntorn', 'ลบไม่ได้ช่วยให้ลืม Ink Waruntorn', 'ดีใจด้วยนะ Ink Waruntorn',
+      'แกล้ง Tattoo Colour', 'ขาหมู Tattoo Colour', 'ฤดูร้อน Paradox', 'จันทร์เจ้า Slot Machine',
+      'เล่นของสูง Big Ass', 'รังเกียจกันไหม UrboyTJ', 'วายร้าย UrboyTJ', 'ถามคำ UrboyTJ',
+      'พัง Indigo', 'เส้นบางๆ Indigo', 'กีฬาสี Jeff Satur', 'ลืมไปแล้วว่าลืมยังไง Jeff Satur',
+      'กลิ่นดอกไม้ Newery', 'ไสว่าสิบ่ถิ่มกัน ก้อง ห้วยไร่', 'คำแพง แซ็ค ชุมแพ', 'ผู้สาวขาเลาะ ลำไย ไหทองคำ'
+    ]
+  },
+
+  // ==========================================
   // 🇹🇭 หมวดหมู่เพลงไทย (Thai Music - 11 หมวด)
   // ==========================================
   {
@@ -174,8 +206,38 @@ export const CATEGORIES: Category[] = [
   },
 
   // ==========================================
-  // 🌎 หมวดหมู่เพลงสากล (International - 4 หมวด)
+  // 🌎 หมวดหมู่เพลงสากล (International)
   // ==========================================
+  {
+    id: 'mega_inter_hits',
+    name: 'Global Mega Hits (Billion Views)',
+    thaiName: '🌐 รวมมิตรเพลงดังสากล (พันล้านวิว)',
+    emoji: '💎',
+    badge: 'พันล้านวิว',
+    description: 'รวมเฉพาะเพลงสากลระดับประวัติศาสตร์ มียอดวิวและสตรีมทะลุพันล้าน',
+    region: 'inter',
+    gradient: 'from-blue-600 via-indigo-600 to-purple-600',
+    isMegaHits: true,
+    searchQueries: [
+      'Shape of You Ed Sheeran', 'The Weeknd Blinding Lights', 'Stay The Kid LAROI',
+      'As It Was Harry Styles', 'Uptown Funk Bruno Mars', 'See You Again Wiz Khalifa',
+      'Sugar Maroon 5', 'Counting Stars OneRepublic', 'Something Just Like This The Chainsmokers',
+      'Closer The Chainsmokers', 'Bad Guy Billie Eilish', 'Levitating Dua Lipa',
+      'Cruel Summer Taylor Swift', 'Flowers Miley Cyrus', 'Starboy The Weeknd',
+      'Believer Imagine Dragons', 'Radioactive Imagine Dragons', 'Demons Imagine Dragons',
+      'Someone You Loved Lewis Capaldi', 'Rolling in the Deep Adele', 'Hello Adele',
+      'Thinking Out Loud Ed Sheeran', 'Perfect Ed Sheeran', '7 Rings Ariana Grande',
+      'Thank U Next Ariana Grande', 'Watermelon Sugar Harry Styles', 'drivers license Olivia Rodrigo',
+      'Good 4 U Olivia Rodrigo', 'Save Your Tears The Weeknd', 'Just the Way You Are Bruno Mars',
+      'Wake Me Up Avicii', 'Faded Alan Walker', 'Happier Marshmello',
+      'Love Yourself Justin Bieber', 'Sorry Justin Bieber', 'Peaches Justin Bieber',
+      'Sunflower Post Malone', 'Circles Post Malone', 'vampire Olivia Rodrigo',
+      'Attention Charlie Puth', 'We Don\'t Talk Anymore Charlie Puth', 'Treat You Better Shawn Mendes',
+      'Señorita Shawn Mendes', 'Shallow Lady Gaga', 'Bad Romance Lady Gaga',
+      'Viva La Vida Coldplay', 'Yellow Coldplay', 'The Scientist Coldplay',
+      'Old Town Road Lil Nas X', 'Cheap Thrills Sia', 'Riptide Vance Joy'
+    ]
+  },
   {
     id: 'inter_pop',
     name: 'Global Billboard Hits',
@@ -239,8 +301,36 @@ export const CATEGORIES: Category[] = [
   },
 
   // ==========================================
-  // 🇰🇷 หมวดหมู่ K-POP (3 หมวด)
+  // 🇰🇷 หมวดหมู่ K-POP
   // ==========================================
+  {
+    id: 'mega_kpop_hits',
+    name: 'K-Pop Mega Hits (Iconic Anthems)',
+    thaiName: '🇰🇷 รวมมิตรเพลงดังเกาหลี (เพลงชาติ K-Pop)',
+    emoji: '👑',
+    badge: 'เพลงชาติ K-Pop',
+    description: 'รวมเฉพาะเพลงเคป็อปฮิตติดหูระดับตำนาน ที่เปิดท่อนฮุกที่ไหนทุกคนต้องรู้จัก',
+    region: 'kpop',
+    gradient: 'from-fuchsia-600 via-pink-600 to-rose-600',
+    isMegaHits: true,
+    searchQueries: [
+      'Dynamite BTS', 'Butter BTS', 'Boy With Luv BTS', 'Blood Sweat & Tears BTS',
+      'DDU-DU DDU-DU BLACKPINK', 'Kill This Love BLACKPINK', 'How You Like That BLACKPINK',
+      'Pink Venom BLACKPINK', 'As If It\'s Your Last BLACKPINK', 'Hype Boy NewJeans',
+      'Ditto NewJeans', 'OMG NewJeans', 'Super Shy NewJeans', 'Attention NewJeans',
+      'Next Level aespa', 'Supernova aespa', 'Drama aespa', 'Spicy aespa',
+      'LOVE DIVE IVE', 'After LIKE IVE', 'I AM IVE', 'ELEVEN IVE',
+      'ANTIFRAGILE LE SSERAFIM', 'EASY LE SSERAFIM', 'Perfect Night LE SSERAFIM',
+      'What is Love? TWICE', 'Cheer Up TWICE', 'TT TWICE', 'Fancy TWICE',
+      'Queencard (G)I-DLE', 'TOMBOY (G)I-DLE', 'Super Lady (G)I-DLE',
+      'God\'s Menu Stray Kids', 'Maniac Stray Kids', 'S-Class Stray Kids',
+      'Super SEVENTEEN', 'HOT SEVENTEEN', 'Very NICE SEVENTEEN',
+      'WANNABE ITZY', 'DALLA DALLA ITZY', 'Psycho Red Velvet', 'Bad Boy Red Velvet',
+      'Love Scenario iKON', 'BANG BANG BANG BIGBANG', 'FANTASTIC BABY BIGBANG',
+      'Growl EXO', 'Love Shot EXO', 'Magnetic ILLIT', 'SHEESH BABYMONSTER',
+      'Cupid FIFTY FIFTY', 'Gangnam Style PSY'
+    ]
+  },
   {
     id: 'kpop',
     name: 'K-POP Mega Hits',
@@ -323,6 +413,36 @@ export const CATEGORIES: Category[] = [
   // ==========================================
   // 🎲 หมวดหมู่สุ่มรวมทุกแนวเพลง (Special Mix)
   // ==========================================
+  {
+    id: 'mega_all_stars',
+    name: 'All-Stars Mega Hits (Ultimate Mix)',
+    thaiName: '🌟 รวมมิตรเพลงดังทุกชาติ (All-Stars Mega Hits)',
+    emoji: '🏆',
+    badge: 'รวมเพลงดังที่สุด',
+    description: 'รวมเฉพาะสุดยอดเพลงดังระดับโลกและเพลงไทย ไม่มีเพลงเงียบ ทุกเพลงคือที่สุดของวงการ',
+    region: 'all',
+    gradient: 'from-amber-500 via-rose-500 to-indigo-600',
+    isMegaHits: true,
+    searchQueries: [
+      // Thai Mega Hits
+      'ทรงอย่างแบด Paper Planes', 'รักแรก นนท์ ธนนท์', 'โต๊ะริม NONT TANONT', 'วาดไว้ BOWKYLION',
+      'คิดแต่ไม่ถึง Tilly Birds', 'เชือกวิเศษ Labanoon', 'คุกเข่า Cocktail', 'ไกลแค่ไหน คือ ใกล้ Getsunova',
+      'นะหน้าทอง โจอี้ ภูวศิษฐ์', 'แสงสุดท้าย Bodyslam', 'ขอบคุณที่รักกัน Potato', 'วัดปะหล่ะ 4EVE',
+      'คนไม่คุย PROXIE', 'ซ่อนกลิ่น Palmy', 'ดาวหางฮัลเลย์ fellow fellow', 'สองใจ ดา เอ็นโดรฟิน',
+      'ถ้าเธอรักฉันจริง Three Man Down', 'พิง นนท์ ธนนท์', 'สายตาหลอกกันไม่ได้ Ink Waruntorn',
+      // Inter Mega Hits
+      'Shape of You Ed Sheeran', 'The Weeknd Blinding Lights', 'Stay The Kid LAROI', 'As It Was Harry Styles',
+      'Uptown Funk Bruno Mars', 'See You Again Wiz Khalifa', 'Sugar Maroon 5', 'Bad Guy Billie Eilish',
+      'Levitating Dua Lipa', 'Cruel Summer Taylor Swift', 'Flowers Miley Cyrus', 'Believer Imagine Dragons',
+      'Someone You Loved Lewis Capaldi', 'Sunflower Post Malone', 'Counting Stars OneRepublic', 'Wake Me Up Avicii',
+      'Rolling in the Deep Adele', 'Starboy The Weeknd', 'Just the Way You Are Bruno Mars',
+      // K-Pop Mega Hits
+      'Dynamite BTS', 'Butter BTS', 'DDU-DU DDU-DU BLACKPINK', 'How You Like That BLACKPINK',
+      'Hype Boy NewJeans', 'Ditto NewJeans', 'Supernova aespa', 'Next Level aespa',
+      'LOVE DIVE IVE', 'ANTIFRAGILE LE SSERAFIM', 'What is Love? TWICE', 'Queencard (G)I-DLE',
+      'God\'s Menu Stray Kids', 'Love Scenario iKON', 'BANG BANG BANG BIGBANG', 'Gangnam Style PSY'
+    ]
+  },
   {
     id: 'all_stars',
     name: 'Random Mega Mix',

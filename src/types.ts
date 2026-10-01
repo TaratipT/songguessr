@@ -29,6 +29,7 @@ export interface Category {
   includedCategories?: Category[];
   modeType?: 'preset' | 'random' | 'custom' | 'standard' | 'combined';
   modeSummary?: string;
+  isMegaHits?: boolean;
 }
 
 export interface PlayerRoundAnswer {
