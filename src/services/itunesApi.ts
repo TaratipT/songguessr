@@ -10,6 +10,7 @@ import {
   getThaiTitleTranslation,
   getSongTitleAliases
 } from '../data/thaiSongTitleAliases';
+import { registerArtistTracks } from './choiceGenerator';
 
 // Strip version / remix / edit / session / live suffixes so players don't have to guess or see "Midnight Version", "Acoustic Version", etc.
 export function stripVersionSuffix(title: string): string {
@@ -571,6 +572,17 @@ export async function getSongsForGame(category: Category, count: number = 10): P
     const results = await Promise.all(fetchPromises);
     const liveSongs = results.flat().filter((s) => s.previewUrl && s.title && s.artist);
 
+    // Register live songs into artist discography cache for multiple-choice generation
+    const liveByArtist = new Map<string, string[]>();
+    for (const ls of liveSongs) {
+      const list = liveByArtist.get(ls.artist) || [];
+      list.push(ls.title);
+      liveByArtist.set(ls.artist, list);
+    }
+    for (const [art, trackTitles] of liveByArtist.entries()) {
+      registerArtistTracks(art, trackTitles);
+    }
+
     // If we have enough live songs directly from iTunes, USE THEM EXCLUSIVELY!
     if (liveSongs.length >= Math.min(3, count)) {
       const balanced = balanceSongsByArtist(liveSongs, count);
@@ -684,6 +696,7 @@ export async function getSongsForCustomArtist(artistName: string, count: number 
       });
 
     if (songs.length > 0) {
+      registerArtistTracks(artistName, songs.map((s) => s.title));
       return finalize(shuffleArray(songs).slice(0, count));
     }
   } catch (err) {

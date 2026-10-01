@@ -143,7 +143,7 @@ export const App: React.FC = () => {
       if (currentSong.choices && currentSong.choices.length === 4) {
         setCurrentChoices(currentSong.choices);
       } else {
-        const choices = generateChoicesForSong(currentSong, songs, category.id);
+        const choices = generateChoicesForSong(currentSong, songs, category);
         setCurrentChoices(choices);
       }
     }
@@ -164,7 +164,7 @@ export const App: React.FC = () => {
     if (answerMode === 'multiple_choice' && (!replacement.choices || replacement.choices.length !== 4)) {
       replacement = {
         ...replacement,
-        choices: generateChoicesForSong(replacement, songs, category.id)
+        choices: generateChoicesForSong(replacement, songs, category)
       };
     }
 
@@ -307,7 +307,7 @@ export const App: React.FC = () => {
       const fetched = await getSongsForGame(selectedCat, rounds);
       const prepared = fetched.map((s) => ({
         ...s,
-        choices: s.choices && s.choices.length === 4 ? s.choices : generateChoicesForSong(s, fetched, selectedCat.id)
+        choices: s.choices && s.choices.length === 4 ? s.choices : generateChoicesForSong(s, fetched, selectedCat)
       }));
       setSongs(prepared);
 
@@ -355,7 +355,7 @@ export const App: React.FC = () => {
       const fetched = await getSongsForCustomArtist(artistName, rounds);
       const prepared = fetched.map((s) => ({
         ...s,
-        choices: s.choices && s.choices.length === 4 ? s.choices : generateChoicesForSong(s, fetched, customCat.id)
+        choices: s.choices && s.choices.length === 4 ? s.choices : generateChoicesForSong(s, fetched, customCat)
       }));
       setSongs(prepared);
       setAllAvailableSuggestions(prepared);
@@ -1028,7 +1028,7 @@ export const App: React.FC = () => {
       const finalSongs = interleaved.slice(0, totalRounds);
       const preparedSongs = finalSongs.map((s) => ({
         ...s,
-        choices: s.choices && s.choices.length === 4 ? s.choices : generateChoicesForSong(s, finalSongs, draftCat.id)
+        choices: s.choices && s.choices.length === 4 ? s.choices : generateChoicesForSong(s, finalSongs, draftCat)
       }));
 
       setSongs(preparedSongs);
@@ -1191,7 +1191,7 @@ export const App: React.FC = () => {
       const fetchedSongs = await getSongsForGame(category, totalRounds);
       const preparedSongs = fetchedSongs.map((s) => ({
         ...s,
-        choices: s.choices && s.choices.length === 4 ? s.choices : generateChoicesForSong(s, fetchedSongs, category.id)
+        choices: s.choices && s.choices.length === 4 ? s.choices : generateChoicesForSong(s, fetchedSongs, category)
       }));
       setSongs(preparedSongs);
 

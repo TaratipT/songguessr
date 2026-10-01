@@ -313,6 +313,13 @@ export function cleanKey(str: string): string {
     .trim();
 }
 
+function checkArtistMatch(rule: ThaiSongTranslationRule, artistName?: string): boolean {
+  if (!rule.artists || rule.artists.length === 0) return true;
+  if (!artistName) return false;
+  const artLower = artistName.toLowerCase();
+  return rule.artists.some((a) => artLower.includes(a.toLowerCase()));
+}
+
 /**
  * If an iTunes track has an English title that maps to a known Thai title,
  * return the localized title (e.g. "รังเกียจกันไหม (Do You Mind)").
@@ -324,22 +331,15 @@ export function getThaiTitleTranslation(cleanTitle: string, artistName?: string)
   const key = cleanKey(cleanTitle);
   if (!key) return undefined;
 
-  const isArtistMatch = (rule: ThaiSongTranslationRule): boolean => {
-    if (!rule.artists || rule.artists.length === 0) return true;
-    if (!artistName) return false;
-    const artLower = artistName.toLowerCase();
-    return rule.artists.some((a) => artLower.includes(a.toLowerCase()));
-  };
-
   // 1. Direct key match in rules
   const directRule = THAI_SONG_TRANSLATION_RULES[key];
-  if (directRule && isArtistMatch(directRule)) {
+  if (directRule && checkArtistMatch(directRule, artistName)) {
     return directRule.canonical;
   }
 
   // 2. Search all rules: matches key, Thai part, English part, or combined title
   for (const [k, r] of Object.entries(THAI_SONG_TRANSLATION_RULES)) {
-    if (!isArtistMatch(r)) continue;
+    if (!checkArtistMatch(r, artistName)) continue;
 
     if (cleanKey(k) === key) return r.canonical;
 
