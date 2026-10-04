@@ -67,6 +67,8 @@ export interface HintStatus {
 
 export type AnswerMode = 'multiple_choice' | 'text_pure' | 'autocomplete';
 
+export type PlayerStatus = 'ready' | 'viewing_summary';
+
 export interface PlayerSession {
   id: string;
   name: string;
@@ -76,6 +78,7 @@ export interface PlayerSession {
   isHost: boolean;
   hasAnsweredThisRound: boolean;
   lastAnswerCorrect?: boolean;
+  status?: PlayerStatus;
 }
 
 export type RoomGameType = 'standard' | 'song_draft';

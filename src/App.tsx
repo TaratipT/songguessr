@@ -459,6 +459,8 @@ export const App: React.FC = () => {
             setCurrentRoundAnswers([]);
             resetRoundState(limit, rStartTime);
             setGameHistory([]);
+            setScore(0);
+            setStreak(0);
             setGameState('playing');
             setIsPlayingAudio(true);
           },
@@ -517,7 +519,6 @@ export const App: React.FC = () => {
           },
           onDraftStart: (dState) => {
             setActiveDraftState(dState);
-            soundFX.playVersus();
           },
           onDraftPickProgress: (pId, pCount, isLock) => {
             setActiveDraftState((prev) => {
@@ -597,7 +598,14 @@ export const App: React.FC = () => {
           },
           onGameOver: (finalScores) => {
             setIsPlayingAudio(false);
-            setRoomState((prev) => prev ? { ...prev, players: finalScores } : null);
+            setRoomState((prev) => {
+              if (!prev) return null;
+              return {
+                ...prev,
+                status: 'waiting',
+                players: finalScores.map((p) => ({ ...p, status: 'viewing_summary' }))
+              };
+            });
             setGameState('game_over');
           },
           onReturnToLobby: () => {
@@ -699,6 +707,8 @@ export const App: React.FC = () => {
           setCurrentRoundAnswers([]);
           resetRoundState(limit, rStartTime);
           setGameHistory([]);
+          setScore(0);
+          setStreak(0);
           setGameState('playing');
           setIsPlayingAudio(true);
           showToast('🚀 เริ่มเกมแล้ว! ฟังเพลงแล้วตอบเลย');
@@ -755,7 +765,6 @@ export const App: React.FC = () => {
         },
         onDraftStart: (dState) => {
           setActiveDraftState(dState);
-          soundFX.playVersus();
         },
         onDraftPickProgress: (pId, pCount, isLock) => {
           setActiveDraftState((prev) => {
@@ -832,7 +841,14 @@ export const App: React.FC = () => {
         },
         onGameOver: (finalScores) => {
           setIsPlayingAudio(false);
-          setRoomState((prev) => prev ? { ...prev, players: finalScores } : null);
+          setRoomState((prev) => {
+            if (!prev) return null;
+            return {
+              ...prev,
+              status: 'waiting',
+              players: finalScores.map((p) => ({ ...p, status: 'viewing_summary' }))
+            };
+          });
           setGameState('game_over');
         },
         onReturnToLobby: () => {
@@ -1098,7 +1114,6 @@ export const App: React.FC = () => {
 
     setActiveDraftState(initialDraftState);
     multiplayerService.hostStartDraft(initialDraftState);
-    soundFX.playVersus();
   }, [roomState, isHost, showToast]);
 
   const handleStartSoloDraft = useCallback(() => {
@@ -1153,7 +1168,6 @@ export const App: React.FC = () => {
     };
 
     setActiveDraftState(initialDraftState);
-    soundFX.playVersus();
   }, [playerName]);
 
   // Landing Page Quick Action Handlers
@@ -1164,7 +1178,7 @@ export const App: React.FC = () => {
   };
 
   const handleLandingDraft = () => {
-    soundFX.playVersus();
+    soundFX.playClick();
     handleStartSoloDraft();
   };
 
@@ -1347,10 +1361,7 @@ export const App: React.FC = () => {
     const nextIndex = currentRoundIndex + 1;
     if (nextIndex >= totalRounds || nextIndex >= songs.length) {
       if (isHost && roomState) {
-        multiplayerService.broadcast({
-          type: 'GAME_OVER',
-          finalScores: roomState.players
-        });
+        multiplayerService.hostGameOver(roomState.players);
       }
       setGameState('game_over');
     } else {
@@ -1762,14 +1773,25 @@ export const App: React.FC = () => {
           category={category}
           players={roomState?.players}
           myPlayerId={multiplayerService.myPlayerId}
+          onLeaveRoom={roomState ? handleLeaveRoom : undefined}
           onPlayAgain={() => {
             if (roomState) {
               if (isHost) {
-                multiplayerService.hostResetToLobby();
+                multiplayerService.hostReturnToLobby();
               } else {
-                multiplayerService.guestRequestResetToLobby();
+                multiplayerService.guestReturnToLobby();
               }
-              setRoomState((prev) => prev ? { ...prev, status: 'waiting', currentRoundAnswers: [] } : null);
+              setRoomState((prev) => {
+                if (!prev) return null;
+                return {
+                  ...prev,
+                  status: 'waiting',
+                  currentRoundAnswers: [],
+                  players: prev.players.map((p) =>
+                    p.id === multiplayerService.myPlayerId ? { ...p, status: 'ready' } : p
+                  )
+                };
+              });
               setScore(0);
               setStreak(0);
               setGameHistory([]);
@@ -1780,10 +1802,34 @@ export const App: React.FC = () => {
             }
           }}
           onBackToLobby={() => {
-            multiplayerService.destroy();
-            setRoomState(null);
-            setIsHost(false);
-            setGameState('landing');
+            if (roomState) {
+              if (isHost) {
+                multiplayerService.hostReturnToLobby();
+              } else {
+                multiplayerService.guestReturnToLobby();
+              }
+              setRoomState((prev) => {
+                if (!prev) return null;
+                return {
+                  ...prev,
+                  status: 'waiting',
+                  currentRoundAnswers: [],
+                  players: prev.players.map((p) =>
+                    p.id === multiplayerService.myPlayerId ? { ...p, status: 'ready' } : p
+                  )
+                };
+              });
+              setScore(0);
+              setStreak(0);
+              setGameHistory([]);
+              setActiveDraftState(null);
+              setGameState('category_select');
+            } else {
+              multiplayerService.destroy();
+              setRoomState(null);
+              setIsHost(false);
+              setGameState('landing');
+            }
           }}
         />
       )}

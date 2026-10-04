@@ -8556,6 +8556,21 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
+/* Studio tab - always distinct with orange accent */
+.room-right-tab-btn-studio {
+  color: #ea580c !important;
+  border: 1.5px solid rgba(234, 88, 12, 0.3) !important;
+  background: rgba(234, 88, 12, 0.06) !important;
+  border-radius: 8px;
+}
+
+.room-right-tab-btn-studio:hover {
+  background: rgba(234, 88, 12, 0.14) !important;
+  border-color: rgba(234, 88, 12, 0.55) !important;
+  color: #c2410c !important;
+}
+
+
 .room-settings-main-title {
   display: flex;
   align-items: center;
@@ -9424,6 +9439,62 @@
 
 .player-vcard-role-tag.ready-tag {
   color: #16a34a;
+}
+
+.player-vcard-role-tag.viewing-summary-tag {
+  color: #c2410c;
+  background: #ffedd5;
+  border: 1px solid #fdba74;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  animation: pulse-summary-tag 2s infinite ease-in-out;
+}
+
+@keyframes pulse-summary-tag {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.68; transform: scale(0.98); }
+}
+
+.standings-status-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.standings-status-pill.ready-pill {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.standings-status-pill.viewing-pill {
+  background: #ffedd5;
+  color: #c2410c;
+  border: 1px solid #fdba74;
+  animation: pulse-summary-tag 2s infinite ease-in-out;
+}
+
+.game-over-multiplayer-status-hint {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  font-size: 0.8rem;
+  border-radius: 12px;
+  padding: 8px 14px;
+  margin-top: 14px;
+  text-align: center;
+  line-height: 1.45;
+}
+
+.action-btn.leave-room-action-btn:hover {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+  border-color: #b91c1c !important;
 }
 
 .btn-kick-player-vcard {

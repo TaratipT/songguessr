@@ -486,10 +486,22 @@ export const CategorySelectModal: React.FC<CategorySelectModalProps> = ({
               <ArrowLeft size={16} />
               <span>{isHost ? 'ยุบห้อง' : 'ออกจากห้อง'}</span>
             </button>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="clean-pill-badge" style={{ background: '#ecfdf5', color: '#059669', borderColor: '#a7f3d0' }}>
-                🟢 กำลังรอเริ่มเกม
-              </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              {(() => {
+                const viewingSummaryCount = roomState.players.filter((p) => p.status === 'viewing_summary').length;
+                if (viewingSummaryCount > 0) {
+                  return (
+                    <span className="clean-pill-badge" style={{ background: '#fffbeb', color: '#b45309', borderColor: '#fde68a' }}>
+                      📊 กำลังดูสรุปผล {viewingSummaryCount}/{roomState.players.length} คน
+                    </span>
+                  );
+                }
+                return (
+                  <span className="clean-pill-badge" style={{ background: '#ecfdf5', color: '#059669', borderColor: '#a7f3d0' }}>
+                    🟢 กำลังรอเริ่มเกม
+                  </span>
+                );
+              })()}
               {isHost ? (
                 <span className="clean-pill-badge host-pill-highlight">
                   👑 คุณคือหัวหน้าห้อง (ผู้สร้าง)
@@ -777,6 +789,26 @@ export const CategorySelectModal: React.FC<CategorySelectModalProps> = ({
                 })()
               )}
 
+              {/* Host Viewing Summary Notice */}
+              {isHost && roomState.players.some((p) => p.status === 'viewing_summary') && (
+                <div style={{
+                  fontSize: '0.73rem',
+                  color: '#b45309',
+                  background: '#fffbeb',
+                  border: '1px solid #fde68a',
+                  borderRadius: '10px',
+                  padding: '8px 12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  lineHeight: 1.35,
+                  marginTop: '8px'
+                }}>
+                  <span>⏳</span>
+                  <span>มีเพื่อนกำลังดูสรุปผลอยู่ {roomState.players.filter((p) => p.status === 'viewing_summary').length} คน (สามารถกดเริ่มเกมเพื่อดึงทุกคนเข้าได้ทันที)</span>
+                </div>
+              )}
+
               {/* Leave Room Action */}
               <button
                 type="button"
@@ -822,7 +854,11 @@ export const CategorySelectModal: React.FC<CategorySelectModalProps> = ({
                           <span className="player-vcard-name" title={p.name}>{p.name}</span>
                           {isCurrentPlayer && <span className="player-vcard-you">คุณ</span>}
                         </div>
-                        {p.isHost ? (
+                        {p.status === 'viewing_summary' ? (
+                          <span className="player-vcard-role-tag viewing-summary-tag">
+                            📊 กำลังดูสรุปผล
+                          </span>
+                        ) : p.isHost ? (
                           <span className="player-vcard-role-tag host-tag">👑 ผู้สร้างห้อง</span>
                         ) : (
                           <span className="player-vcard-role-tag ready-tag">🟢 พร้อมเล่น</span>
@@ -991,6 +1027,17 @@ export const CategorySelectModal: React.FC<CategorySelectModalProps> = ({
                       >
                         <Disc size={14} />
                         <span>หมวดหมู่สำเร็จรูป</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="room-right-tab-btn room-right-tab-btn-studio"
+                        onClick={() => {
+                          soundFX.playClick();
+                          handleOpenGlobalPickerForRoom();
+                        }}
+                      >
+                        <SlidersHorizontal size={14} />
+                        <span>เลือกเอง</span>
                       </button>
                     </div>
                   </div>
@@ -1198,27 +1245,7 @@ export const CategorySelectModal: React.FC<CategorySelectModalProps> = ({
                         )}
                       </div>
 
-                      {/* Custom Picker Modal Link */}
-                      <div style={{ textAlign: 'center', paddingTop: '2px' }}>
-                        <button
-                          type="button"
-                          onClick={handleOpenGlobalPickerForRoom}
-                          style={{
-                            background: 'none',
-                            border: 'none',
-                            color: '#ea580c',
-                            fontSize: '0.78rem',
-                            fontWeight: 700,
-                            cursor: 'pointer',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '4px'
-                          }}
-                        >
-                          <SlidersHorizontal size={13} />
-                          <span>หรือคลิกเพื่อติ๊กเลือกศิลปินเองแบบละเอียด (เปิดสตูดิโอ)</span>
-                        </button>
-                      </div>
+
                     </div>
                   ) : (
                     /* Tab 2: Preset Categories */
@@ -1474,10 +1501,14 @@ export const CategorySelectModal: React.FC<CategorySelectModalProps> = ({
                       <div className="guest-live-pulse-dot" />
                       <div className="guest-live-message">
                         <span className="guest-live-title">
-                          กำลังรอ 👑 {hostPlayer?.name || 'หัวหน้าห้อง'} กดเริ่มเกม...
+                          {hostPlayer?.status === 'viewing_summary'
+                            ? `กำลังรอ 👑 ${hostPlayer?.name || 'หัวหน้าห้อง'} (กำลังดูสรุปผล)...`
+                            : `กำลังรอ 👑 ${hostPlayer?.name || 'หัวหน้าห้อง'} กดเริ่มเกม...`}
                         </span>
                         <span className="guest-live-tip">
-                          เตรียมหูฟังและเปิดเสียงให้พร้อม การแข่งขันจะเริ่มขึ้นทันทีที่หัวหน้าห้องกดเริ่ม!
+                          {hostPlayer?.status === 'viewing_summary'
+                            ? 'หัวหน้าห้องกำลังตรวจสอบสรุปผลการแข่งขันรอบที่แล้ว เมื่อพร้อมจะกลับมาเริ่มเกม'
+                            : 'เตรียมหูฟังและเปิดเสียงให้พร้อม การแข่งขันจะเริ่มขึ้นทันทีที่หัวหน้าห้องกดเริ่ม!'}
                         </span>
                       </div>
                     </div>

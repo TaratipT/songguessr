@@ -1,5 +1,5 @@
 import mqtt, { type MqttClient } from 'mqtt';
-import type { PlayerSession, RoomState, Song, AnswerMode, Category, SongDraftState, SongDraftPhase, RoomGameType } from '../types';
+import type { PlayerSession, RoomState, Song, AnswerMode, Category, SongDraftState, SongDraftPhase, RoomGameType, PlayerStatus } from '../types';
 import { calculateRoundScore } from '../utils/scoreCalculator';
 
 export type MultiplayerMessage =
@@ -17,7 +17,8 @@ export type MultiplayerMessage =
   | { type: 'GAME_OVER'; finalScores: PlayerSession[] }
   | { type: 'HEARTBEAT'; playerId: string }
   | { type: 'RETURN_TO_LOBBY' }
-  | { type: 'REQUEST_RETURN_TO_LOBBY' }
+  | { type: 'REQUEST_RETURN_TO_LOBBY'; playerId?: string }
+  | { type: 'PLAYER_STATUS_UPDATE'; playerId: string; status: PlayerStatus }
   | { type: 'DRAFT_START'; draftState: SongDraftState }
   | { type: 'DRAFT_PICK_PROGRESS'; playerId: string; pickedCount: number; isLocked: boolean }
   | { type: 'DRAFT_SUBMIT_PICKS'; playerId: string; picks: string[] }
@@ -99,7 +100,7 @@ class MultiplayerService {
       this.currentRoomState = {
         code,
         hostId: hostPlayer.id,
-        players: [hostPlayer],
+        players: [{ ...hostPlayer, status: 'ready' }],
         category: initialCategory,
         totalRounds,
         answerMode,
@@ -274,10 +275,14 @@ class MultiplayerService {
           ...this.currentRoomState.players[existingIdx],
           id: msg.player.id,
           name: msg.player.name,
-          avatar: msg.player.avatar
+          avatar: msg.player.avatar,
+          status: this.currentRoomState.players[existingIdx].status || 'ready'
         };
       } else {
-        this.currentRoomState.players.push(msg.player);
+        this.currentRoomState.players.push({
+          ...msg.player,
+          status: msg.player.status || 'ready'
+        });
       }
 
       // Broadcast updated room state to all clients
@@ -468,8 +473,13 @@ class MultiplayerService {
         this.currentRoomState.draftState.phase = msg.phase;
       }
       this.callbacks.onDraftPhaseChange?.(msg.phase, msg.draftState || this.currentRoomState?.draftState);
+    } else if (msg.type === 'PLAYER_STATUS_UPDATE') {
+      this.updatePlayerStatus(msg.playerId, msg.status);
     } else if (msg.type === 'REQUEST_RETURN_TO_LOBBY') {
-      this.hostResetToLobby();
+      const pid = msg.playerId || '';
+      if (pid) {
+        this.updatePlayerStatus(pid, 'ready');
+      }
     }
   }
 
@@ -545,6 +555,14 @@ class MultiplayerService {
         break;
 
       case 'GAME_OVER':
+        if (this.currentRoomState) {
+          this.currentRoomState.status = 'waiting';
+          this.currentRoomState.currentRoundAnswers = [];
+          this.currentRoomState.players = msg.finalScores.map((p) => ({
+            ...p,
+            status: 'viewing_summary'
+          }));
+        }
         this.callbacks.onGameOver(msg.finalScores);
         break;
 
@@ -777,6 +795,7 @@ class MultiplayerService {
       p.score = 0;
       p.streak = 0;
       p.hasAnsweredThisRound = false;
+      p.status = 'ready';
     });
 
     this.publish({
@@ -989,38 +1008,82 @@ class MultiplayerService {
     });
   }
 
-  // Host resets current room back to waiting lobby so players can reconfigure or draft
-  hostResetToLobby() {
+  // Host triggers game over and marks all players as 'viewing_summary'
+  hostGameOver(scores?: PlayerSession[]) {
     if (!this.isHost || !this.currentRoomState) return;
 
     this.currentRoomState.status = 'waiting';
     this.currentRoomState.currentRoundAnswers = [];
-    this.currentRoomState.draftState = undefined;
-    this.currentRoomState.players = this.currentRoomState.players.map((p) => ({
+    const basePlayers = scores || this.currentRoomState.players;
+    this.currentRoomState.players = basePlayers.map((p) => ({
       ...p,
-      score: 0,
-      streak: 0,
+      status: 'viewing_summary' as PlayerStatus,
       hasAnsweredThisRound: false,
       lastAnswerCorrect: undefined
     }));
 
-    this.publish({ type: 'RETURN_TO_LOBBY' });
+    this.publish({
+      type: 'GAME_OVER',
+      finalScores: [...this.currentRoomState.players]
+    });
     this.publish({
       type: 'ROOM_SYNC',
       state: { ...this.currentRoomState }
     });
-
-    if (this.callbacks?.onReturnToLobby) {
-      this.callbacks.onReturnToLobby();
-    }
     if (this.callbacks?.onRoomSync) {
       this.callbacks.onRoomSync({ ...this.currentRoomState });
     }
   }
 
+  // Update a player's status (ready vs viewing_summary)
+  updatePlayerStatus(playerId: string, status: PlayerStatus) {
+    if (this.currentRoomState) {
+      const p = this.currentRoomState.players.find((player) => player.id === playerId);
+      if (p) {
+        p.status = status;
+      }
+    }
+
+    if (this.isHost) {
+      if (this.currentRoomState) {
+        this.publish({
+          type: 'ROOM_SYNC',
+          state: { ...this.currentRoomState }
+        });
+        if (this.callbacks?.onRoomSync) {
+          this.callbacks.onRoomSync({ ...this.currentRoomState });
+        }
+      }
+    } else {
+      this.publish({
+        type: 'PLAYER_STATUS_UPDATE',
+        playerId,
+        status
+      });
+      if (this.currentRoomState && this.callbacks?.onRoomSync) {
+        this.callbacks.onRoomSync({ ...this.currentRoomState });
+      }
+    }
+  }
+
+  // Host returns to lobby individually
+  hostReturnToLobby() {
+    this.updatePlayerStatus(this.myPlayerId, 'ready');
+  }
+
+  // Guest returns to lobby individually
+  guestReturnToLobby() {
+    this.updatePlayerStatus(this.myPlayerId, 'ready');
+  }
+
+  // Host resets current room back to waiting lobby so players can reconfigure or draft
+  hostResetToLobby() {
+    this.hostReturnToLobby();
+  }
+
   // Guest requests host to reset back to lobby
   guestRequestResetToLobby() {
-    this.publish({ type: 'REQUEST_RETURN_TO_LOBBY' });
+    this.guestReturnToLobby();
   }
 
   // Host kicks a player from the room

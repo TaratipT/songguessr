@@ -308,272 +308,345 @@
 }
 
 /* -------------------------------------------------------------
-   Versus Stage (Red Corner vs Blue Corner)
+   MOBA-Style 3-Column Layout (Left Sidebar | Center | Right Sidebar)
    ------------------------------------------------------------- */
-.draft-versus-stage {
+.draft-moba-layout {
   display: grid;
-  grid-template-columns: 1fr 64px 1fr;
+  grid-template-columns: minmax(220px, 260px) 1fr minmax(220px, 260px);
   gap: 16px;
-  align-items: center;
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
-.corner-box {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 20px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* ---- Sidebars (Red / Blue) ---- */
+.moba-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.25s ease;
-  position: relative;
 }
 
-.corner-box.red-corner {
+.moba-sidebar-red {
   border-top: 3px solid #ef4444;
-  background: linear-gradient(180deg, rgba(239, 68, 68, 0.06) 0%, rgba(15, 23, 42, 0.4) 100%);
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.5) 100%);
 }
 
-.corner-box.blue-corner {
+.moba-sidebar-blue {
   border-top: 3px solid #3b82f6;
-  background: linear-gradient(180deg, rgba(59, 130, 246, 0.06) 0%, rgba(15, 23, 42, 0.4) 100%);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.08) 0%, rgba(15, 23, 42, 0.5) 100%);
 }
 
-.corner-box.my-corner {
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.03);
+.moba-sidebar.my-side {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.04);
 }
 
-.corner-profile-bar {
+/* ---- Sidebar Player Header ---- */
+.sidebar-player-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
+  padding: 12px 12px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.corner-avatar-ring {
-  width: 44px;
-  height: 44px;
+.sidebar-avatar-ring {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   background: rgba(0, 0, 0, 0.4);
   border: 2px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
 }
 
-.corner-avatar-ring.red {
+.sidebar-avatar-ring.red {
   border-color: #ef4444;
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
 
-.corner-avatar-ring.blue {
+.sidebar-avatar-ring.blue {
   border-color: #3b82f6;
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
 }
 
-.corner-details {
+.sidebar-player-info {
   flex: 1;
+  min-width: 0;
 }
 
-.corner-name-row {
+.sidebar-name-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
-.corner-name {
-  font-size: 1rem;
+.sidebar-player-name {
+  font-size: 0.82rem;
   font-weight: 800;
   color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.my-corner-tag {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fbbf24;
-  font-size: 0.68rem;
+.sidebar-corner-label {
+  font-size: 0.62rem;
   font-weight: 700;
-  padding: 1px 6px;
-  border-radius: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.corner-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.corner-label.red {
+.sidebar-corner-label.red {
   color: #f87171;
 }
 
-.corner-label.blue {
+.sidebar-corner-label.blue {
   color: #60a5fa;
 }
 
-.corner-status-pill {
-  font-size: 0.76rem;
+.sidebar-status-pill {
+  font-size: 0.68rem;
   font-weight: 750;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
-.corner-status-pill.red {
+.sidebar-status-pill.red {
   color: #fca5a5;
   border-color: rgba(239, 68, 68, 0.3);
 }
 
-.corner-status-pill.blue {
+.sidebar-status-pill.blue {
   color: #93c5fd;
   border-color: rgba(59, 130, 246, 0.3);
 }
 
-/* -------------------------------------------------------------
-   Cards Deck Grid (5 Cards per side)
-   ------------------------------------------------------------- */
-.corner-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-}
-
-.draft-card {
-  aspect-ratio: 5 / 7;
-  min-height: 142px;
-  border-radius: 16px;
-  padding: 12px 10px;
+/* ---- Sidebar Picks List (Vertical Stack) ---- */
+.sidebar-picks-list {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  cursor: default;
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
-  user-select: none;
-}
-
-/* Mystery Card (Face-Down) */
-.draft-card.mystery-card {
-  background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
-  border: 1px dashed rgba(255, 255, 255, 0.15);
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
-}
-
-.draft-card.mystery-card.filled {
-  background: linear-gradient(145deg, #1e1b4b 0%, #0f172a 100%);
-  border: 1px solid rgba(99, 102, 241, 0.4);
-  box-shadow: 0 0 14px rgba(99, 102, 241, 0.2);
-}
-
-.mystery-pattern {
   flex: 1;
+}
+
+.sidebar-pick-slot {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #64748b;
+  gap: 8px;
+  padding: 10px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: default;
+  user-select: none;
+  min-height: 52px;
 }
 
-.mystery-lock-icon {
-  color: #818cf8;
-  animation: lockFloat 2.5s infinite ease-in-out;
+.sidebar-pick-slot:last-child {
+  border-bottom: none;
 }
 
-@keyframes lockFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.mystery-label {
-  font-size: 0.8rem;
-  font-weight: 750;
-  color: #94a3b8;
-}
-
-/* Card Face-Up */
-.draft-card.card-face-up {
-  background: linear-gradient(160deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.98) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  text-align: center;
-}
-
-.draft-card.card-face-up.empty-slot {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed rgba(255, 255, 255, 0.12);
-}
-
-.empty-slot-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  gap: 6px;
-}
-
-.slot-num {
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.2);
-}
-
-.slot-tip {
-  font-size: 0.78rem;
-  color: #94a3b8;
-  font-weight: 600;
-}
-
-.card-top-decor {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.card-emoji {
-  font-size: 1.65rem;
-}
-
-.card-region-badge {
+.slot-index-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.3);
   font-size: 0.68rem;
   font-weight: 800;
-  background: rgba(255, 255, 255, 0.12);
-  padding: 2px 7px;
-  border-radius: 6px;
-  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.card-artist-title {
-  font-size: 0.98rem;
-  font-weight: 850;
-  color: #ffffff;
-  line-height: 1.25;
-  word-break: break-word;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin: 4px 0;
+/* Filled Pick Slot */
+.sidebar-pick-slot.has-pick {
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.card-genre-sub {
+.sidebar-pick-slot.has-pick .slot-index-num {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.moba-sidebar-red .sidebar-pick-slot.has-pick {
+  border-left: 3px solid rgba(239, 68, 68, 0.5);
+}
+
+.moba-sidebar-blue .sidebar-pick-slot.has-pick {
+  border-left: 3px solid rgba(59, 130, 246, 0.5);
+}
+
+/* Empty Pick Slot */
+.sidebar-pick-slot.empty-pick {
+  opacity: 0.5;
+}
+
+.slot-empty-content {
+  flex: 1;
   font-size: 0.72rem;
-  color: #94a3b8;
+  color: #64748b;
   font-weight: 600;
 }
 
-.card-remove-pick-btn {
+/* Artist Content inside a slot */
+.slot-artist-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.slot-emoji {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.slot-artist-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.slot-artist-name {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.slot-genre {
+  font-size: 0.6rem;
+  color: #94a3b8;
+  font-weight: 600;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Mystery Slot */
+.sidebar-pick-slot.mystery-slot {
+  opacity: 0.6;
+}
+
+.sidebar-pick-slot.mystery-slot.filled {
+  opacity: 0.85;
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.slot-mystery-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.sidebar-pick-slot.mystery-slot.filled .slot-mystery-content {
+  color: #818cf8;
+}
+
+/* Status Badges (compact for sidebar) */
+.slot-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.slot-badge.auto-match-badge {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+  animation: goldPulse 2.5s infinite ease-in-out;
+}
+
+.slot-badge.banned-badge {
+  background: rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+}
+
+.slot-badge.ban-selected-badge {
+  background: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
+}
+
+/* Auto-matched slot highlight */
+.sidebar-pick-slot.auto-matched {
+  background: rgba(245, 158, 11, 0.1) !important;
+  border-left: 3px solid #f59e0b !important;
+}
+
+.sidebar-pick-slot.auto-matched .slot-index-num {
+  background: rgba(245, 158, 11, 0.25);
+  color: #f59e0b;
+}
+
+/* Banned slot */
+.sidebar-pick-slot.is-banned {
+  background: rgba(239, 68, 68, 0.08) !important;
+  opacity: 0.5;
+}
+
+.sidebar-pick-slot.is-banned .slot-artist-name {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+/* Bannable Target (during Ban Phase) */
+.sidebar-pick-slot.bannable-target {
+  cursor: pointer;
+  border-left: 3px solid rgba(239, 68, 68, 0.5) !important;
+}
+
+.sidebar-pick-slot.bannable-target:hover {
+  background: rgba(239, 68, 68, 0.12) !important;
+  transform: scale(1.02);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Selected for ban */
+.sidebar-pick-slot.selected-for-ban {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-left: 3px solid #ef4444 !important;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+}
+
+/* Remove button */
+.slot-remove-btn {
   position: absolute;
-  top: 6px;
+  top: 50%;
   right: 6px;
+  transform: translateY(-50%);
   background: rgba(239, 68, 68, 0.85);
   border: none;
   color: #ffffff;
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -581,203 +654,34 @@
   cursor: pointer;
   transition: all 0.15s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  opacity: 0.7;
 }
 
-.card-remove-pick-btn:hover {
-  background: #ef4444;
-  transform: scale(1.18);
-}
-
-/* Bannable Target Hover & Selection (Phase 2) */
-.draft-card.bannable-target {
-  cursor: pointer;
-  border-color: rgba(239, 68, 68, 0.5);
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
-}
-
-.draft-card.bannable-target:hover {
-  transform: translateY(-4px) scale(1.03);
-  border-color: #ef4444;
-  box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
-}
-
-.draft-card.selected-for-ban {
-  border: 2px solid #ef4444 !important;
-  background: linear-gradient(160deg, rgba(239, 68, 68, 0.35) 0%, rgba(15, 23, 42, 0.98) 100%) !important;
-  box-shadow: 0 0 28px rgba(239, 68, 68, 0.75) !important;
-  animation: banCardShake 0.3s ease-out;
-}
-
-@keyframes banCardShake {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05) rotate(-2deg); }
-  100% { transform: scale(1) rotate(0deg); }
-}
-
-.card-ban-selected-pill {
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ef4444;
-  color: #ffffff;
-  font-size: 0.74rem;
-  font-weight: 850;
-  padding: 4px 10px;
-  border-radius: 999px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0 0 14px rgba(239, 68, 68, 0.8);
-}
-
-.card-bannable-hover-hint {
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.85);
-  border: 1px solid rgba(239, 68, 68, 0.6);
-  color: #fca5a5;
-  font-size: 0.72rem;
-  font-weight: 800;
-  padding: 3px 9px;
-  border-radius: 999px;
-  white-space: nowrap;
-  opacity: 0.85;
-  transition: all 0.2s ease;
-}
-
-.draft-card.bannable-target:hover .card-bannable-hover-hint {
+.sidebar-pick-slot:hover .slot-remove-btn {
   opacity: 1;
+}
+
+.slot-remove-btn:hover {
   background: #ef4444;
-  color: #ffffff;
+  transform: translateY(-50%) scale(1.2);
 }
 
-/* Auto-Match Golden Glow */
-.draft-card.auto-matched {
-  border: 2px solid #f59e0b !important;
-  background: linear-gradient(160deg, rgba(245, 158, 11, 0.18) 0%, rgba(15, 23, 42, 0.95) 100%) !important;
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.45) !important;
-  animation: goldPulse 2.5s infinite ease-in-out;
+/* ---- Center Content Area ---- */
+.moba-center-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
+/* @keyframes that are still needed */
 @keyframes goldPulse {
   0%, 100% { box-shadow: 0 0 16px rgba(245, 158, 11, 0.35); }
   50% { box-shadow: 0 0 28px rgba(245, 158, 11, 0.7); }
 }
 
-.card-auto-match-shield {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  background: linear-gradient(90deg, #f59e0b, #d97706);
-  color: #ffffff;
-  font-size: 0.62rem;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 999px;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5);
-}
-
-/* Banned Card State */
-.draft-card.is-banned {
-  filter: grayscale(0.9) brightness(0.5);
-  border: 1px solid rgba(239, 68, 68, 0.5) !important;
-  background: #090d16 !important;
-  position: relative;
-}
-
-.card-banned-stamp {
-  position: absolute;
-  inset: 0;
-  background: rgba(239, 68, 68, 0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  color: #ef4444;
-  font-size: 0.8rem;
-  font-weight: 900;
-  letter-spacing: 1px;
-  transform: rotate(-10deg);
-  border: 2px solid #ef4444;
-  border-radius: 10px;
-  margin: 6px;
-}
-
-/* Bannable Target Hover Effect during Ban Phase */
-.draft-card.bannable-target {
-  cursor: pointer;
-  border-color: rgba(239, 68, 68, 0.4);
-}
-
-.draft-card.bannable-target:hover {
-  transform: translateY(-4px) scale(1.04);
-  border-color: #ef4444;
-  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
-}
-
-/* Central VS Column */
-.central-vs-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  position: relative;
-}
-
-.vs-emblem {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #f59e0b 0%, #b45309 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 25px rgba(245, 158, 11, 0.6);
-  font-weight: 950;
-  font-size: 1.15rem;
-  color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  animation: vsGlow 2s infinite ease-in-out;
-}
-
-@keyframes vsGlow {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6)); }
-  50% { transform: scale(1.08); filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.9)); }
-}
-
-.vs-glow-line {
-  width: 2px;
-  height: 60px;
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.8) 0%, transparent 100%);
-}
-
-.central-match-burst {
-  position: absolute;
-  bottom: -32px;
-  background: #f59e0b;
-  color: #ffffff;
-  font-size: 0.72rem;
-  font-weight: 800;
-  padding: 3px 8px;
-  border-radius: 999px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  box-shadow: 0 0 14px rgba(245, 158, 11, 0.7);
-  animation: burstBounce 1s infinite alternate;
-}
-
-@keyframes burstBounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-3px); }
-}
 
 /* -------------------------------------------------------------
    Phase 1 Drawer: Secret Pick Artist Selection Deck
@@ -786,10 +690,58 @@
   background: rgba(15, 23, 42, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  padding: 16px;
+  padding: 16px 16px 0 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+/* Sticky Bottom Action Bar */
+.drawer-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  margin: 0 -16px;
+  background: rgba(10, 15, 30, 0.98);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 20px 20px;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  backdrop-filter: blur(12px);
+}
+
+.drawer-pick-progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pick-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.pick-dot.filled {
+  background: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
+}
+
+.pick-dot.empty {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pick-progress-label {
+  font-size: 0.8rem;
+  font-weight: 750;
+  color: #94a3b8;
+  margin-left: 4px;
 }
 
 .drawer-header-row {
@@ -1439,37 +1391,59 @@
 }
 
 /* -------------------------------------------------------------
-   Responsive Breakpoints for Mobile
+   Responsive Breakpoints for Tablet & Mobile
    ------------------------------------------------------------- */
-@media (max-width: 820px) {
-  .draft-versus-stage {
+@media (max-width: 960px) {
+  .draft-moba-layout {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 14px;
+    overflow-y: auto;
   }
 
-  .central-vs-column {
-    display: none;
+  .moba-sidebar {
+    border-radius: 12px;
   }
 
-  .corner-cards-grid {
+  .sidebar-picks-list {
+    display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 6px;
+    padding: 6px;
   }
 
-  .draft-card {
-    padding: 4px;
+  .sidebar-pick-slot {
+    flex-direction: column;
+    text-align: center;
+    padding: 8px 4px;
+    border-bottom: none;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    min-height: auto;
   }
 
-  .card-artist-title {
+  .slot-artist-content {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .slot-artist-name {
     font-size: 0.7rem;
   }
 
-  .card-emoji {
-    font-size: 0.95rem;
+  .slot-genre {
+    display: none;
+  }
+
+  .slot-remove-btn {
+    top: 2px;
+    right: 2px;
+    transform: none;
   }
 
   .draft-arena-container {
     padding: 14px;
     border-radius: 20px;
+    height: auto;
+    max-height: none;
   }
 }

@@ -437,7 +437,6 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
   // Trigger draft completion from Battle Roster screen after preview
   useEffect(() => {
     if (phase !== 'battle_roster') return;
-    soundFX.playVersus();
 
     // Only host (multiplayer) or solo player initiates song preparation
     if (isAiOpponent || isHost) {
@@ -600,49 +599,45 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
         )}
 
         {/* ========================================================= */}
-        {/* DUEL VERSUS STAGE (Red Corner vs Blue Corner)            */}
+        {/* MOBA-STYLE 3-COLUMN LAYOUT                                */}
+        {/* Left sidebar: Red picks | Center: Content | Right sidebar: Blue picks */}
         {/* ========================================================= */}
-        <section className="draft-versus-stage">
-          {/* RED CORNER */}
-          <div className={`corner-box red-corner ${myCorner === 'red' ? 'my-corner' : 'opponent-corner'}`}>
-            <div className="corner-profile-bar">
-              <div className="corner-avatar-ring red">
-                <span className="corner-avatar">{draftState.redPlayer.avatar || '👑'}</span>
+        <section className="draft-moba-layout">
+
+          {/* ===== LEFT SIDEBAR: RED CORNER ===== */}
+          <aside className={`moba-sidebar moba-sidebar-red ${myCorner === 'red' ? 'my-side' : 'opponent-side'}`}>
+            <div className="sidebar-player-header red">
+              <div className="sidebar-avatar-ring red">
+                <span className="sidebar-avatar">{draftState.redPlayer.avatar || '👑'}</span>
               </div>
-              <div className="corner-details">
-                <div className="corner-name-row">
-                  <strong className="corner-name">{draftState.redPlayer.playerName}</strong>
+              <div className="sidebar-player-info">
+                <div className="sidebar-name-row">
+                  <strong className="sidebar-player-name">{draftState.redPlayer.playerName}</strong>
                   {myCorner === 'red' && <span className="my-corner-tag">คุณ</span>}
                 </div>
-                <span className="corner-label red">มุมแดง (RED CORNER)</span>
+                <span className="sidebar-corner-label red">RED CORNER</span>
               </div>
-              <div className="corner-status-pill red">
+              <div className="sidebar-status-pill red">
                 {phase === 'secret_pick' && (
                   myCorner === 'red' ? (
-                    isMyPickLocked ? '🔒 ล็อคแล้ว' : `เลือกแล้ว ${myPicks.length}/5`
+                    isMyPickLocked ? '🔒' : `${myPicks.length}/5`
                   ) : (
-                    isOpponentPickLocked ? '🔒 ล็อคแล้ว' : `เลือกแล้ว ${opponentPickCount}/5`
+                    isOpponentPickLocked ? '🔒' : `${opponentPickCount}/5`
                   )
                 )}
                 {phase === 'ban_phase' && (
                   myCorner === 'red' ? (
-                    isMyBanLocked
-                      ? (myBans.length === 1 ? '🚫 แบนแล้ว 1 คน' : '🚫 สละสิทธิ์การแบน')
-                      : `เลือกแบน ${myBans.length}/1`
+                    isMyBanLocked ? '🚫' : `แบน ${myBans.length}/1`
                   ) : (
-                    isOpponentBanLocked
-                      ? (opponentBans.length === 1 ? '🚫 แบนแล้ว 1 คน' : '🚫 สละสิทธิ์การแบน')
-                      : 'กำลังเลือกแบน...'
+                    isOpponentBanLocked ? '🚫' : '...'
                   )
                 )}
-                {phase === 'battle_roster' && (
-                  <span>⚔️ รอดชีวิต {survivingPicks.redSurv.length} คน</span>
-                )}
+                {phase === 'battle_roster' && `⚔️ ${survivingPicks.redSurv.length}`}
               </div>
             </div>
 
-            {/* Red Card Deck (5 Slots) */}
-            <div className="corner-cards-grid">
+            {/* Red Picks - Vertical Stack */}
+            <div className="sidebar-picks-list">
               {Array.from({ length: 5 }).map((_, index) => {
                 const isMine = myCorner === 'red';
                 const artistName = isMine
@@ -655,32 +650,30 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                   : (myBans.includes(artistName) || draftState.redPlayer.bans?.includes(artistName)));
                 const artistObj = artistName ? artistMap.get(artistName.toLowerCase().trim()) : null;
 
-                // Mystery Card (Face-Down for opponent during Secret Pick)
+                // Mystery slot (opponent during secret pick)
                 if (!isMine && phase === 'secret_pick') {
                   const isOpponentSlotFilled = index < opponentPickCount;
                   return (
                     <div
                       key={`red_mystery_${index}`}
-                      className={`draft-card mystery-card ${isOpponentSlotFilled ? 'filled' : 'empty'}`}
+                      className={`sidebar-pick-slot mystery-slot ${isOpponentSlotFilled ? 'filled' : 'empty'}`}
                     >
-                      <div className="mystery-pattern">
-                        {isOpponentSlotFilled ? <Lock size={20} className="mystery-lock-icon" /> : <HelpCircle size={18} />}
+                      <div className="slot-index-num">{index + 1}</div>
+                      <div className="slot-mystery-content">
+                        {isOpponentSlotFilled ? <Lock size={14} className="mystery-lock-icon" /> : <HelpCircle size={14} />}
+                        <span>{isOpponentSlotFilled ? 'เลือกแล้ว' : 'รอเลือก...'}</span>
                       </div>
-                      <span className="mystery-label">
-                        {isOpponentSlotFilled ? 'เลือกแล้ว' : 'รอเลือก...'}
-                      </span>
                     </div>
                   );
                 }
 
-                // Interactive / Revealed Card
                 return (
                   <div
-                    key={`red_card_${index}`}
-                    className={`draft-card card-face-up ${hasCard ? 'has-content' : 'empty-slot'} ${
+                    key={`red_pick_${index}`}
+                    className={`sidebar-pick-slot ${hasCard ? 'has-pick' : 'empty-pick'} ${
                       isAutoMatch ? 'auto-matched' : ''
                     } ${isBanned ? 'is-banned' : ''} ${
-                      phase === 'ban_phase' && !isMine && !isAutoMatch && !isMyBanLocked ? 'bannable-target' : ''
+                      phase === 'ban_phase' && !isMine && !isAutoMatch && !isMyBanLocked && hasCard ? 'bannable-target' : ''
                     } ${phase === 'ban_phase' && !isMine && artistName && myBans.includes(artistName) ? 'selected-for-ban' : ''}`}
                     onClick={() => {
                       if (phase === 'ban_phase' && !isMine && artistName) {
@@ -690,130 +683,403 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                       }
                     }}
                   >
+                    <div className="slot-index-num">{index + 1}</div>
                     {hasCard ? (
-                      <>
-                        <div className="card-top-decor">
-                          <span className="card-emoji">{artistObj?.emoji || '🎤'}</span>
-                          {artistObj?.regionLabel && (
-                            <span className="card-region-badge">{artistObj.regionLabel}</span>
+                      <div className="slot-artist-content">
+                        <span className="slot-emoji">{artistObj?.emoji || '🎤'}</span>
+                        <div className="slot-artist-info">
+                          <strong className="slot-artist-name">{artistName}</strong>
+                          {artistObj?.genreLabel && (
+                            <span className="slot-genre">{artistObj.genreLabel}</span>
                           )}
                         </div>
-                        <strong className="card-artist-title">{artistName}</strong>
-                        {artistObj?.genreLabel && (
-                          <span className="card-genre-sub">{artistObj.genreLabel}</span>
-                        )}
 
-                        {/* Interactive Ban Indicators */}
-                        {phase === 'ban_phase' && !isMine && !isAutoMatch && !isBanned && !isMyBanLocked && (
-                          artistName && myBans.includes(artistName) ? (
-                            <div className="card-ban-selected-pill">
-                              <Ban size={13} />
-                              <span>แบนแล้ว (คลิกเพื่อยกเลิก)</span>
-                            </div>
-                          ) : (
-                            <div className="card-bannable-hover-hint">
-                              <span>🎯 แตะเพื่อแบน</span>
-                            </div>
-                          )
-                        )}
-
-                        {/* Badges: Auto-Match Shield vs Banned Slash */}
+                        {/* Status badges */}
                         {isAutoMatch && (
-                          <div className="card-auto-match-shield" title="ล็อคคู่ใจตรงกัน! ได้รับการคุ้มกัน ไม่สามารถถูกแบนได้">
-                            <Shield size={12} />
-                            <span>AUTO-MATCH</span>
+                          <div className="slot-badge auto-match-badge" title="ล็อคคู่ใจตรงกัน!">
+                            <Shield size={11} />
                           </div>
                         )}
-
                         {isBanned && (
-                          <div className="card-banned-stamp">
-                            <Ban size={18} />
-                            <span>BANNED</span>
+                          <div className="slot-badge banned-badge">
+                            <Ban size={13} />
+                          </div>
+                        )}
+                        {phase === 'ban_phase' && !isMine && artistName && myBans.includes(artistName) && (
+                          <div className="slot-badge ban-selected-badge">
+                            <Ban size={11} />
                           </div>
                         )}
 
-                        {/* Remove pick button during Secret Pick */}
+                        {/* Remove pick button */}
                         {phase === 'secret_pick' && isMine && !isMyPickLocked && (
                           <button
                             type="button"
-                            className="card-remove-pick-btn"
+                            className="slot-remove-btn"
                             onClick={(e) => {
                               e.stopPropagation();
                               if (artistName) handleTogglePick(artistName);
                             }}
                             title="ยกเลิกการเลือก"
                           >
-                            <X size={12} />
+                            <X size={11} />
                           </button>
                         )}
-                      </>
+                      </div>
                     ) : (
-                      <div className="empty-slot-inner">
-                        <span className="slot-num">{index + 1}</span>
-                        <span className="slot-tip">{isMine ? 'แตะเลือกด้านล่าง' : 'รอเลือก'}</span>
+                      <div className="slot-empty-content">
+                        <span>{isMine ? 'เลือกศิลปิน' : 'รอเลือก'}</span>
                       </div>
                     )}
                   </div>
                 );
               })}
             </div>
-          </div>
+          </aside>
 
-          {/* CENTRAL VERSUS BADGE */}
-          <div className="central-vs-column">
-            <div className="vs-emblem">
-              <span className="vs-v">V</span>
-              <span className="vs-s">S</span>
-            </div>
-            <div className="vs-glow-line" />
-            {phase === 'reveal' && autoMatched.length > 0 && (
-              <div className="central-match-burst">
-                <Sparkles size={16} className="sparkle-spin" />
-                <span>ใจตรงกัน {autoMatched.length} คน!</span>
-              </div>
+          {/* ===== CENTER CONTENT ===== */}
+          <div className="moba-center-content">
+
+            {/* Phase 1: Secret Pick Artist Selection Drawer */}
+            {phase === 'secret_pick' && (
+              <section className="draft-drawer-panel">
+                <div className="drawer-header-row">
+                  <div className="drawer-title-group">
+                    <span className="drawer-title">
+                      🎧 ค้นหาและเลือก 5 ศิลปินของคุณ ({myPicks.length}/5) • มีทั้งหมด {filteredArtists.length} คน
+                    </span>
+                    <span className="drawer-hint">
+                      ฝ่ายตรงข้ามจะไม่เห็นว่าคุณเลือกใครจนกว่าจะหมดเวลา • ค้นหาชื่อศิลปิน แนวเพลง หรือเพลงฮิตได้
+                    </span>
+                  </div>
+                </div>
+
+                {/* Filter Bar */}
+                <div className="drawer-filter-bar">
+                  <div className="drawer-search-box">
+                    <Search size={14} className="search-icon-dim" />
+                    <input
+                      type="text"
+                      placeholder="พิมพ์ค้นหาชื่อศิลปิน, แนวเพลง, เพลงฮิต..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="drawer-search-input"
+                    />
+                    {searchQuery && (
+                      <button type="button" onClick={() => setSearchQuery('')} className="btn-clear-search">
+                        <X size={12} />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Region Pills */}
+                  <div className="drawer-region-pills">
+                    <button
+                      type="button"
+                      onClick={() => setRegionFilter('all')}
+                      className={`pill-btn ${regionFilter === 'all' ? 'active' : ''}`}
+                    >
+                      ทั้งหมด (449)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setRegionFilter('thai')}
+                      className={`pill-btn ${regionFilter === 'thai' ? 'active' : ''}`}
+                    >
+                      🇹🇭 เพลงไทย
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setRegionFilter('inter')}
+                      className={`pill-btn ${regionFilter === 'inter' ? 'active' : ''}`}
+                    >
+                      🌐 เพลงสากล (อังกฤษ)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setRegionFilter('kpop')}
+                      className={`pill-btn ${regionFilter === 'kpop' ? 'active' : ''}`}
+                    >
+                      🇰🇷 เกาหลี (K-POP)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setRegionFilter('anime_jpop')}
+                      className={`pill-btn ${regionFilter === 'anime_jpop' ? 'active' : ''}`}
+                    >
+                      🎌 ญี่ปุ่น & อนิเมะ
+                    </button>
+                  </div>
+                </div>
+
+                {/* Artist Selection Sections with Region Grouping */}
+                <div className="drawer-sections-scroll">
+                  {REGION_SECTIONS.filter((sec) => regionFilter === 'all' || regionFilter === sec.key).map((sec) => {
+                    const sectionArtists = filteredArtists.filter((a) => a.region === sec.key);
+                    if (sectionArtists.length === 0) return null;
+
+                    return (
+                      <div key={sec.key} className="region-section-block">
+                        <div className="region-section-header">
+                          <div className="region-section-title-group">
+                            <span className="region-section-icon">{sec.icon}</span>
+                            <h4 className="region-section-heading">{sec.title}</h4>
+                            <span className="region-section-count">{sectionArtists.length} คน</span>
+                          </div>
+                          <span className="region-section-sub">{sec.sub}</span>
+                        </div>
+
+                        <div className="drawer-artists-grid">
+                          {sectionArtists.map((artist) => {
+                            const isSelected = myPicks.includes(artist.name);
+                            const isLimitReached = !isSelected && myPicks.length >= 5;
+
+                            return (
+                              <div
+                                key={artist.id}
+                                onClick={() => {
+                                  if (!isMyPickLocked && (!isLimitReached || isSelected)) {
+                                    handleTogglePick(artist.name);
+                                  }
+                                }}
+                                className={`global-artist-card region-${artist.region} ${isSelected ? 'selected' : ''} ${
+                                  isLimitReached || isMyPickLocked ? 'disabled-pick' : ''
+                                }`}
+                                role="checkbox"
+                                aria-checked={isSelected}
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                  if (e.key === ' ' || e.key === 'Enter') {
+                                    e.preventDefault();
+                                    if (!isMyPickLocked && (!isLimitReached || isSelected)) {
+                                      handleTogglePick(artist.name);
+                                    }
+                                  }
+                                }}
+                                title={
+                                  isMyPickLocked
+                                    ? 'ล็อคศิลปินแล้ว'
+                                    : isLimitReached
+                                    ? 'เลือกครบ 5 คนแล้ว (แตะคนที่เลือกไว้เพื่อยกเลิก)'
+                                    : `เลือก ${artist.name}`
+                                }
+                              >
+                                <div className="global-artist-card-top">
+                                  <div className="global-artist-name-wrap">
+                                    <span className="artist-emoji">{artist.emoji}</span>
+                                    <strong className="artist-name" title={artist.name}>
+                                      {artist.name}
+                                    </strong>
+                                  </div>
+                                  <div className={`card-checkbox-circle ${isSelected ? 'checked' : ''}`}>
+                                    {isSelected ? <Check size={13} strokeWidth={3} /> : null}
+                                  </div>
+                                </div>
+
+                                <div className="artist-badge-row">
+                                  <span className={`artist-region-tag region-${artist.region}`}>
+                                    {artist.region === 'thai'
+                                      ? 'TH ไทย'
+                                      : artist.region === 'inter'
+                                      ? 'EN สากล'
+                                      : artist.region === 'kpop'
+                                      ? 'KR K-POP'
+                                      : 'JP Anime'}
+                                  </span>
+                                  {artist.genreLabel && (
+                                    <span className="artist-genre-tag" title={artist.genreLabel}>
+                                      {artist.genreLabel}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {filteredArtists.length === 0 && (
+                    <div className="drawer-empty-search">
+                      <span>🔍 ไม่พบศิลปินที่ตรงกับคำค้นหา "{searchQuery}"</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Sticky Bottom Bar: Random Auto-Fill & Lock In */}
+                <div className="drawer-bottom-bar">
+                  <div className="drawer-pick-progress">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`pick-dot ${i < myPicks.length ? 'filled' : 'empty'}`}
+                      />
+                    ))}
+                    <span className="pick-progress-label">{myPicks.length}/5 คน</span>
+                  </div>
+
+                  <div className="drawer-action-buttons">
+                    {!isMyPickLocked && myPicks.length < 5 && (
+                      <button
+                        type="button"
+                        onClick={handleRandomFillPicks}
+                        className="btn-draft-secondary"
+                      >
+                        <Dice5 size={15} />
+                        <span>สุ่มให้ครบ 5 คน</span>
+                      </button>
+                    )}
+
+                    <button
+                      type="button"
+                      disabled={myPicks.length < 5 || isMyPickLocked}
+                      onClick={handleConfirmLockPicks}
+                      className={`btn-draft-lock-in ${isMyPickLocked ? 'locked' : ''}`}
+                    >
+                      <Lock size={16} />
+                      <span>
+                        {isMyPickLocked
+                          ? '✓ ล็อค 5 ศิลปินแล้ว (รอฝ่ายตรงข้าม)'
+                          : `ล็อคอิน 5 ศิลปิน (${myPicks.length}/5)`}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* Phase 1.5: The Reveal & Auto-Match Screen */}
+            {phase === 'reveal' && (
+              <section className="draft-reveal-banner">
+                <div className="reveal-badge-header">
+                  <Sparkles size={24} className="sparkle-bounce" />
+                  <h3>THE REVEAL: เผยการ์ดศิลปินพร้อมกัน!</h3>
+                </div>
+                {autoMatched.length > 0 ? (
+                  <div className="auto-match-alert">
+                    <Shield size={20} className="shield-glow" />
+                    <div>
+                      <strong>✨ ล็อคคู่ใจตรงกัน (AUTO-MATCH): {autoMatched.join(', ')}</strong>
+                      <p>ศิลปินเหล่านี้จะได้รับการคุ้มกัน และ <u>ไม่สามารถถูกแบนได้</u> ในรอบถัดไป!</p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="no-match-alert">ทั้งสองฝ่ายเลือกศิลปินไม่ซ้ำกัน เตรียมเข้าสู่รอบแบน 2 คน!</p>
+                )}
+                <div className="reveal-countdown-bar">
+                  <span>กำลังเตรียมเข้าสู่รอบแบน (BAN PHASE) ใน 3 วินาที...</span>
+                </div>
+              </section>
+            )}
+
+            {/* Phase 2: Ban Phase Panel */}
+            {phase === 'ban_phase' && (
+              <section className="draft-ban-panel">
+                <div className="ban-instructions-row">
+                  <div className="ban-title-group">
+                    <Ban size={22} className="ban-icon-alert" />
+                    <div>
+                      <h3 className="ban-main-title">
+                        รอบแบนศิลปินของฝ่ายตรงข้าม ({myBans.length}/1 คน)
+                      </h3>
+                      <p className="ban-sub-title">
+                        คลิกที่การ์ดของฝ่ายตรงข้ามทางด้านข้างเพื่อแบน 1 ศิลปินที่คุณไม่อยากให้เพลงออก (การ์ดที่มีโล่ AUTO-MATCH ไม่สามารถแบนได้)
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    disabled={isMyBanLocked}
+                    onClick={handleConfirmLockBans}
+                    className={`btn-confirm-bans ${isMyBanLocked ? 'confirmed' : ''}`}
+                  >
+                    <Ban size={16} />
+                    <span>
+                      {isMyBanLocked
+                        ? '✓ ยืนยันการแบนแล้ว (รอฝ่ายตรงข้าม)'
+                        : myBans.length === 1
+                        ? '✓ ยืนยันการแบน (1/1)'
+                        : 'สละสิทธิ์การแบน (ไม่แบนใคร)'}
+                    </span>
+                  </button>
+                </div>
+
+                <div className="ban-status-strip">
+                  <div className="ban-target-tag">
+                    <span>เป้าหมายที่คุณเลือกแบน:</span>
+                    <strong>{myBans.length > 0 ? myBans.join(', ') : 'ยังไม่ได้เลือก (คลิกที่การ์ดฝ่ายตรงข้าม)'}</strong>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* Phase 3: Final Battle Roster Summary */}
+            {phase === 'battle_roster' && (
+              <section className="draft-battle-roster-panel">
+                <div className="roster-header">
+                  <Flame size={24} className="flame-glow" />
+                  <h3>BATTLE ROSTER: รายชื่อศิลปินที่รอดสู่สมรภูมิ</h3>
+                  <span className="roster-count-badge">รวม {survivingPicks.combined.length} ศิลปิน</span>
+                </div>
+
+                <div className="roster-chips-container">
+                  {survivingPicks.combined.map((artistName) => {
+                    const isAuto = autoMatched.some((m) => m.toLowerCase().trim() === artistName.toLowerCase().trim());
+                    const artistObj = artistMap.get(artistName.toLowerCase().trim());
+                    return (
+                      <div key={artistName} className={`roster-artist-chip ${isAuto ? 'gold-auto' : ''}`}>
+                        <span className="chip-emoji">{artistObj?.emoji || '🎵'}</span>
+                        <strong className="chip-name">{artistName}</strong>
+                        {isAuto && <span className="chip-auto-tag">✨ ล็อคคู่</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="roster-loading-status">
+                  <div className="pulsing-spinner" />
+                  <span>กำลังดึงเพลงฮิตของศิลปินที่รอดชีวิตเข้าสู่การดวล 1v1...</span>
+                </div>
+              </section>
             )}
           </div>
 
-          {/* BLUE CORNER */}
-          <div className={`corner-box blue-corner ${myCorner === 'blue' ? 'my-corner' : 'opponent-corner'}`}>
-            <div className="corner-profile-bar">
-              <div className="corner-avatar-ring blue">
-                <span className="corner-avatar">{draftState.bluePlayer.avatar || '🎧'}</span>
+          {/* ===== RIGHT SIDEBAR: BLUE CORNER ===== */}
+          <aside className={`moba-sidebar moba-sidebar-blue ${myCorner === 'blue' ? 'my-side' : 'opponent-side'}`}>
+            <div className="sidebar-player-header blue">
+              <div className="sidebar-avatar-ring blue">
+                <span className="sidebar-avatar">{draftState.bluePlayer.avatar || '🎧'}</span>
               </div>
-              <div className="corner-details">
-                <div className="corner-name-row">
-                  <strong className="corner-name">{draftState.bluePlayer.playerName}</strong>
+              <div className="sidebar-player-info">
+                <div className="sidebar-name-row">
+                  <strong className="sidebar-player-name">{draftState.bluePlayer.playerName}</strong>
                   {myCorner === 'blue' && <span className="my-corner-tag">คุณ</span>}
                 </div>
-                <span className="corner-label blue">มุมน้ำเงิน (BLUE CORNER)</span>
+                <span className="sidebar-corner-label blue">BLUE CORNER</span>
               </div>
-              <div className="corner-status-pill blue">
+              <div className="sidebar-status-pill blue">
                 {phase === 'secret_pick' && (
                   myCorner === 'blue' ? (
-                    isMyPickLocked ? '🔒 ล็อคแล้ว' : `เลือกแล้ว ${myPicks.length}/5`
+                    isMyPickLocked ? '🔒' : `${myPicks.length}/5`
                   ) : (
-                    isOpponentPickLocked ? '🔒 ล็อคแล้ว' : `เลือกแล้ว ${opponentPickCount}/5`
+                    isOpponentPickLocked ? '🔒' : `${opponentPickCount}/5`
                   )
                 )}
                 {phase === 'ban_phase' && (
                   myCorner === 'blue' ? (
-                    isMyBanLocked
-                      ? (myBans.length === 1 ? '🚫 แบนแล้ว 1 คน' : '🚫 สละสิทธิ์การแบน')
-                      : `เลือกแบน ${myBans.length}/1`
+                    isMyBanLocked ? '🚫' : `แบน ${myBans.length}/1`
                   ) : (
-                    isOpponentBanLocked
-                      ? (opponentBans.length === 1 ? '🚫 แบนแล้ว 1 คน' : '🚫 สละสิทธิ์การแบน')
-                      : 'กำลังเลือกแบน...'
+                    isOpponentBanLocked ? '🚫' : '...'
                   )
                 )}
-                {phase === 'battle_roster' && (
-                  <span>⚔️ รอดชีวิต {survivingPicks.blueSurv.length} คน</span>
-                )}
+                {phase === 'battle_roster' && `⚔️ ${survivingPicks.blueSurv.length}`}
               </div>
             </div>
 
-            {/* Blue Card Deck (5 Slots) */}
-            <div className="corner-cards-grid">
+            {/* Blue Picks - Vertical Stack */}
+            <div className="sidebar-picks-list">
               {Array.from({ length: 5 }).map((_, index) => {
                 const isMine = myCorner === 'blue';
                 const artistName = isMine
@@ -826,32 +1092,30 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                   : (myBans.includes(artistName) || draftState.bluePlayer.bans?.includes(artistName)));
                 const artistObj = artistName ? artistMap.get(artistName.toLowerCase().trim()) : null;
 
-                // Mystery Card (Face-Down for opponent during Secret Pick)
+                // Mystery slot
                 if (!isMine && phase === 'secret_pick') {
                   const isOpponentSlotFilled = index < opponentPickCount;
                   return (
                     <div
                       key={`blue_mystery_${index}`}
-                      className={`draft-card mystery-card ${isOpponentSlotFilled ? 'filled' : 'empty'}`}
+                      className={`sidebar-pick-slot mystery-slot ${isOpponentSlotFilled ? 'filled' : 'empty'}`}
                     >
-                      <div className="mystery-pattern">
-                        {isOpponentSlotFilled ? <Lock size={20} className="mystery-lock-icon" /> : <HelpCircle size={18} />}
+                      <div className="slot-index-num">{index + 1}</div>
+                      <div className="slot-mystery-content">
+                        {isOpponentSlotFilled ? <Lock size={14} className="mystery-lock-icon" /> : <HelpCircle size={14} />}
+                        <span>{isOpponentSlotFilled ? 'เลือกแล้ว' : 'รอเลือก...'}</span>
                       </div>
-                      <span className="mystery-label">
-                        {isOpponentSlotFilled ? 'เลือกแล้ว' : 'รอเลือก...'}
-                      </span>
                     </div>
                   );
                 }
 
-                // Interactive / Revealed Card
                 return (
                   <div
-                    key={`blue_card_${index}`}
-                    className={`draft-card card-face-up ${hasCard ? 'has-content' : 'empty-slot'} ${
+                    key={`blue_pick_${index}`}
+                    className={`sidebar-pick-slot ${hasCard ? 'has-pick' : 'empty-pick'} ${
                       isAutoMatch ? 'auto-matched' : ''
                     } ${isBanned ? 'is-banned' : ''} ${
-                      phase === 'ban_phase' && !isMine && !isAutoMatch && !isMyBanLocked ? 'bannable-target' : ''
+                      phase === 'ban_phase' && !isMine && !isAutoMatch && !isMyBanLocked && hasCard ? 'bannable-target' : ''
                     } ${phase === 'ban_phase' && !isMine && artistName && myBans.includes(artistName) ? 'selected-for-ban' : ''}`}
                     onClick={() => {
                       if (phase === 'ban_phase' && !isMine && artistName) {
@@ -861,372 +1125,61 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                       }
                     }}
                   >
+                    <div className="slot-index-num">{index + 1}</div>
                     {hasCard ? (
-                      <>
-                        <div className="card-top-decor">
-                          <span className="card-emoji">{artistObj?.emoji || '🎤'}</span>
-                          {artistObj?.regionLabel && (
-                            <span className="card-region-badge">{artistObj.regionLabel}</span>
+                      <div className="slot-artist-content">
+                        <span className="slot-emoji">{artistObj?.emoji || '🎤'}</span>
+                        <div className="slot-artist-info">
+                          <strong className="slot-artist-name">{artistName}</strong>
+                          {artistObj?.genreLabel && (
+                            <span className="slot-genre">{artistObj.genreLabel}</span>
                           )}
                         </div>
-                        <strong className="card-artist-title">{artistName}</strong>
-                        {artistObj?.genreLabel && (
-                          <span className="card-genre-sub">{artistObj.genreLabel}</span>
-                        )}
 
-                        {/* Interactive Ban Indicators */}
-                        {phase === 'ban_phase' && !isMine && !isAutoMatch && !isBanned && !isMyBanLocked && (
-                          artistName && myBans.includes(artistName) ? (
-                            <div className="card-ban-selected-pill">
-                              <Ban size={13} />
-                              <span>แบนแล้ว (คลิกเพื่อยกเลิก)</span>
-                            </div>
-                          ) : (
-                            <div className="card-bannable-hover-hint">
-                              <span>🎯 แตะเพื่อแบน</span>
-                            </div>
-                          )
-                        )}
-
-                        {/* Badges: Auto-Match Shield vs Banned Slash */}
+                        {/* Status badges */}
                         {isAutoMatch && (
-                          <div className="card-auto-match-shield" title="ล็อคคู่ใจตรงกัน! ได้รับการคุ้มกัน ไม่สามารถถูกแบนได้">
-                            <Shield size={12} />
-                            <span>AUTO-MATCH</span>
+                          <div className="slot-badge auto-match-badge" title="ล็อคคู่ใจตรงกัน!">
+                            <Shield size={11} />
                           </div>
                         )}
-
                         {isBanned && (
-                          <div className="card-banned-stamp">
-                            <Ban size={18} />
-                            <span>BANNED</span>
+                          <div className="slot-badge banned-badge">
+                            <Ban size={13} />
+                          </div>
+                        )}
+                        {phase === 'ban_phase' && !isMine && artistName && myBans.includes(artistName) && (
+                          <div className="slot-badge ban-selected-badge">
+                            <Ban size={11} />
                           </div>
                         )}
 
-                        {/* Remove pick button during Secret Pick */}
+                        {/* Remove pick button */}
                         {phase === 'secret_pick' && isMine && !isMyPickLocked && (
                           <button
                             type="button"
-                            className="card-remove-pick-btn"
+                            className="slot-remove-btn"
                             onClick={(e) => {
                               e.stopPropagation();
                               if (artistName) handleTogglePick(artistName);
                             }}
                             title="ยกเลิกการเลือก"
                           >
-                            <X size={12} />
+                            <X size={11} />
                           </button>
                         )}
-                      </>
+                      </div>
                     ) : (
-                      <div className="empty-slot-inner">
-                        <span className="slot-num">{index + 1}</span>
-                        <span className="slot-tip">{isMine ? 'แตะเลือกด้านล่าง' : 'รอเลือก'}</span>
+                      <div className="slot-empty-content">
+                        <span>{isMine ? 'เลือกศิลปิน' : 'รอเลือก'}</span>
                       </div>
                     )}
                   </div>
                 );
               })}
             </div>
-          </div>
+          </aside>
+
         </section>
-
-        {/* ========================================================= */}
-        {/* LOWER INTERACTION DECK BY CURRENT PHASE                   */}
-        {/* ========================================================= */}
-
-        {/* Phase 1: Secret Pick Artist Selection Drawer */}
-        {phase === 'secret_pick' && (
-          <section className="draft-drawer-panel">
-            <div className="drawer-header-row">
-              <div className="drawer-title-group">
-                <span className="drawer-title">
-                  🎧 ค้นหาและเลือก 5 ศิลปินของคุณ ({myPicks.length}/5) • มีทั้งหมด {filteredArtists.length} คน
-                </span>
-                <span className="drawer-hint">
-                  ฝ่ายตรงข้ามจะไม่เห็นว่าคุณเลือกใครจนกว่าจะหมดเวลา • ค้นหาชื่อศิลปิน แนวเพลง หรือเพลงฮิตได้
-                </span>
-              </div>
-
-              {/* Actions: Random Auto-Fill & Lock In */}
-              <div className="drawer-action-buttons">
-                {!isMyPickLocked && myPicks.length < 5 && (
-                  <button
-                    type="button"
-                    onClick={handleRandomFillPicks}
-                    className="btn-draft-secondary"
-                  >
-                    <Dice5 size={15} />
-                    <span>สุ่มให้ครบ 5 คน</span>
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  disabled={myPicks.length < 5 || isMyPickLocked}
-                  onClick={handleConfirmLockPicks}
-                  className={`btn-draft-lock-in ${isMyPickLocked ? 'locked' : ''}`}
-                >
-                  <Lock size={16} />
-                  <span>
-                    {isMyPickLocked
-                      ? '✓ ล็อค 5 ศิลปินแล้ว (รอฝ่ายตรงข้าม)'
-                      : `ล็อคอิน 5 ศิลปิน (${myPicks.length}/5)`}
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            {/* Filter Bar */}
-            <div className="drawer-filter-bar">
-              <div className="drawer-search-box">
-                <Search size={14} className="search-icon-dim" />
-                <input
-                  type="text"
-                  placeholder="พิมพ์ค้นหาชื่อศิลปิน, แนวเพลง, เพลงฮิต..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="drawer-search-input"
-                />
-                {searchQuery && (
-                  <button type="button" onClick={() => setSearchQuery('')} className="btn-clear-search">
-                    <X size={12} />
-                  </button>
-                )}
-              </div>
-
-              {/* Region Pills */}
-              <div className="drawer-region-pills">
-                <button
-                  type="button"
-                  onClick={() => setRegionFilter('all')}
-                  className={`pill-btn ${regionFilter === 'all' ? 'active' : ''}`}
-                >
-                  ทั้งหมด (449)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRegionFilter('thai')}
-                  className={`pill-btn ${regionFilter === 'thai' ? 'active' : ''}`}
-                >
-                  🇹🇭 เพลงไทย
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRegionFilter('inter')}
-                  className={`pill-btn ${regionFilter === 'inter' ? 'active' : ''}`}
-                >
-                  🌐 เพลงสากล (อังกฤษ)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRegionFilter('kpop')}
-                  className={`pill-btn ${regionFilter === 'kpop' ? 'active' : ''}`}
-                >
-                  🇰🇷 เกาหลี (K-POP)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRegionFilter('anime_jpop')}
-                  className={`pill-btn ${regionFilter === 'anime_jpop' ? 'active' : ''}`}
-                >
-                  🎌 ญี่ปุ่น & อนิเมะ
-                </button>
-              </div>
-            </div>
-
-            {/* Artist Selection Sections with Region Grouping */}
-            <div className="drawer-sections-scroll">
-              {REGION_SECTIONS.filter((sec) => regionFilter === 'all' || regionFilter === sec.key).map((sec) => {
-                const sectionArtists = filteredArtists.filter((a) => a.region === sec.key);
-                if (sectionArtists.length === 0) return null;
-
-                return (
-                  <div key={sec.key} className="region-section-block">
-                    <div className="region-section-header">
-                      <div className="region-section-title-group">
-                        <span className="region-section-icon">{sec.icon}</span>
-                        <h4 className="region-section-heading">{sec.title}</h4>
-                        <span className="region-section-count">{sectionArtists.length} คน</span>
-                      </div>
-                      <span className="region-section-sub">{sec.sub}</span>
-                    </div>
-
-                    <div className="drawer-artists-grid">
-                      {sectionArtists.map((artist) => {
-                        const isSelected = myPicks.includes(artist.name);
-                        const isLimitReached = !isSelected && myPicks.length >= 5;
-
-                        return (
-                          <div
-                            key={artist.id}
-                            onClick={() => {
-                              if (!isMyPickLocked && (!isLimitReached || isSelected)) {
-                                handleTogglePick(artist.name);
-                              }
-                            }}
-                            className={`global-artist-card region-${artist.region} ${isSelected ? 'selected' : ''} ${
-                              isLimitReached || isMyPickLocked ? 'disabled-pick' : ''
-                            }`}
-                            role="checkbox"
-                            aria-checked={isSelected}
-                            tabIndex={0}
-                            onKeyDown={(e) => {
-                              if (e.key === ' ' || e.key === 'Enter') {
-                                e.preventDefault();
-                                if (!isMyPickLocked && (!isLimitReached || isSelected)) {
-                                  handleTogglePick(artist.name);
-                                }
-                              }
-                            }}
-                            title={
-                              isMyPickLocked
-                                ? 'ล็อคศิลปินแล้ว'
-                                : isLimitReached
-                                ? 'เลือกครบ 5 คนแล้ว (แตะคนที่เลือกไว้เพื่อยกเลิก)'
-                                : `เลือก ${artist.name}`
-                            }
-                          >
-                            <div className="global-artist-card-top">
-                              <div className="global-artist-name-wrap">
-                                <span className="artist-emoji">{artist.emoji}</span>
-                                <strong className="artist-name" title={artist.name}>
-                                  {artist.name}
-                                </strong>
-                              </div>
-                              <div className={`card-checkbox-circle ${isSelected ? 'checked' : ''}`}>
-                                {isSelected ? <Check size={13} strokeWidth={3} /> : null}
-                              </div>
-                            </div>
-
-                            <div className="artist-badge-row">
-                              <span className={`artist-region-tag region-${artist.region}`}>
-                                {artist.region === 'thai'
-                                  ? 'TH ไทย'
-                                  : artist.region === 'inter'
-                                  ? 'EN สากล'
-                                  : artist.region === 'kpop'
-                                  ? 'KR K-POP'
-                                  : 'JP Anime'}
-                              </span>
-                              {artist.genreLabel && (
-                                <span className="artist-genre-tag" title={artist.genreLabel}>
-                                  {artist.genreLabel}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-
-              {filteredArtists.length === 0 && (
-                <div className="drawer-empty-search">
-                  <span>🔍 ไม่พบศิลปินที่ตรงกับคำค้นหา "{searchQuery}"</span>
-                </div>
-              )}
-            </div>
-          </section>
-        )}
-
-        {/* Phase 1.5: The Reveal & Auto-Match Screen */}
-        {phase === 'reveal' && (
-          <section className="draft-reveal-banner">
-            <div className="reveal-badge-header">
-              <Sparkles size={24} className="sparkle-bounce" />
-              <h3>THE REVEAL: เผยการ์ดศิลปินพร้อมกัน!</h3>
-            </div>
-            {autoMatched.length > 0 ? (
-              <div className="auto-match-alert">
-                <Shield size={20} className="shield-glow" />
-                <div>
-                  <strong>✨ ล็อคคู่ใจตรงกัน (AUTO-MATCH): {autoMatched.join(', ')}</strong>
-                  <p>ศิลปินเหล่านี้จะได้รับการคุ้มกัน และ <u>ไม่สามารถถูกแบนได้</u> ในรอบถัดไป!</p>
-                </div>
-              </div>
-            ) : (
-              <p className="no-match-alert">ทั้งสองฝ่ายเลือกศิลปินไม่ซ้ำกัน เตรียมเข้าสู่รอบแบน 2 คน!</p>
-            )}
-            <div className="reveal-countdown-bar">
-              <span>กำลังเตรียมเข้าสู่รอบแบน (BAN PHASE) ใน 3 วินาที...</span>
-            </div>
-          </section>
-        )}
-
-        {/* Phase 2: Ban Phase Panel */}
-        {phase === 'ban_phase' && (
-          <section className="draft-ban-panel">
-            <div className="ban-instructions-row">
-              <div className="ban-title-group">
-                <Ban size={22} className="ban-icon-alert" />
-                <div>
-                  <h3 className="ban-main-title">
-                    รอบแบนศิลปินของฝ่ายตรงข้าม ({myBans.length}/1 คน)
-                  </h3>
-                  <p className="ban-sub-title">
-                    คลิกที่การ์ดของฝ่ายตรงข้ามด้านบนเพื่อแบน 1 ศิลปินที่คุณไม่อยากให้เพลงออก (การ์ดที่มีโล่ AUTO-MATCH ไม่สามารถแบนได้)
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                disabled={isMyBanLocked}
-                onClick={handleConfirmLockBans}
-                className={`btn-confirm-bans ${isMyBanLocked ? 'confirmed' : ''}`}
-              >
-                <Ban size={16} />
-                <span>
-                  {isMyBanLocked
-                    ? '✓ ยืนยันการแบนแล้ว (รอฝ่ายตรงข้าม)'
-                    : myBans.length === 1
-                    ? '✓ ยืนยันการแบน (1/1)'
-                    : 'สละสิทธิ์การแบน (ไม่แบนใคร)'}
-                </span>
-              </button>
-            </div>
-
-            <div className="ban-status-strip">
-              <div className="ban-target-tag">
-                <span>เป้าหมายที่คุณเลือกแบน:</span>
-                <strong>{myBans.length > 0 ? myBans.join(', ') : 'ยังไม่ได้เลือก (คลิกที่การ์ดฝ่ายตรงข้าม)'}</strong>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Phase 3: Final Battle Roster Summary */}
-        {phase === 'battle_roster' && (
-          <section className="draft-battle-roster-panel">
-            <div className="roster-header">
-              <Flame size={24} className="flame-glow" />
-              <h3>BATTLE ROSTER: รายชื่อศิลปินที่รอดสู่สมรภูมิ</h3>
-              <span className="roster-count-badge">รวม {survivingPicks.combined.length} ศิลปิน</span>
-            </div>
-
-            <div className="roster-chips-container">
-              {survivingPicks.combined.map((artistName) => {
-                const isAuto = autoMatched.some((m) => m.toLowerCase().trim() === artistName.toLowerCase().trim());
-                const artistObj = artistMap.get(artistName.toLowerCase().trim());
-                return (
-                  <div key={artistName} className={`roster-artist-chip ${isAuto ? 'gold-auto' : ''}`}>
-                    <span className="chip-emoji">{artistObj?.emoji || '🎵'}</span>
-                    <strong className="chip-name">{artistName}</strong>
-                    {isAuto && <span className="chip-auto-tag">✨ ล็อคคู่</span>}
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="roster-loading-status">
-              <div className="pulsing-spinner" />
-              <span>กำลังดึงเพลงฮิตของศิลปินที่รอดชีวิตเข้าสู่การดวล 1v1...</span>
-            </div>
-          </section>
-        )}
       </div>
     </div>
   );

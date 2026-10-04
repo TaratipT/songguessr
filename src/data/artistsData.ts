@@ -317,6 +317,16 @@ export const GLOBAL_ARTISTS: GlobalArtist[] = [
     storefront: 'TH'
   },
   {
+    id: 'zentyarb',
+    name: 'Zentyarb',
+    region: 'thai',
+    regionLabel: 'ไทย',
+    genreLabel: 'ป็อป/อินดี้',
+    emoji: '🌿',
+    hitsHint: 'เรายังคู่กัน, คิดถึงน้า, ลมหายใจ, หลงทาง',
+    storefront: 'TH'
+  },
+  {
     id: 'fellow_fellow',
     name: 'Fellow Fellow',
     region: 'thai',

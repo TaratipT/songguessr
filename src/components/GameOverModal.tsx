@@ -19,7 +19,8 @@ import {
   Download,
   Copy,
   CheckCheck,
-  Music2
+  Music2,
+  LogOut
 } from 'lucide-react';
 import { soundFX } from '../services/soundEffects';
 import { getThaiTitleTranslation } from '../data/thaiSongTitleAliases';
@@ -38,6 +39,7 @@ interface GameOverModalProps {
   myPlayerId?: string;
   onPlayAgain: () => void;
   onBackToLobby: () => void;
+  onLeaveRoom?: () => void;
 }
 
 export const GameOverModal: React.FC<GameOverModalProps> = ({
@@ -48,7 +50,8 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({
   players = [],
   myPlayerId,
   onPlayAgain,
-  onBackToLobby
+  onBackToLobby,
+  onLeaveRoom
 }) => {
   const [copied, setCopied] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -606,7 +609,16 @@ ${emojiBlocks}
                               {isMe && <span className="standings-you-badge">คุณ</span>}
                             </span>
                           </div>
-                          <div className="standings-right">
+                          <div className="standings-right" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            {p.status === 'ready' ? (
+                              <span className="standings-status-pill ready-pill" title="กลับมารอที่ล็อบบี้แล้ว">
+                                🟢 ในล็อบบี้
+                              </span>
+                            ) : (
+                              <span className="standings-status-pill viewing-pill" title="กำลังดูสรุปผล">
+                                📊 ดูสรุปผล
+                              </span>
+                            )}
                             <span className="standings-score-val">{p.score.toLocaleString()} pt</span>
                           </div>
                         </div>
@@ -853,6 +865,13 @@ ${emojiBlocks}
           </div>
         </div>
 
+        {/* Multiplayer Lobby Readiness Hint */}
+        {players && players.length > 1 && (
+          <div className="game-over-multiplayer-status-hint">
+            <span>👀 สมาชิกในห้องกลับสู่ล็อบบี้แล้ว {players.filter((p) => p.status === 'ready').length}/{players.length} คน — คุณสามารถดูผลหรือฟังเพลงต่อได้ เมื่อพร้อมแล้วกด <b>"เล่นอีกครั้ง"</b> หรือ <b>"กลับสู่ล็อบบี้"</b></span>
+          </div>
+        )}
+
         {/* Full-width Modal Action Footer */}
         <div className="game-over-footer-actions">
           <button
@@ -891,6 +910,28 @@ ${emojiBlocks}
             <Home size={18} />
             <span>กลับสู่ล็อบบี้</span>
           </button>
+
+          {onLeaveRoom && (
+            <button
+              type="button"
+              onClick={() => {
+                soundFX.playClick();
+                if (window.confirm('คุณต้องการออกจากห้องเล่นหลายคนใช่หรือไม่?')) {
+                  onLeaveRoom();
+                }
+              }}
+              className="action-btn leave-room-action-btn"
+              title="ออกจากห้องนี้"
+              style={{
+                background: '#fee2e2',
+                color: '#dc2626',
+                borderColor: '#fca5a5'
+              }}
+            >
+              <LogOut size={18} />
+              <span>ออกจากห้อง</span>
+            </button>
+          )}
         </div>
       </div>
 
