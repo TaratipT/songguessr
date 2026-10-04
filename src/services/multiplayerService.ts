@@ -9,7 +9,8 @@ export type MultiplayerMessage =
   | { type: 'ROOM_CLOSED' }
   | { type: 'ROOM_SYNC'; state: RoomState }
   | { type: 'START_GAME'; songs: Song[]; category: Category; totalRounds: number; answerMode: AnswerMode; roundTimeLimit?: number; autoAdvance?: boolean; roundStartTime?: number }
-  | { type: 'SUBMIT_ANSWER'; playerId: string; guessText: string; isCorrect: boolean; pointsEarned: number; timeTaken: number }
+  | { type: 'SUBMIT_ANSWER'; playerId: string; playerName?: string; avatar?: string; guessText: string; isCorrect: boolean; pointsEarned: number; timeTaken: number }
+  | { type: 'ANSWER_ACK'; playerId: string }
   | { type: 'ANSWER_NOTIFICATION'; playerName: string; isCorrect: boolean; points: number; isFirst: boolean }
   | { type: 'REVEAL_ROUND'; answers: any[]; updatedScores: PlayerSession[] }
   | { type: 'NEXT_ROUND'; roundIndex: number; roundStartTime?: number }
@@ -57,6 +58,8 @@ class MultiplayerService {
   public isHost: boolean = false;
   public roomCode: string = '';
   public myPlayerId: string = '';
+  public myPlayerName: string = '';
+  private answerAckCallbacks: Set<(playerId: string) => void> = new Set();
   private currentRoomState: RoomState | null = null;
   private callbacks: MultiplayerCallbacks | null = null;
   private heartbeatTimer: number | null = null;
@@ -91,6 +94,7 @@ class MultiplayerService {
       this.isHost = true;
       this.callbacks = callbacks;
       this.myPlayerId = hostPlayer.id;
+      this.myPlayerName = hostPlayer.name;
 
       const code = this.generateRoomCode();
       this.roomCode = code;
@@ -123,8 +127,10 @@ class MultiplayerService {
         this.client = mqtt.connect(brokerUrl, {
           clientId,
           clean: true,
+          keepalive: 15,
+          reschedulePings: true,
           connectTimeout: 8000,
-          reconnectPeriod: 2000,
+          reconnectPeriod: 1500,
           will: {
             topic,
             payload: willPayload,
@@ -184,6 +190,7 @@ class MultiplayerService {
       this.roomCode = cleanCode;
       this.callbacks = callbacks;
       this.myPlayerId = player.id;
+      this.myPlayerName = player.name;
 
       const brokerUrl = 'wss://broker.emqx.io:8084/mqtt';
       const clientId = `client_${player.id}_${Math.random().toString(16).slice(2, 8)}`;
@@ -194,8 +201,10 @@ class MultiplayerService {
         this.client = mqtt.connect(brokerUrl, {
           clientId,
           clean: true,
+          keepalive: 15,
+          reschedulePings: true,
           connectTimeout: 8000,
-          reconnectPeriod: 2000,
+          reconnectPeriod: 1500,
           will: {
             topic,
             payload: willPayload,
@@ -240,8 +249,8 @@ class MultiplayerService {
         this.client.on('message', (_topic, payload) => {
           try {
             const msg: MultiplayerMessage = JSON.parse(payload.toString());
-            // Drop messages echoed back from the broker that were sent by this guest
-            if ('playerId' in msg && msg.playerId === this.myPlayerId) {
+            // Drop messages echoed back from the broker that were sent by this guest (except targeted ACKs)
+            if ('playerId' in msg && msg.playerId === this.myPlayerId && msg.type !== 'ANSWER_ACK') {
               return;
             }
             this.handleClientMessage(msg);
@@ -301,8 +310,11 @@ class MultiplayerService {
         state: { ...this.currentRoomState }
       });
     } else if (msg.type === 'SUBMIT_ANSWER') {
-      // Find player and update status (do NOT update score yet to avoid leaking correctness before reveal)
-      const player = this.currentRoomState.players.find((p) => p.id === msg.playerId);
+      const trimmedMsgName = msg.playerName?.trim().toLowerCase();
+      // Find player by ID or by playerName fallback
+      const player = this.currentRoomState.players.find(
+        (p) => p.id === msg.playerId || (trimmedMsgName && p.name.trim().toLowerCase() === trimmedMsgName)
+      );
       if (player) {
         player.hasAnsweredThisRound = true;
         player.lastAnswerCorrect = msg.isCorrect;
@@ -312,10 +324,14 @@ class MultiplayerService {
       const verifiedTime = typeof msg.timeTaken === 'number' && msg.timeTaken > 0 ? msg.timeTaken : 1;
       const verifiedPoints = msg.isCorrect ? calculateRoundScore(verifiedTime, 100) : 0;
 
+      const effectivePlayerId = player ? player.id : msg.playerId;
+      const effectivePlayerName = player ? player.name : (msg.playerName || 'ผู้เล่น');
+      const effectiveAvatar = player ? player.avatar : (msg.avatar || '🎧');
+
       const answerRecord = {
-        playerId: msg.playerId,
-        playerName: player ? player.name : 'ผู้เล่น',
-        avatar: player ? player.avatar : '🎧',
+        playerId: effectivePlayerId,
+        playerName: effectivePlayerName,
+        avatar: effectiveAvatar,
         answered: true,
         isCorrect: msg.isCorrect,
         answerText: msg.guessText,
@@ -327,9 +343,17 @@ class MultiplayerService {
         this.currentRoomState.currentRoundAnswers = [];
       }
       this.currentRoomState.currentRoundAnswers = [
-        ...this.currentRoomState.currentRoundAnswers.filter((a) => a.playerId !== msg.playerId),
+        ...this.currentRoomState.currentRoundAnswers.filter(
+          (a) => a.playerId !== effectivePlayerId && (!trimmedMsgName || a.playerName?.trim().toLowerCase() !== trimmedMsgName)
+        ),
         answerRecord
       ];
+
+      // Acknowledge receipt to guest so they can cancel any retries
+      this.publish({
+        type: 'ANSWER_ACK',
+        playerId: msg.playerId
+      });
 
       this.callbacks.onRoomSync({ ...this.currentRoomState });
       this.publish({
@@ -339,7 +363,7 @@ class MultiplayerService {
 
       this.publish({
         type: 'ANSWER_NOTIFICATION',
-        playerName: player ? player.name : 'ผู้เล่น',
+        playerName: effectivePlayerName,
         isCorrect: false,
         points: 0,
         isFirst: true
@@ -351,7 +375,12 @@ class MultiplayerService {
       }
 
       // Automatically trigger round reveal if all players have answered!
-      const answeredCount = this.currentRoomState.currentRoundAnswers.filter((a) => a.answered).length;
+      const answeredCount = this.currentRoomState.players.filter((p) => {
+        const trimmedName = p.name.trim().toLowerCase();
+        return this.currentRoomState!.currentRoundAnswers?.some(
+          (a) => a.answered && (a.playerId === p.id || (a.playerName && a.playerName.trim().toLowerCase() === trimmedName))
+        );
+      }).length;
       const totalPlayers = this.currentRoomState.players.length;
       if (totalPlayers > 1 && answeredCount >= totalPlayers) {
         this.hostRevealRound();
@@ -498,8 +527,20 @@ class MultiplayerService {
         this.callbacks.onRoomClosed?.();
         break;
 
+      case 'ANSWER_ACK':
+        this.answerAckCallbacks.forEach((cb) => cb(msg.playerId));
+        break;
+
       case 'ROOM_SYNC':
         this.currentRoomState = msg.state;
+        if (msg.state.players && this.myPlayerName) {
+          const matched = msg.state.players.find(
+            (p) => p.id === this.myPlayerId || p.name.trim().toLowerCase() === this.myPlayerName.trim().toLowerCase()
+          );
+          if (matched && matched.id) {
+            this.myPlayerId = matched.id;
+          }
+        }
         this.callbacks.onRoomSync(msg.state);
         break;
 
@@ -757,15 +798,85 @@ class MultiplayerService {
 
 
   // Publish message to room topic
-  publish(msg: MultiplayerMessage) {
-    if (!this.client || !this.roomCode) return;
+  publish(msg: MultiplayerMessage, callback?: (err?: Error) => void) {
+    if (!this.client || !this.roomCode) {
+      if (callback) callback(new Error('Client not connected or room code missing'));
+      return;
+    }
     const topic = this.getTopic(this.roomCode);
-    this.client.publish(topic, JSON.stringify(msg), { qos: 1 });
+    try {
+      this.client.publish(topic, JSON.stringify(msg), { qos: 1 }, (err) => {
+        if (err) {
+          console.warn(`[MQTT] Publish error (${msg.type}):`, err);
+        }
+        if (callback) callback(err);
+      });
+    } catch (err: any) {
+      console.warn(`[MQTT] Publish exception (${msg.type}):`, err);
+      if (callback) callback(err);
+    }
   }
 
   // Alias broadcast to publish
   broadcast(msg: MultiplayerMessage) {
     this.publish(msg);
+  }
+
+  // Guaranteed guest answer delivery with auto-retry until ACK or room sync
+  submitGuestAnswer(answer: {
+    playerId: string;
+    playerName: string;
+    avatar?: string;
+    guessText?: string;
+    answerText?: string;
+    isCorrect: boolean;
+    pointsEarned: number;
+    timeTaken: number;
+  }) {
+    if (this.isHost) {
+      this.hostRecordAnswer(answer as any);
+      return;
+    }
+
+    const payload: MultiplayerMessage = {
+      type: 'SUBMIT_ANSWER',
+      playerId: answer.playerId,
+      playerName: answer.playerName,
+      avatar: answer.avatar,
+      guessText: answer.guessText || answer.answerText || '',
+      isCorrect: answer.isCorrect,
+      pointsEarned: answer.pointsEarned,
+      timeTaken: answer.timeTaken
+    };
+
+    // Send immediately
+    this.publish(payload);
+
+    let ackReceived = false;
+    const ackHandler = (ackId: string) => {
+      if (ackId === answer.playerId) {
+        ackReceived = true;
+      }
+    };
+    this.answerAckCallbacks.add(ackHandler);
+
+    // Auto retry sending SUBMIT_ANSWER every 600ms if not confirmed yet
+    let retries = 0;
+    const retryTimer = setInterval(() => {
+      const hasSyncedAnswer = this.currentRoomState?.currentRoundAnswers?.some(
+        (a) => a.playerId === answer.playerId || (a.playerName && a.playerName.trim().toLowerCase() === answer.playerName.trim().toLowerCase())
+      );
+      const isRevealed = this.currentRoomState?.status === 'round_reveal';
+
+      if (ackReceived || hasSyncedAnswer || isRevealed || retries >= 6 || !this.client) {
+        clearInterval(retryTimer);
+        this.answerAckCallbacks.delete(ackHandler);
+        return;
+      }
+
+      retries++;
+      this.publish(payload);
+    }, 600);
   }
 
   // Host starts game
@@ -808,6 +919,11 @@ class MultiplayerService {
       autoAdvance,
       roundStartTime
     });
+
+    this.publish({
+      type: 'ROOM_SYNC',
+      state: { ...this.currentRoomState }
+    });
   }
 
   // Host advances to next round, resetting answers and answer flags
@@ -841,18 +957,27 @@ class MultiplayerService {
   }
 
   // Host triggers round reveal to everyone
-  // Host triggers round reveal to everyone
   hostRevealRound() {
     if (!this.isHost || !this.currentRoomState) return;
     if (this.currentRoomState.status === 'round_reveal') return; // Prevent double reveal
 
     this.currentRoomState.status = 'round_reveal';
 
-    // Ensure all players have an answer record
+    // Ensure all players have an answer record with name fallback
     const limit = (!this.currentRoomState.roundTimeLimit || this.currentRoomState.roundTimeLimit === 0) ? 30 : this.currentRoomState.roundTimeLimit;
     const finalizedAnswers: any[] = this.currentRoomState.players.map((p) => {
-      const existing = this.currentRoomState!.currentRoundAnswers?.find((a) => a.playerId === p.id);
-      if (existing) return existing;
+      const trimmedPName = p.name.trim().toLowerCase();
+      const existing = this.currentRoomState!.currentRoundAnswers?.find(
+        (a) => a.playerId === p.id || (a.playerName && a.playerName.trim().toLowerCase() === trimmedPName)
+      );
+      if (existing) {
+        return {
+          ...existing,
+          playerId: p.id,
+          playerName: p.name,
+          avatar: p.avatar
+        };
+      }
       return {
         playerId: p.id,
         playerName: p.name,
@@ -914,7 +1039,10 @@ class MultiplayerService {
     answerRecord.pointsEarned = verifiedPoints;
     answerRecord.timeTaken = verifiedTime;
 
-    const player = this.currentRoomState.players.find((p) => p.id === answerRecord.playerId);
+    const trimmedAnsName = answerRecord.playerName?.trim().toLowerCase();
+    const player = this.currentRoomState.players.find(
+      (p) => p.id === answerRecord.playerId || (trimmedAnsName && p.name.trim().toLowerCase() === trimmedAnsName)
+    );
     if (player) {
       player.hasAnsweredThisRound = true;
       player.lastAnswerCorrect = answerRecord.isCorrect;
@@ -925,7 +1053,9 @@ class MultiplayerService {
       this.currentRoomState.currentRoundAnswers = [];
     }
     this.currentRoomState.currentRoundAnswers = [
-      ...this.currentRoomState.currentRoundAnswers.filter((a) => a.playerId !== answerRecord.playerId),
+      ...this.currentRoomState.currentRoundAnswers.filter(
+        (a) => a.playerId !== answerRecord.playerId && (!trimmedAnsName || a.playerName?.trim().toLowerCase() !== trimmedAnsName)
+      ),
       answerRecord
     ];
 
@@ -949,7 +1079,12 @@ class MultiplayerService {
     }
 
     // Check if all players have answered!
-    const answeredCount = this.currentRoomState.currentRoundAnswers.filter((a) => a.answered).length;
+    const answeredCount = this.currentRoomState.players.filter((p) => {
+      const trimmedName = p.name.trim().toLowerCase();
+      return this.currentRoomState!.currentRoundAnswers?.some(
+        (a) => a.answered && (a.playerId === p.id || (a.playerName && a.playerName.trim().toLowerCase() === trimmedName))
+      );
+    }).length;
     const totalPlayers = this.currentRoomState.players.length;
     if (totalPlayers > 1 && answeredCount >= totalPlayers) {
       this.hostRevealRound();

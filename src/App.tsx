@@ -691,7 +691,21 @@ export const App: React.FC = () => {
             setSongs((prev) => (prev.length === 0 ? synced.songs : prev));
           }
           if (synced.currentRoundAnswers) {
-            setCurrentRoundAnswers(synced.currentRoundAnswers);
+            setCurrentRoundAnswers((prev) => {
+              const myLocalAns = prev.find(
+                (a) => a.playerId === (multiplayerService.myPlayerId || 'solo_player') ||
+                       (a.playerName && a.playerName.trim().toLowerCase() === name.trim().toLowerCase())
+              );
+              if (myLocalAns && myLocalAns.answered) {
+                const hostHasMyAns = synced.currentRoundAnswers.some(
+                  (a) => a.playerId === myLocalAns.playerId || (a.playerName && a.playerName.trim().toLowerCase() === myLocalAns.playerName.trim().toLowerCase())
+                );
+                if (!hostHasMyAns) {
+                  return [...synced.currentRoundAnswers, myLocalAns];
+                }
+              }
+              return synced.currentRoundAnswers;
+            });
           }
         },
         onGameStart: (sList, cat, rTotal, aMode, rTimeLimit, aAdvance, rStartTime) => {
@@ -717,7 +731,10 @@ export const App: React.FC = () => {
           setIsPlayingAudio(false);
           setCurrentRoundAnswers(answers);
           setRoomState((prev) => prev ? { ...prev, players: updatedScores } : null);
-          const myAns = answers.find((a: PlayerRoundAnswer) => a.playerId === multiplayerService.myPlayerId);
+          const myAns = answers.find(
+            (a: PlayerRoundAnswer) => a.playerId === multiplayerService.myPlayerId ||
+                                     (a.playerName && a.playerName.trim().toLowerCase() === name.trim().toLowerCase())
+          );
           if (myAns) {
             setSoloGuessedCorrectly(myAns.isCorrect);
             setSoloPointsEarned(myAns.pointsEarned);
@@ -1341,14 +1358,7 @@ export const App: React.FC = () => {
     if (isHost && roomState) {
       multiplayerService.hostRecordAnswer(myAnswer);
     } else {
-      multiplayerService.publish({
-        type: 'SUBMIT_ANSWER',
-        playerId: myAnswer.playerId,
-        guessText,
-        isCorrect,
-        pointsEarned: pointsGained,
-        timeTaken: myAnswer.timeTaken
-      });
+      multiplayerService.submitGuestAnswer(myAnswer);
     }
   };
 

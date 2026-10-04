@@ -55,8 +55,18 @@ export const RoundSummaryModal: React.FC<RoundSummaryModalProps> = ({
     if (!players || players.length === 0) return playerAnswers;
 
     return players.map((p) => {
-      const found = playerAnswers.find((a) => a.playerId === p.id);
-      if (found) return found;
+      const trimmedPName = p.name.trim().toLowerCase();
+      const found = playerAnswers.find(
+        (a) => a.playerId === p.id || (a.playerName && a.playerName.trim().toLowerCase() === trimmedPName)
+      );
+      if (found) {
+        return {
+          ...found,
+          playerId: p.id,
+          playerName: p.name,
+          avatar: p.avatar
+        };
+      }
       return {
         playerId: p.id,
         playerName: p.name,
