@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import type { Song, Category, HintStatus, AnswerMode, RoomState, PlayerSession, PlayerRoundAnswer, RoundResult, SongDraftState, RoomGameType } from './types';
 import { CATEGORIES } from './data/categories';
 import { CURATED_SONGS } from './data/curatedSongs';
-import { getSongsForGame, getSongsForCustomArtist, isSongMatch, cleanArtist } from './services/itunesApi';
+import { getSongsForGame, getSongsForCustomArtist, isSongMatch, cleanArtist, shuffleArray } from './services/itunesApi';
 import { generateChoicesForSong } from './services/choiceGenerator';
 import { multiplayerService } from './services/multiplayerService';
 import { soundFX } from './services/soundEffects';
@@ -985,72 +985,104 @@ export const App: React.FC = () => {
       const targetRed = Math.ceil(totalRounds / 2);
       const targetBlue = totalRounds - targetRed;
 
-      // 2. Fetch songs in parallel for Red and Blue pools
-      const redCat: Category = {
-        ...draftCat,
-        id: 'song_draft_roster_red',
-        name: `⚔️ Red Corner`,
-        searchQueries: redArtists,
-        selectedArtists: redArtists
+      // 2. Fetch tracks individually for each surviving artist to guarantee full coverage
+      const fetchCornerArtistPools = async (artists: string[]) => {
+        const poolMap = new Map<string, Song[]>();
+        await Promise.all(
+          artists.map(async (art) => {
+            try {
+              let tracks = await getSongsForCustomArtist(art, 8);
+              // Fallback if custom artist query returned 0
+              if (tracks.length === 0) {
+                const subCat: Category = {
+                  ...draftCat,
+                  id: `draft_art_${cleanArtist(art)}`,
+                  searchQueries: [art],
+                  selectedArtists: [art]
+                };
+                tracks = await getSongsForGame(subCat, 6);
+              }
+              if (tracks.length > 0) {
+                poolMap.set(cleanArtist(art), shuffleArray(tracks));
+              }
+            } catch (e) {
+              console.warn(`Failed to fetch draft tracks for ${art}`, e);
+            }
+          })
+        );
+        return poolMap;
       };
 
-      const blueCat: Category = {
-        ...draftCat,
-        id: 'song_draft_roster_blue',
-        name: `⚔️ Blue Corner`,
-        searchQueries: blueArtists,
-        selectedArtists: blueArtists
-      };
-
-      const [redSongsRaw, blueSongsRaw] = await Promise.all([
-        redArtists.length > 0 ? getSongsForGame(redCat, targetRed + 4) : Promise.resolve([]),
-        blueArtists.length > 0 ? getSongsForGame(blueCat, targetBlue + 4) : Promise.resolve([])
+      const [redPoolMap, bluePoolMap] = await Promise.all([
+        fetchCornerArtistPools(redArtists),
+        fetchCornerArtistPools(blueArtists)
       ]);
 
-      // Deduplicate songs by ID and title+artist
       const seenKeys = new Set<string>();
 
-      const redPool: Song[] = [];
-      for (const s of redSongsRaw) {
-        const key = `${cleanArtist(s.title)}___${cleanArtist(s.artist)}`;
-        if (!seenKeys.has(String(s.id)) && !seenKeys.has(key)) {
-          seenKeys.add(String(s.id));
-          seenKeys.add(key);
-          redPool.push({ ...s, draftCorner: 'red' });
+      // 3. Fair Corner Picker: Guarantees EVERY surviving artist gets at least 1 song before any gets a 2nd!
+      const pickCornerSongs = (
+        artists: string[],
+        poolMap: Map<string, Song[]>,
+        targetCount: number,
+        corner: 'red' | 'blue'
+      ): Song[] => {
+        const picked: Song[] = [];
+        const ptrs = new Map<string, number>();
+        artists.forEach((a) => ptrs.set(cleanArtist(a), 0));
+
+        // Pass 1: Guarantee every surviving artist gets at least 1 track
+        const shuffledArtists = shuffleArray([...artists]);
+        for (const art of shuffledArtists) {
+          if (picked.length >= targetCount) break;
+          const k = cleanArtist(art);
+          const tracks = poolMap.get(k) || [];
+          let ptr = ptrs.get(k) || 0;
+          while (ptr < tracks.length) {
+            const track = tracks[ptr++];
+            ptrs.set(k, ptr);
+            const key = `${cleanArtist(track.title)}___${cleanArtist(track.artist)}`;
+            if (!seenKeys.has(String(track.id)) && !seenKeys.has(key)) {
+              seenKeys.add(String(track.id));
+              seenKeys.add(key);
+              picked.push({ ...track, draftCorner: corner });
+              break; // Got 1 track for this artist!
+            }
+          }
         }
-      }
 
-      const bluePool: Song[] = [];
-      for (const s of blueSongsRaw) {
-        const key = `${cleanArtist(s.title)}___${cleanArtist(s.artist)}`;
-        if (!seenKeys.has(String(s.id)) && !seenKeys.has(key)) {
-          seenKeys.add(String(s.id));
-          seenKeys.add(key);
-          bluePool.push({ ...s, draftCorner: 'blue' });
+        // Pass 2: Fair round-robin distribution for any remaining slots
+        let safety = 0;
+        while (picked.length < targetCount && safety < 50) {
+          safety++;
+          let addedInPass = false;
+          const roundArtists = shuffleArray([...artists]);
+          for (const art of roundArtists) {
+            if (picked.length >= targetCount) break;
+            const k = cleanArtist(art);
+            const tracks = poolMap.get(k) || [];
+            let ptr = ptrs.get(k) || 0;
+            while (ptr < tracks.length) {
+              const track = tracks[ptr++];
+              ptrs.set(k, ptr);
+              const key = `${cleanArtist(track.title)}___${cleanArtist(track.artist)}`;
+              if (!seenKeys.has(String(track.id)) && !seenKeys.has(key)) {
+                seenKeys.add(String(track.id));
+                seenKeys.add(key);
+                picked.push({ ...track, draftCorner: corner });
+                addedInPass = true;
+                break;
+              }
+            }
+          }
+          if (!addedInPass) break;
         }
-      }
 
-      // 3. Balance allocation (50/50 target, adjusting if one pool has a deficit)
-      let redCount = Math.min(targetRed, redPool.length);
-      let blueCount = Math.min(targetBlue, bluePool.length);
+        return picked;
+      };
 
-      let remainingNeeded = totalRounds - (redCount + blueCount);
-      if (remainingNeeded > 0) {
-        const redSurplus = Math.max(0, redPool.length - redCount);
-        const blueSurplus = Math.max(0, bluePool.length - blueCount);
-        if (redCount < targetRed && blueSurplus > 0) {
-          const takeBlue = Math.min(remainingNeeded, blueSurplus);
-          blueCount += takeBlue;
-          remainingNeeded -= takeBlue;
-        } else if (blueCount < targetBlue && redSurplus > 0) {
-          const takeRed = Math.min(remainingNeeded, redSurplus);
-          redCount += takeRed;
-          remainingNeeded -= takeRed;
-        }
-      }
-
-      const selectedRed = redPool.slice(0, redCount);
-      const selectedBlue = bluePool.slice(0, blueCount);
+      const selectedRed = pickCornerSongs(redArtists, redPoolMap, targetRed, 'red');
+      const selectedBlue = pickCornerSongs(blueArtists, bluePoolMap, targetBlue, 'blue');
 
       // 4. Interleave alternating Red and Blue rounds
       const interleaved: Song[] = [];

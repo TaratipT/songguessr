@@ -229,6 +229,46 @@ export function isSongMatch(userGuess: string, targetSong: Song): boolean {
     }
   }
 
+  // 5b. Check segments separated by dashes, hyphens, slashes, or pipes
+  // e.g. "Koisuru Fortune Cookie - คุกกี้เสี่ยงทาย", "Shonichi - วันแรก", "Title / Subtitle"
+  const dashSegments = [
+    ...targetSong.title.split(/\s*[-–—/|]\s*/),
+    ...strippedTarget.split(/\s*[-–—/|]\s*/)
+  ].map((s) => s.trim()).filter(Boolean);
+
+  if (dashSegments.length > 1) {
+    for (const segment of dashSegments) {
+      const cleanSegment = normalizeText(segment);
+      if (cleanGuess === cleanSegment) return true;
+      if (isCloseMatch(cleanGuess, cleanSegment)) return true;
+
+      // Segment with stripped parentheses
+      const cleanSegMain = normalizeText(segment.replace(/\(.*?\)/g, '').replace(/【.*?】/g, '').trim());
+      if (cleanSegMain && cleanGuess === cleanSegMain) return true;
+
+      // Segment known aliases & karaoke translations
+      for (const alias of getSongTitleAliases(segment, targetSong.artist)) {
+        if (cleanGuess === normalizeText(alias)) return true;
+        if (isCloseMatch(cleanGuess, normalizeText(alias))) return true;
+      }
+      for (const kAlias of getKaraokeAliases(segment)) {
+        if (cleanGuess === normalizeText(kAlias)) return true;
+      }
+    }
+  }
+
+  // Check if guess itself has dashes and target matches any of the guess parts
+  const guessDashSegments = strippedGuess.split(/\s*[-–—/|]\s*/).map((s) => s.trim()).filter(Boolean);
+  if (guessDashSegments.length > 1) {
+    for (const gSeg of guessDashSegments) {
+      const cleanGSeg = normalizeText(gSeg);
+      if (cleanGSeg === cleanTarget || cleanGSeg === cleanStrippedTarget || cleanGSeg === cleanMainPart) return true;
+      for (const tSeg of dashSegments) {
+        if (cleanGSeg === normalizeText(tSeg)) return true;
+      }
+    }
+  }
+
   // 6. Check if guess has parentheses and target matches either part
   const guessMainPart = normalizeText(strippedGuess.replace(/\(.*?\)/g, '').replace(/【.*?】/g, '').trim());
   if (guessMainPart && (guessMainPart === cleanTarget || guessMainPart === cleanStrippedTarget || guessMainPart === cleanMainPart)) {
@@ -306,6 +346,23 @@ export function getStorefrontForCategory(categoryId: string): string {
   }
 }
 
+// Strict artist cleaner: keeps dots and numbers, strips whitespace/hyphens
+export function cleanArtist(str: string): string {
+  return str
+    .toLowerCase()
+    .replace(/[\s\-_]/g, '')
+    .replace(/['"!?'"()[\]{}【】]/g, '')
+    .trim();
+}
+
+// Extracts the primary billing artist key so "Ariana Grande & The Weeknd" groups with "Ariana Grande",
+// preventing multi-billing tracks from starving other drafted/selected artists of fair representation.
+export function getPrimaryArtistKey(trackArtist: string): string {
+  if (!trackArtist) return '';
+  const parts = trackArtist.split(/[,&/]|feat\.|ft\.|with\b|\s+x\s+|\s+X\s+/i).map(cleanArtist).filter(Boolean);
+  return parts[0] || cleanArtist(trackArtist);
+}
+
 // Interleave songs across artists to guarantee high diversity (e.g. 1 song per artist)
 function balanceSongsByArtist(songs: Song[], targetCount: number): Song[] {
   const byArtist = new Map<string, Song[]>();
@@ -316,7 +373,7 @@ function balanceSongsByArtist(songs: Song[], targetCount: number): Song[] {
     if (seenTitles.has(titleKey)) continue;
     seenTitles.add(titleKey);
 
-    const artistKey = normalizeText(s.artist);
+    const artistKey = getPrimaryArtistKey(s.artist);
     if (!byArtist.has(artistKey)) {
       byArtist.set(artistKey, []);
     }
@@ -356,15 +413,6 @@ function balanceSongsByArtist(songs: Song[], targetCount: number): Song[] {
   }
 
   return finalizeSongs(balancedResult);
-}
-
-// Strict artist cleaner: keeps dots and numbers, strips whitespace/hyphens
-export function cleanArtist(str: string): string {
-  return str
-    .toLowerCase()
-    .replace(/[\s\-_]/g, '')
-    .replace(/['"!?'"()[\]{}【】]/g, '')
-    .trim();
 }
 
 // Strict matching helper: check if track's artistName matches target artist as primary artist

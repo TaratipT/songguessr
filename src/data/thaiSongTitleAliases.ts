@@ -181,7 +181,25 @@ export const THAI_SONG_TRANSLATION_RULES: Record<string, ThaiSongTranslationRule
   'super car care': { canonical: 'SuperCarCare (ซุปเปอร์คาร์แคร์)', artists: ['tattoo colour'] },
   'cinderella': { canonical: 'ซินเดอเรลล่า (Cinderella)', artists: ['tattoo colour'] },
   'hide and seek': { canonical: 'ซ่อนหา (Hide and Seek)', artists: ['tattoo colour'] },
-  'hideandseek': { canonical: 'ซ่อนหา (Hide and Seek)', artists: ['tattoo colour'] }
+  'hideandseek': { canonical: 'ซ่อนหา (Hide and Seek)', artists: ['tattoo colour'] },
+
+  // BNK48
+  'koisurufortunecookie': { canonical: 'คุกกี้เสี่ยงทาย (Koisuru Fortune Cookie)', artists: ['bnk48', 'akb48'] },
+  'koisuru fortune cookie': { canonical: 'คุกกี้เสี่ยงทาย (Koisuru Fortune Cookie)', artists: ['bnk48', 'akb48'] },
+  '365 nichi no kamihikouki': { canonical: '365 วันกับเครื่องบินกระดาษ (365 Nichi no Kamihikouki)', artists: ['bnk48', 'akb48'] },
+  '365nichinokamihikouki': { canonical: '365 วันกับเครื่องบินกระดาษ (365 Nichi no Kamihikouki)', artists: ['bnk48', 'akb48'] },
+  'shonichi': { canonical: 'วันแรก (Shonichi)', artists: ['bnk48', 'akb48'] },
+  'aitakatta': { canonical: 'อยากจะได้พบเธอ (Aitakatta)', artists: ['bnk48', 'akb48'] },
+  'heavy rotation': { canonical: 'เฮฟวี่โรเตชั่น (Heavy Rotation)', artists: ['bnk48', 'akb48'] },
+  'heavyrotation': { canonical: 'เฮฟวี่โรเตชั่น (Heavy Rotation)', artists: ['bnk48', 'akb48'] },
+  'tsugi no season': { canonical: 'ฤดูใหม่ (Tsugi no Season)', artists: ['bnk48', 'akb48'] },
+  'tsuginoseason': { canonical: 'ฤดูใหม่ (Tsugi no Season)', artists: ['bnk48', 'akb48'] },
+  'kimi wa melody': { canonical: 'เธอคือ...เมโลดี้ (Kimi wa Melody)', artists: ['bnk48', 'akb48'] },
+  'kimiwamelody': { canonical: 'เธอคือ...เมโลดี้ (Kimi wa Melody)', artists: ['bnk48', 'akb48'] },
+  'dna': { canonical: 'ดีเอ็นเอ (D.N.A)', artists: ['bnk48'] },
+  'first rabbit': { canonical: 'กระต่ายตัวแรก (First Rabbit)', artists: ['bnk48'] },
+  'bnk festival': { canonical: 'บีเอ็นเคเฟสติวัล (BNK Festival)', artists: ['bnk48'] },
+  'river': { canonical: 'ริเวอร์ (RIVER)', artists: ['bnk48'] }
 };
 
 // Backwards-compatible simple map (keys -> canonical names)
@@ -333,7 +351,28 @@ export const THAI_SONG_BIDIRECTIONAL_ALIASES: Record<string, string[]> = {
   'ระวังเสียใจ': ['ระวังเสียใจ', 'warning'],
   'warning': ['ระวังเสียใจ', 'warning'],
   'กักตัว': ['กักตัว', 'quarantine'],
-  'quarantine': ['กักตัว', 'quarantine']
+  'quarantine': ['กักตัว', 'quarantine'],
+
+  // BNK48
+  'คุกกี้เสี่ยงทาย': ['คุกกี้เสี่ยงทาย', 'koisuru fortune cookie', 'koisurufortunecookie', 'คุกกี้เสี่ยงทาย (koisuru fortune cookie)', 'koisuru fortune cookie - คุกกี้เสี่ยงทาย', 'koisuru fortune cookie-คุกกี้เสี่ยงทาย'],
+  'koisurufortunecookie': ['คุกกี้เสี่ยงทาย', 'koisuru fortune cookie', 'koisurufortunecookie', 'คุกกี้เสี่ยงทาย (koisuru fortune cookie)', 'koisuru fortune cookie - คุกกี้เสี่ยงทาย', 'koisuru fortune cookie-คุกกี้เสี่ยงทาย'],
+  '365วันกับเครื่องบินกระดาษ': ['365 วันกับเครื่องบินกระดาษ', '365 nichi no kamihikouki', '365nichinokamihikouki'],
+  '365nichinokamihikouki': ['365 วันกับเครื่องบินกระดาษ', '365 nichi no kamihikouki', '365nichinokamihikouki'],
+  'วันแรก': ['วันแรก', 'shonichi', 'วันแรก (shonichi)'],
+  'shonichi': ['วันแรก', 'shonichi', 'วันแรก (shonichi)'],
+  'อยากจะได้พบเธอ': ['อยากจะได้พบเธอ', 'aitakatta', 'อยากจะได้พบเธอ (aitakatta)'],
+  'aitakatta': ['อยากจะได้พบเธอ', 'aitakatta', 'อยากจะได้พบเธอ (aitakatta)'],
+  'เฮฟวี่โรเตชั่น': ['เฮฟวี่โรเตชั่น', 'heavy rotation', 'เฮฟวี่โรเตชั่น (heavy rotation)'],
+  'heavyrotation': ['เฮฟวี่โรเตชั่น', 'heavy rotation', 'เฮฟวี่โรเตชั่น (heavy rotation)'],
+  'ฤดูใหม่': ['ฤดูใหม่', 'tsugi no season', 'tsuginoseason', 'ฤดูใหม่ (tsugi no season)'],
+  'tsuginoseason': ['ฤดูใหม่', 'tsugi no season', 'tsuginoseason', 'ฤดูใหม่ (tsugi no season)'],
+  'เธอคือเมโลดี้': ['เธอคือ...เมโลดี้', 'เธอคือเมโลดี้', 'kimi wa melody', 'kimiwamelody'],
+  'เธอคือ...เมโลดี้': ['เธอคือ...เมโลดี้', 'เธอคือเมโลดี้', 'kimi wa melody', 'kimiwamelody'],
+  'kimiwamelody': ['เธอคือ...เมโลดี้', 'เธอคือเมโลดี้', 'kimi wa melody', 'kimiwamelody'],
+  'กระต่ายตัวแรก': ['กระต่ายตัวแรก', 'first rabbit', 'firstrabbit'],
+  'firstrabbit': ['กระต่ายตัวแรก', 'first rabbit', 'firstrabbit'],
+  'ริเวอร์': ['ริเวอร์', 'river', 'river (ริเวอร์)'],
+  'river': ['ริเวอร์', 'river', 'river (ริเวอร์)']
 };
 
 /**
@@ -455,6 +494,29 @@ export function getSongTitleAliases(title: string, artistName?: string): string[
   if (selfThaiKey !== key && THAI_SONG_BIDIRECTIONAL_ALIASES[selfThaiKey]) {
     for (const a of THAI_SONG_BIDIRECTIONAL_ALIASES[selfThaiKey]) {
       aliases.add(a);
+    }
+  }
+
+  // 4. Extract parts from title if separated by dash, hyphen, slash, or pipe
+  // e.g. "Koisuru Fortune Cookie - คุกกี้เสี่ยงทาย" -> "Koisuru Fortune Cookie" and "คุกกี้เสี่ยงทาย"
+  const dashParts = title.split(/\s*[-–—/|]\s*/).map((p) => p.trim()).filter(Boolean);
+  if (dashParts.length > 1) {
+    for (const part of dashParts) {
+      aliases.add(part);
+      const cleanP = part.replace(/\(.*?\)/g, '').replace(/【.*?】/g, '').trim();
+      if (cleanP) aliases.add(cleanP);
+      const partKey = cleanKey(part);
+      if (THAI_SONG_BIDIRECTIONAL_ALIASES[partKey]) {
+        for (const a of THAI_SONG_BIDIRECTIONAL_ALIASES[partKey]) {
+          aliases.add(a);
+        }
+      }
+      const cleanPKey = cleanKey(cleanP);
+      if (cleanPKey !== partKey && THAI_SONG_BIDIRECTIONAL_ALIASES[cleanPKey]) {
+        for (const a of THAI_SONG_BIDIRECTIONAL_ALIASES[cleanPKey]) {
+          aliases.add(a);
+        }
+      }
     }
   }
 
