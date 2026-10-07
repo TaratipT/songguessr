@@ -26,6 +26,9 @@ export const THAI_SONG_TRANSLATION_RULES: Record<string, ThaiSongTranslationRule
   "halley's comet": { canonical: "ดาวหางฮัลเลย์ (Halley's Comet)" },
   'not my fault': { canonical: 'ไม่เป็นรอง (Not My Fault)' },
   'notmyfault': { canonical: 'ไม่เป็นรอง (Not My Fault)' },
+  'best luck': { canonical: 'ไม่เปลี่ยนเลย (Best Luck)', artists: ['fellow fellow', 'fellowfellow'] },
+  'bestluck': { canonical: 'ไม่เปลี่ยนเลย (Best Luck)', artists: ['fellow fellow', 'fellowfellow'] },
+  'ไม่เปลี่ยนเลย': { canonical: 'ไม่เปลี่ยนเลย (Best Luck)', artists: ['fellow fellow', 'fellowfellow'] },
 
   // Anatomy Rabbit
   'extraordinary': { canonical: 'ธรรมดาแสนพิเศษ (Extraordinary)' },
@@ -274,6 +277,8 @@ export const THAI_SONG_BIDIRECTIONAL_ALIASES: Record<string, string[]> = {
   'halleyscomet': ['ดาวหางฮัลเลย์', 'halleys comet', 'halley comet', "halley's comet", "ดาวหางฮัลเลย์ (halley's comet)"],
   'ไม่เป็นรอง': ['ไม่เป็นรอง', 'not my fault', 'notmyfault', 'ไม่เป็นรอง (not my fault)'],
   'notmyfault': ['ไม่เป็นรอง', 'not my fault', 'notmyfault'],
+  'ไม่เปลี่ยนเลย': ['ไม่เปลี่ยนเลย', 'best luck', 'bestluck', 'ไม่เปลี่ยนเลย (best luck)', 'mai plian loey', 'maiplianloey'],
+  'bestluck': ['ไม่เปลี่ยนเลย', 'best luck', 'bestluck', 'ไม่เปลี่ยนเลย (best luck)'],
 
   // Anatomy Rabbit
   'extraordinary': ['ธรรมดาแสนพิเศษ', 'extraordinary', 'ขอให้โลกนี้ใจดีกับเธอ', 'ธรรมดา แสนพิเศษ', 'ธรรมดาแสนพิเศษ (extraordinary)'],
