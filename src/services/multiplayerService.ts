@@ -1176,6 +1176,22 @@ class MultiplayerService {
       const p = this.currentRoomState.players.find((player) => player.id === playerId);
       if (p) {
         p.status = status;
+        // When a player returns to lobby as 'ready', reset their round/game flags & score!
+        if (status === 'ready') {
+          p.score = 0;
+          p.streak = 0;
+          p.hasAnsweredThisRound = false;
+          p.lastAnswerCorrect = undefined;
+        }
+      }
+
+      // If any player or all players are back in lobby ('ready'), clear round answers and reset room to waiting!
+      const anyReady = this.currentRoomState.players.some((pl) => pl.status === 'ready');
+      if (anyReady) {
+        this.currentRoomState.status = 'waiting';
+        this.currentRoomState.currentRoundAnswers = [];
+        this.currentRoomState.currentRound = 1;
+        this.currentRoomState.currentSongIndex = 0;
       }
     }
 

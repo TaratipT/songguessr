@@ -206,6 +206,7 @@ export const App: React.FC = () => {
     setSelectedChoice(undefined);
     setSoloGuessedCorrectly(false);
     setSoloPointsEarned(0);
+    setCurrentRoundAnswers([]);
     // Always use local client Date.now() to measure elapsed time accurately and prevent clock drift/skew bugs
     roundStartTimeRef.current = Date.now();
   };
@@ -455,7 +456,11 @@ export const App: React.FC = () => {
             if (synced.autoAdvance !== undefined) {
               setAutoAdvance(synced.autoAdvance);
             }
-            if (synced.currentRoundAnswers) {
+            if (synced.status === 'waiting') {
+              setCurrentRoundAnswers([]);
+              setHasAnsweredThisRound(false);
+              hasAnsweredThisRoundRef.current = false;
+            } else if (synced.currentRoundAnswers) {
               setCurrentRoundAnswers(synced.currentRoundAnswers);
             }
           },
@@ -470,10 +475,29 @@ export const App: React.FC = () => {
             if (aAdvance !== undefined) setAutoAdvance(aAdvance);
             setCurrentRoundIndex(0);
             setCurrentRoundAnswers([]);
+            setHasAnsweredThisRound(false);
+            hasAnsweredThisRoundRef.current = false;
             resetRoundState(limit, rStartTime);
             setGameHistory([]);
             setScore(0);
             setStreak(0);
+            setRoomState((prev) => {
+              if (!prev) return null;
+              return {
+                ...prev,
+                status: 'in_game',
+                currentRound: 1,
+                currentSongIndex: 0,
+                currentRoundAnswers: [],
+                players: prev.players.map((p) => ({
+                  ...p,
+                  score: 0,
+                  streak: 0,
+                  hasAnsweredThisRound: false,
+                  status: 'ready'
+                }))
+              };
+            });
             setGameState('playing');
             setIsPlayingAudio(true);
           },
@@ -611,8 +635,30 @@ export const App: React.FC = () => {
             setCategory(cat);
             setTotalRounds(rTotal);
             setCurrentRoundIndex(0);
+            setCurrentRoundAnswers([]);
+            setHasAnsweredThisRound(false);
+            hasAnsweredThisRoundRef.current = false;
             resetRoundState();
             setGameHistory([]);
+            setScore(0);
+            setStreak(0);
+            setRoomState((prev) => {
+              if (!prev) return null;
+              return {
+                ...prev,
+                status: 'in_game',
+                currentRound: 1,
+                currentSongIndex: 0,
+                currentRoundAnswers: [],
+                players: prev.players.map((p) => ({
+                  ...p,
+                  score: 0,
+                  streak: 0,
+                  hasAnsweredThisRound: false,
+                  status: 'ready'
+                }))
+              };
+            });
             setActiveDraftState(null);
             setGameState('playing');
             setIsPlayingAudio(true);
@@ -632,7 +678,21 @@ export const App: React.FC = () => {
           },
           onReturnToLobby: () => {
             setIsPlayingAudio(false);
-            setRoomState((prev) => prev ? { ...prev, status: 'waiting', currentRoundAnswers: [] } : null);
+            setCurrentRoundAnswers([]);
+            setHasAnsweredThisRound(false);
+            hasAnsweredThisRoundRef.current = false;
+            setRoomState((prev) => prev ? {
+              ...prev,
+              status: 'waiting',
+              currentRoundAnswers: [],
+              players: prev.players.map((p) => ({
+                ...p,
+                score: 0,
+                streak: 0,
+                hasAnsweredThisRound: false,
+                status: 'ready'
+              }))
+            } : null);
             setScore(0);
             setStreak(0);
             setGameHistory([]);
@@ -712,22 +772,12 @@ export const App: React.FC = () => {
           if (synced.songs && synced.songs.length > 0) {
             setSongs((prev) => (prev.length === 0 ? synced.songs : prev));
           }
-          if (synced.currentRoundAnswers) {
-            setCurrentRoundAnswers((prev) => {
-              const myLocalAns = prev.find(
-                (a) => a.playerId === (multiplayerService.myPlayerId || 'solo_player') ||
-                       (a.playerName && a.playerName.trim().toLowerCase() === name.trim().toLowerCase())
-              );
-              if (myLocalAns && myLocalAns.answered) {
-                const hostHasMyAns = synced.currentRoundAnswers.some(
-                  (a) => a.playerId === myLocalAns.playerId || (a.playerName && a.playerName.trim().toLowerCase() === myLocalAns.playerName.trim().toLowerCase())
-                );
-                if (!hostHasMyAns) {
-                  return [...synced.currentRoundAnswers, myLocalAns];
-                }
-              }
-              return synced.currentRoundAnswers;
-            });
+          if (synced.status === 'waiting') {
+            setCurrentRoundAnswers([]);
+            setHasAnsweredThisRound(false);
+            hasAnsweredThisRoundRef.current = false;
+          } else if (synced.currentRoundAnswers) {
+            setCurrentRoundAnswers(synced.currentRoundAnswers);
           }
         },
         onGameStart: (sList, cat, rTotal, aMode, rTimeLimit, aAdvance, rStartTime) => {
@@ -741,10 +791,29 @@ export const App: React.FC = () => {
           if (aAdvance !== undefined) setAutoAdvance(aAdvance);
           setCurrentRoundIndex(0);
           setCurrentRoundAnswers([]);
+          setHasAnsweredThisRound(false);
+          hasAnsweredThisRoundRef.current = false;
           resetRoundState(limit, rStartTime);
           setGameHistory([]);
           setScore(0);
           setStreak(0);
+          setRoomState((prev) => {
+            if (!prev) return null;
+            return {
+              ...prev,
+              status: 'in_game',
+              currentRound: 1,
+              currentSongIndex: 0,
+              currentRoundAnswers: [],
+              players: prev.players.map((p) => ({
+                ...p,
+                score: 0,
+                streak: 0,
+                hasAnsweredThisRound: false,
+                status: 'ready'
+              }))
+            };
+          });
           setGameState('playing');
           setIsPlayingAudio(true);
           showToast('🚀 เริ่มเกมแล้ว! ฟังเพลงแล้วตอบเลย');
@@ -877,8 +946,30 @@ export const App: React.FC = () => {
           setCategory(cat);
           setTotalRounds(rTotal);
           setCurrentRoundIndex(0);
+          setCurrentRoundAnswers([]);
+          setHasAnsweredThisRound(false);
+          hasAnsweredThisRoundRef.current = false;
           resetRoundState();
           setGameHistory([]);
+          setScore(0);
+          setStreak(0);
+          setRoomState((prev) => {
+            if (!prev) return null;
+            return {
+              ...prev,
+              status: 'in_game',
+              currentRound: 1,
+              currentSongIndex: 0,
+              currentRoundAnswers: [],
+              players: prev.players.map((p) => ({
+                ...p,
+                score: 0,
+                streak: 0,
+                hasAnsweredThisRound: false,
+                status: 'ready'
+              }))
+            };
+          });
           setActiveDraftState(null);
           setGameState('playing');
           setIsPlayingAudio(true);
@@ -898,7 +989,21 @@ export const App: React.FC = () => {
         },
         onReturnToLobby: () => {
           setIsPlayingAudio(false);
-          setRoomState((prev) => prev ? { ...prev, status: 'waiting', currentRoundAnswers: [] } : null);
+          setCurrentRoundAnswers([]);
+          setHasAnsweredThisRound(false);
+          hasAnsweredThisRoundRef.current = false;
+          setRoomState((prev) => prev ? {
+            ...prev,
+            status: 'waiting',
+            currentRoundAnswers: [],
+            players: prev.players.map((p) => ({
+              ...p,
+              score: 0,
+              streak: 0,
+              hasAnsweredThisRound: false,
+              status: 'ready'
+            }))
+          } : null);
           setScore(0);
           setStreak(0);
           setGameHistory([]);
@@ -1292,6 +1397,27 @@ export const App: React.FC = () => {
 
       setCurrentRoundIndex(0);
       setCurrentRoundAnswers([]);
+      setHasAnsweredThisRound(false);
+      hasAnsweredThisRoundRef.current = false;
+      setScore(0);
+      setStreak(0);
+      setRoomState((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          status: 'in_game',
+          currentRound: 1,
+          currentSongIndex: 0,
+          currentRoundAnswers: [],
+          players: prev.players.map((p) => ({
+            ...p,
+            score: 0,
+            streak: 0,
+            hasAnsweredThisRound: false,
+            status: 'ready'
+          }))
+        };
+      });
       resetRoundState(effectiveLimit, now);
       setGameState('playing');
       setIsPlayingAudio(true);
@@ -1857,6 +1983,9 @@ export const App: React.FC = () => {
               } else {
                 multiplayerService.guestReturnToLobby();
               }
+              setCurrentRoundAnswers([]);
+              setHasAnsweredThisRound(false);
+              hasAnsweredThisRoundRef.current = false;
               setRoomState((prev) => {
                 if (!prev) return null;
                 return {
@@ -1864,7 +1993,7 @@ export const App: React.FC = () => {
                   status: 'waiting',
                   currentRoundAnswers: [],
                   players: prev.players.map((p) =>
-                    p.id === multiplayerService.myPlayerId ? { ...p, status: 'ready' } : p
+                    p.id === multiplayerService.myPlayerId ? { ...p, status: 'ready', score: 0, streak: 0, hasAnsweredThisRound: false } : p
                   )
                 };
               });
@@ -1884,6 +2013,9 @@ export const App: React.FC = () => {
               } else {
                 multiplayerService.guestReturnToLobby();
               }
+              setCurrentRoundAnswers([]);
+              setHasAnsweredThisRound(false);
+              hasAnsweredThisRoundRef.current = false;
               setRoomState((prev) => {
                 if (!prev) return null;
                 return {
@@ -1891,7 +2023,7 @@ export const App: React.FC = () => {
                   status: 'waiting',
                   currentRoundAnswers: [],
                   players: prev.players.map((p) =>
-                    p.id === multiplayerService.myPlayerId ? { ...p, status: 'ready' } : p
+                    p.id === multiplayerService.myPlayerId ? { ...p, status: 'ready', score: 0, streak: 0, hasAnsweredThisRound: false } : p
                   )
                 };
               });
