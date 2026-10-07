@@ -200,7 +200,7 @@ export const CATEGORIES: Category[] = [
     region: 'thai',
     gradient: 'from-red-800 to-zinc-900',
     searchQueries: [
-      'Retrospect', 'Sweet Mullet', 'Ebola', 'Lomosonic', 'Taitosmith',
+      'Retrospect', 'Sweet Mullet', 'Ebola', 'Lomosonic', 'Taitosmith', 'Little John',
       'Bomb at Track', 'Oblivious', 'The Yers', 'Silly Fools', 'Blackhead'
     ]
   },
@@ -455,7 +455,7 @@ export const CATEGORIES: Category[] = [
     searchQueries: [
       // Thai Rock & Alternative
       'Bodyslam', 'Potato', 'Clash', 'Big Ass', 'Labanoon', 'Cocktail', 'Tilly Birds',
-      'Three Man Down', 'TaitosmitH', 'Slot Machine', 'Safeplanet', 'Dept', 'Anatomy Rabbit',
+      'Three Man Down', 'TaitosmitH', 'Little John', 'Slot Machine', 'Safeplanet', 'Dept', 'Anatomy Rabbit',
       'Loso', 'Silly Fools', 'Paradox', 'Palmy',
       // Thai Pop, R&B & T-Pop
       'Jeff Satur', 'NONT TANONT', 'Billkin', 'PP Krit', 'Bowkylion', 'Violette Wautier',

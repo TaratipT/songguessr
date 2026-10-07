@@ -148,6 +148,14 @@ export const THAI_ARTISTS: ThaiArtist[] = [
     hitsHint: 'Hello Mama, เพื่อชีวิตกู'
   },
   {
+    id: 'little_john',
+    name: 'Little John',
+    group: 'rock',
+    groupLabel: 'ร็อก & สตริงฮิต',
+    emoji: '⚡',
+    hitsHint: 'ฉันไม่ต้องการตัวเธอในตอนนี้, รสชาติชีวิต, ที่ผ่านมาขอบใจจริงๆ'
+  },
+  {
     id: 'twenty_five_hours',
     name: '25hours',
     group: 'rock',

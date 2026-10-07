@@ -158,7 +158,30 @@ export const THAI_SONG_TRANSLATION_RULES: Record<string, ThaiSongTranslationRule
 
   // The Parkinson
   'tell her that i love': { canonical: 'จะบอกเธอว่ารัก (Tell Her That I Love)' },
-  'dear friend': { canonical: 'เพื่อนรัก (Dear Friend)', artists: ['the parkinson', 'parkinson'] }
+  'dear friend': { canonical: 'เพื่อนรัก (Dear Friend)', artists: ['the parkinson', 'parkinson'] },
+
+  // Zom Marie
+  'kidding': { canonical: 'หรือฉันคิดไปเอง (Kidding?)', artists: ['zom marie', 'ส้ม มารี'] },
+  'kidding?': { canonical: 'หรือฉันคิดไปเอง (Kidding?)', artists: ['zom marie', 'ส้ม มารี'] },
+  'if i were you': { canonical: 'หากว่าเราไม่คิดถึงกัน (If I Were You)', artists: ['zom marie', 'ส้ม มารี', 'the parkinson'] },
+
+  // Violette Wautier
+  'this time': { canonical: 'ตั้งแต่มีเธอฉันมีความสุข (This Time)', artists: ['violette wautier', 'วี วิโอเลต'] },
+  'thistime': { canonical: 'ตั้งแต่มีเธอฉันมีความสุข (This Time)', artists: ['violette wautier', 'วี วิโอเลต'] },
+  'warning': { canonical: 'ระวังเสียใจ (Warning)', artists: ['violette wautier', 'วี วิโอเลต'] },
+  'quarantine': { canonical: 'กักตัว (Quarantine)', artists: ['violette wautier', 'วี วิโอเลต'] },
+
+  // Lipta
+  'good luck': { canonical: 'โชคดีนะเพื่อน (Good Luck)', artists: ['lipta', 'ลิปตา'] },
+  'goodluck': { canonical: 'โชคดีนะเพื่อน (Good Luck)', artists: ['lipta', 'ลิปตา'] },
+  'will you marry me': { canonical: 'แต่งงานกันนะ (Will You Marry Me?)', artists: ['lipta', 'ลิปตา'] },
+
+  // Tattoo Colour
+  'supercarcare': { canonical: 'SuperCarCare (ซุปเปอร์คาร์แคร์)', artists: ['tattoo colour'] },
+  'super car care': { canonical: 'SuperCarCare (ซุปเปอร์คาร์แคร์)', artists: ['tattoo colour'] },
+  'cinderella': { canonical: 'ซินเดอเรลล่า (Cinderella)', artists: ['tattoo colour'] },
+  'hide and seek': { canonical: 'ซ่อนหา (Hide and Seek)', artists: ['tattoo colour'] },
+  'hideandseek': { canonical: 'ซ่อนหา (Hide and Seek)', artists: ['tattoo colour'] }
 };
 
 // Backwards-compatible simple map (keys -> canonical names)
@@ -296,7 +319,21 @@ export const THAI_SONG_BIDIRECTIONAL_ALIASES: Record<string, string[]> = {
 
   // Cocktail
   'ดึงดัน': ['ดึงดัน', 'pull my heart', 'dung dun', 'ดึงดัน (pull my heart)'],
-  'pullmyheart': ['ดึงดัน', 'pull my heart', 'ดึงดัน (pull my heart)']
+  'pullmyheart': ['ดึงดัน', 'pull my heart', 'ดึงดัน (pull my heart)'],
+
+  // Zom Marie
+  'หรือฉันคิดไปเอง': ['หรือฉันคิดไปเอง', 'kidding', 'kidding?', 'หรือฉันคิดไปเอง (kidding?)'],
+  'kidding': ['หรือฉันคิดไปเอง', 'kidding', 'kidding?', 'หรือฉันคิดไปเอง (kidding?)'],
+  'หากว่าเราไม่คิดถึงกัน': ['หากว่าเราไม่คิดถึงกัน', 'if i were you'],
+  'ifiwereyou': ['หากว่าเราไม่คิดถึงกัน', 'if i were you'],
+
+  // Violette Wautier
+  'ตั้งแต่มีเธอฉันมีความสุข': ['ตั้งแต่มีเธอฉันมีความสุข', 'this time', 'thistime'],
+  'thistime': ['ตั้งแต่มีเธอฉันมีความสุข', 'this time'],
+  'ระวังเสียใจ': ['ระวังเสียใจ', 'warning'],
+  'warning': ['ระวังเสียใจ', 'warning'],
+  'กักตัว': ['กักตัว', 'quarantine'],
+  'quarantine': ['กักตัว', 'quarantine']
 };
 
 /**

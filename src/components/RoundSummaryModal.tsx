@@ -211,49 +211,52 @@ export const RoundSummaryModal: React.FC<RoundSummaryModalProps> = ({
                       key={ans.playerId}
                       className={`round-verdict-card ${ans.isCorrect ? 'is-correct' : ans.answered ? 'is-wrong' : 'is-timeout'}`}
                     >
-                      <div className="verdict-player-info">
-                        <span className="verdict-avatar">{ans.avatar}</span>
-                        <div className="verdict-player-meta">
+                      <div className="verdict-card-top-row">
+                        <div className="verdict-player-info">
+                          <span className="verdict-avatar">{ans.avatar}</span>
                           <div className="verdict-name-row">
                             <span className="verdict-name" title={ans.playerName}>{ans.playerName}</span>
                             {ans.playerId === myPlayerId && (
                               <span className="verdict-you-pill">(คุณ)</span>
                             )}
+                            {ans.isCorrect && isFastest && sortedRoundAnswers.filter(a => a.isCorrect).length > 1 && (
+                              <span className="fastest-flash-pill">⚡ ไวสุด!</span>
+                            )}
                           </div>
-                          {ans.answered && ans.answerText ? (
-                            <div
-                              className={`verdict-user-guess ${ans.isCorrect ? 'is-correct' : 'is-wrong'}`}
-                              title={`คำตอบที่ส่ง: ${ans.answerText}`}
-                            >
-                              <span className="guess-prefix">{ans.isCorrect ? '✓' : '✗'} ตอบ:</span>
-                              <span className="guess-text">"{ans.answerText}"</span>
-                            </div>
+                        </div>
+
+                        <div className="verdict-badge-group">
+                          {ans.isCorrect ? (
+                            <>
+                              <span className="speed-time-pill">
+                                ⏱️ {typeof ans.timeTaken === 'number' && ans.timeTaken > 0
+                                  ? (Number.isInteger(ans.timeTaken) ? ans.timeTaken : ans.timeTaken.toFixed(1))
+                                  : 1}s
+                              </span>
+                              <span className="points-gain-badge">+{ans.pointsEarned} คะแนน</span>
+                            </>
+                          ) : ans.answered ? (
+                            <span className="wrong-miss-badge">❌ ตอบผิด (+0)</span>
                           ) : (
-                            <div className="verdict-user-guess is-timeout">
-                              <span className="guess-prefix">⏳</span>
-                              <span className="guess-text">{ans.answered ? 'ไม่ได้ระบุ' : 'หมดเวลา'}</span>
-                            </div>
+                            <span className="timeout-miss-badge">⏳ หมดเวลา (+0)</span>
                           )}
                         </div>
                       </div>
 
-                      <div className="verdict-badge-group">
-                        {ans.isCorrect ? (
-                          <>
-                            {isFastest && sortedRoundAnswers.filter(a => a.isCorrect).length > 1 && (
-                              <span className="fastest-flash-pill">⚡ ไวสุด!</span>
-                            )}
-                            <span className="speed-time-pill">
-                              ⏱️ {typeof ans.timeTaken === 'number' && ans.timeTaken > 0
-                                ? (Number.isInteger(ans.timeTaken) ? ans.timeTaken : ans.timeTaken.toFixed(1))
-                                : 1}s
-                            </span>
-                            <span className="points-gain-badge">+{ans.pointsEarned} คะแนน</span>
-                          </>
-                        ) : ans.answered ? (
-                          <span className="wrong-miss-badge">❌ ตอบผิด (+0)</span>
+                      <div className="verdict-card-guess-row">
+                        {ans.answered && ans.answerText ? (
+                          <div
+                            className={`verdict-user-guess ${ans.isCorrect ? 'is-correct' : 'is-wrong'}`}
+                            title={`คำตอบที่ส่ง: ${ans.answerText}`}
+                          >
+                            <span className="guess-prefix">{ans.isCorrect ? '✓' : '✗'} ตอบ:</span>
+                            <span className="guess-text">"{ans.answerText}"</span>
+                          </div>
                         ) : (
-                          <span className="timeout-miss-badge">⏳ หมดเวลา (+0)</span>
+                          <div className="verdict-user-guess is-timeout">
+                            <span className="guess-prefix">⏳</span>
+                            <span className="guess-text">{ans.answered ? 'ไม่ได้ระบุ' : 'หมดเวลา'}</span>
+                          </div>
                         )}
                       </div>
                     </div>

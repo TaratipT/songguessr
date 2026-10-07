@@ -407,6 +407,17 @@ export const GLOBAL_ARTISTS: GlobalArtist[] = [
     storefront: 'TH'
   },
   {
+    id: 'little_john',
+    name: 'Little John',
+    region: 'thai',
+    regionLabel: 'ไทย',
+    genreLabel: 'ร็อกโมเดิร์น/9Arkkhan',
+    emoji: '⚡',
+    hitsHint: 'ฉันไม่ต้องการตัวเธอในตอนนี้, รสชาติชีวิต, ที่ผ่านมาขอบใจจริงๆ, ชาติหน้าเอาใหม่',
+    storefront: 'TH',
+    itunesArtistId: 1790625632
+  },
+  {
     id: 'loso',
     name: 'Loso',
     region: 'thai',
@@ -4632,7 +4643,7 @@ export const ARTIST_PRESETS: ArtistPreset[] = [
     title: '🔥 ร็อกดุดัน นูเมทัล & ว๊ากสะใจ',
     region: 'thai',
     subtitle: 'Retrospect, Sweet Mullet, Ebola, Bomb At Track, The Yers, Lomosonic, Paper Planes',
-    artists: ['Retrospect', 'Sweet Mullet', 'Ebola', 'Bomb At Track', 'The Yers', 'Lomosonic', 'Paper Planes', 'Taitosmith']
+    artists: ['Retrospect', 'Sweet Mullet', 'Ebola', 'Bomb At Track', 'The Yers', 'Lomosonic', 'Paper Planes', 'Taitosmith', 'Little John']
   },
 
   // ==========================================
@@ -4896,6 +4907,9 @@ export const ARTIST_ALIASES: Record<string, string[]> = {
   'zweed n\' roll': ['Zweed n Roll', 'สวีด แอนด์ โรล', 'สวีดแอนด์โรล', 'Zweed n’ Roll'],
   'ส้ม มารี': ['Zom Marie', 'ZOM MARIE'],
   'zom marie': ['ส้ม มารี', 'Zom Marie'],
+  'little john': ['Little John', 'LITTLE JOHN', 'ลิตเติ้ล จอห์น', 'ลิตเติล จอห์น', 'ลิตเติ้ลจอห์น'],
+  'ลิตเติ้ล จอห์น': ['Little John', 'LITTLE JOHN'],
+  'ลิตเติ้ลจอห์น': ['Little John', 'LITTLE JOHN'],
   'ploychompoo': ['Ploychompoo', 'พลอยชมพู', 'Jannine Weigel'],
   'พลอยชมพู': ['Ploychompoo', 'Jannine Weigel'],
   'jannine weigel': ['Ploychompoo', 'พลอยชมพู'],
@@ -5092,6 +5106,7 @@ const ARTIST_ITUNES_IDS: Record<string, number> = {
   'fellowfellow': 599575151,    // Thai Pop band Fellow Fellow
   'purpeech': 1565492336,       // Thai Indie band PURPEECH
   'anatomyrabbit': 1456053491,  // Thai Indie band Anatomy Rabbit
+  'littlejohn': 1790625632,     // Thai Rock band LITTLE JOHN (9Arkkhan)
 };
 
 export function getArtistItunesId(name: string): number | undefined {
