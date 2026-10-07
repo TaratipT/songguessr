@@ -6,6 +6,7 @@ import { getSongsForGame, getSongsForCustomArtist, isSongMatch, cleanArtist } fr
 import { generateChoicesForSong } from './services/choiceGenerator';
 import { multiplayerService } from './services/multiplayerService';
 import { soundFX } from './services/soundEffects';
+import { getThaiTitleTranslation } from './data/thaiSongTitleAliases';
 
 import { Header } from './components/Header';
 import { PlayerScreen } from './components/PlayerScreen';
@@ -94,6 +95,8 @@ export const App: React.FC = () => {
   const currentRoundAnswersRef = useRef<PlayerRoundAnswer[]>(currentRoundAnswers);
   const roundTimeLimitRef = useRef<number>(roundTimeLimit);
   const playerNameRef = useRef<string>(playerName);
+  const lastUserGuessRef = useRef<string | undefined>(undefined);
+  const currentTypingTextRef = useRef<string>('');
 
   useEffect(() => {
     songsRef.current = songs;
@@ -197,6 +200,9 @@ export const App: React.FC = () => {
     const limit = customLimit !== undefined ? customLimit : roundTimeLimitRef.current;
     setRoundTimeLeft(limit === 0 ? 0 : limit);
     setHasAnsweredThisRound(false);
+    hasAnsweredThisRoundRef.current = false;
+    lastUserGuessRef.current = undefined;
+    currentTypingTextRef.current = '';
     setSelectedChoice(undefined);
     setSoloGuessedCorrectly(false);
     setSoloPointsEarned(0);
@@ -222,6 +228,13 @@ export const App: React.FC = () => {
       if (remaining <= 0) {
         if (roundTimerRef.current) clearInterval(roundTimerRef.current);
         const isMulti = !!roomStateRef.current;
+
+        // If player was actively typing in GuessBar when time ran out, submit their typed answer!
+        if (!hasAnsweredThisRoundRef.current && currentTypingTextRef.current.trim()) {
+          handleGuess(currentTypingTextRef.current.trim());
+          return;
+        }
+
         if (!isMulti || isHostRef.current) {
           triggerRoundReveal(true);
         } else {
@@ -468,7 +481,10 @@ export const App: React.FC = () => {
             setIsPlayingAudio(false);
             setCurrentRoundAnswers(answers);
             setRoomState((prev) => prev ? { ...prev, players: updatedScores } : null);
-            const myAns = answers.find((a: PlayerRoundAnswer) => a.playerId === multiplayerService.myPlayerId);
+            const myAns = answers.find(
+              (a: PlayerRoundAnswer) => a.playerId === multiplayerService.myPlayerId ||
+                                       (a.playerName && a.playerName.trim().toLowerCase() === playerNameRef.current.trim().toLowerCase())
+            );
             if (myAns) {
               setSoloGuessedCorrectly(myAns.isCorrect);
               setSoloPointsEarned(myAns.pointsEarned);
@@ -482,11 +498,16 @@ export const App: React.FC = () => {
             const activeIdx = currentRoundIndexRef.current;
             const activeSong = songsRef.current[activeIdx] || currentSongRef.current;
             const limit = roundTimeLimitRef.current;
+            const resolvedGuessedTitle =
+              (myAns?.answerText && myAns.answerText.trim() && myAns.answerText !== 'หมดเวลา')
+                ? myAns.answerText
+                : (lastUserGuessRef.current || (myAns?.isCorrect ? (getThaiTitleTranslation(activeSong.title, activeSong.artist) || activeSong.title) : 'หมดเวลา'));
+
             const result: RoundResult = {
               round: activeIdx + 1,
               song: activeSong,
               guessedCorrectly: myAns?.isCorrect ?? false,
-              guessedTitle: myAns?.answerText || (myAns?.isCorrect ? activeSong.title : 'หมดเวลา'),
+              guessedTitle: resolvedGuessedTitle,
               pointsEarned: myAns?.pointsEarned ?? 0,
               hintsUsedCount: 0,
               timeSpent: myAns?.timeTaken ?? (limit === 0 ? Number((Math.max(500, Date.now() - roundStartTimeRef.current) / 1000).toFixed(1)) : limit),
@@ -749,11 +770,16 @@ export const App: React.FC = () => {
           const activeIdx = currentRoundIndexRef.current;
           const activeSong = songsRef.current[activeIdx] || currentSongRef.current;
           const limit = roundTimeLimitRef.current;
+          const resolvedGuessedTitle =
+            (myAns?.answerText && myAns.answerText.trim() && myAns.answerText !== 'หมดเวลา')
+              ? myAns.answerText
+              : (lastUserGuessRef.current || (myAns?.isCorrect ? (getThaiTitleTranslation(activeSong.title, activeSong.artist) || activeSong.title) : 'หมดเวลา'));
+
           const result: RoundResult = {
             round: activeIdx + 1,
             song: activeSong,
             guessedCorrectly: myAns?.isCorrect ?? false,
-            guessedTitle: myAns?.answerText || (myAns?.isCorrect ? activeSong.title : 'หมดเวลา'),
+            guessedTitle: resolvedGuessedTitle,
             pointsEarned: myAns?.pointsEarned ?? 0,
             hintsUsedCount: 0,
             timeSpent: myAns?.timeTaken ?? (limit === 0 ? Number((Math.max(500, Date.now() - roundStartTimeRef.current) / 1000).toFixed(1)) : limit),
@@ -1296,6 +1322,9 @@ export const App: React.FC = () => {
 
     setSelectedChoice(guessText);
     setHasAnsweredThisRound(true);
+    hasAnsweredThisRoundRef.current = true;
+    lastUserGuessRef.current = guessText;
+    currentTypingTextRef.current = '';
 
     const now = Date.now();
     const elapsedMs = Math.max(500, now - roundStartTimeRef.current);
@@ -1677,6 +1706,9 @@ export const App: React.FC = () => {
                 targetSong={currentSong}
                 onGuess={handleGuess}
                 onSkip={handleSkip}
+                onInputChange={(val) => {
+                  currentTypingTextRef.current = val;
+                }}
                 disabled={isAnswerLocked || gameState !== 'playing'}
                 disableDropdown={answerMode === 'text_pure'}
               />

@@ -65,6 +65,11 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({
   const isMultiplayer = players.length > 1;
   const sortedPlayers = useMemo(() => [...players].sort((a, b) => b.score - a.score), [players]);
 
+  const myPlayer = useMemo(() => {
+    if (!myPlayerId || players.length === 0) return null;
+    return players.find((p) => p.id === myPlayerId);
+  }, [myPlayerId, players]);
+
   const myRank = useMemo(() => {
     if (!myPlayerId || sortedPlayers.length === 0) return null;
     const idx = sortedPlayers.findIndex((p) => p.id === myPlayerId);
@@ -815,7 +820,21 @@ ${emojiBlocks}
                               </span>
                             ) : (
                               <span className="meta-wrong-tag">
-                                เดา: <strong>"{item.guessedTitle || 'หมดเวลา'}"</strong>
+                                เดา: <strong>"{
+                                  (() => {
+                                    if (item.guessedTitle && item.guessedTitle !== 'หมดเวลา') {
+                                      return item.guessedTitle;
+                                    }
+                                    const myAns = item.playerAnswers?.find(
+                                      (pa) => pa.playerId === myPlayerId ||
+                                              (myPlayer?.name && pa.playerName && pa.playerName.trim().toLowerCase() === myPlayer.name.trim().toLowerCase())
+                                    );
+                                    if (myAns?.answered && myAns.answerText && myAns.answerText !== 'หมดเวลา') {
+                                      return myAns.answerText;
+                                    }
+                                    return item.guessedTitle || 'หมดเวลา';
+                                  })()
+                                }"</strong>
                               </span>
                             )}
                             {item.playerAnswers && item.playerAnswers.length > 1 && (

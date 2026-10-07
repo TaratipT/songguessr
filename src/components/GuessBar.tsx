@@ -10,6 +10,7 @@ interface GuessBarProps {
   targetSong?: Song;
   onGuess: (guessText: string) => void;
   onSkip: () => void;
+  onInputChange?: (value: string) => void;
   disabled: boolean;
   disableDropdown?: boolean;
 }
@@ -19,6 +20,7 @@ export const GuessBar: React.FC<GuessBarProps> = ({
   targetSong,
   onGuess,
   onSkip,
+  onInputChange,
   disabled,
   disableDropdown = false
 }) => {
@@ -101,6 +103,7 @@ export const GuessBar: React.FC<GuessBarProps> = ({
     soundFX.playClick();
     onGuess(textToSubmit);
     setInputValue('');
+    onInputChange?.('');
     setIsDropdownOpen(false);
     setSelectedIndex(-1);
     inputRef.current?.focus();
@@ -112,6 +115,7 @@ export const GuessBar: React.FC<GuessBarProps> = ({
     setIsDropdownOpen(false);
     onGuess(songTitle);
     setInputValue('');
+    onInputChange?.('');
     inputRef.current?.focus();
   };
 
@@ -147,7 +151,10 @@ export const GuessBar: React.FC<GuessBarProps> = ({
             ref={inputRef}
             type="text"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+              onInputChange?.(e.target.value);
+            }}
             onKeyDown={handleKeyDown}
             onFocus={() => {
               if (suggestions.length > 0) setIsDropdownOpen(true);
