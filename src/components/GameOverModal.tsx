@@ -818,6 +818,22 @@ ${emojiBlocks}
                                 เดา: <strong>"{item.guessedTitle || 'หมดเวลา'}"</strong>
                               </span>
                             )}
+                            {item.playerAnswers && item.playerAnswers.length > 1 && (
+                              <div className="history-multi-guesses">
+                                {item.playerAnswers.map((pa) => (
+                                  <span
+                                    key={pa.playerId}
+                                    className={`multi-guess-tag ${pa.isCorrect ? 'is-correct' : pa.answered ? 'is-wrong' : 'is-timeout'}`}
+                                    title={`${pa.playerName}: ${pa.answered && pa.answerText ? pa.answerText : 'หมดเวลา'}`}
+                                  >
+                                    <span className="tag-player-name">{pa.playerName}:</span>
+                                    <span className="tag-player-ans">
+                                      {pa.answered && pa.answerText ? `"${pa.answerText}"` : '⏳'}
+                                    </span>
+                                  </span>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         </div>
 

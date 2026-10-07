@@ -213,7 +213,28 @@ export const RoundSummaryModal: React.FC<RoundSummaryModalProps> = ({
                     >
                       <div className="verdict-player-info">
                         <span className="verdict-avatar">{ans.avatar}</span>
-                        <span className="verdict-name" title={ans.playerName}>{ans.playerName}</span>
+                        <div className="verdict-player-meta">
+                          <div className="verdict-name-row">
+                            <span className="verdict-name" title={ans.playerName}>{ans.playerName}</span>
+                            {ans.playerId === myPlayerId && (
+                              <span className="verdict-you-pill">(คุณ)</span>
+                            )}
+                          </div>
+                          {ans.answered && ans.answerText ? (
+                            <div
+                              className={`verdict-user-guess ${ans.isCorrect ? 'is-correct' : 'is-wrong'}`}
+                              title={`คำตอบที่ส่ง: ${ans.answerText}`}
+                            >
+                              <span className="guess-prefix">{ans.isCorrect ? '✓' : '✗'} ตอบ:</span>
+                              <span className="guess-text">"{ans.answerText}"</span>
+                            </div>
+                          ) : (
+                            <div className="verdict-user-guess is-timeout">
+                              <span className="guess-prefix">⏳</span>
+                              <span className="guess-text">{ans.answered ? 'ไม่ได้ระบุ' : 'หมดเวลา'}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
 
                       <div className="verdict-badge-group">
