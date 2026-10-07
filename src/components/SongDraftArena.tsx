@@ -34,6 +34,7 @@ interface SongDraftArenaProps {
       redSurviving: string[];
       blueSurviving: string[];
       autoMatched: string[];
+      bannedArtists?: string[];
     }
   ) => void;
   onExitDraft?: () => void;
@@ -397,6 +398,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
 
   const handleAutoLockBans = () => {
     // สละสิทธิ์การแบนที่เหลือ: ล็อคเฉพาะที่เลือกไว้จริง ไม่สุ่มแบนมั่วให้
+    if (isMyBanLocked) return;
     soundFX.playLockIn();
     setIsMyBanLocked(true);
     onSendSubmitBans(myBans);
@@ -416,6 +418,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
   };
 
   const handleConfirmLockBans = () => {
+    if (isMyBanLocked) return;
     soundFX.playLockIn();
     setIsMyBanLocked(true);
     onSendSubmitBans(myBans);
@@ -476,7 +479,8 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
           {
             redSurviving: redSurv,
             blueSurviving: blueSurv,
-            autoMatched
+            autoMatched,
+            bannedArtists: Array.from(bannedSet)
           }
         );
       }, 4200);

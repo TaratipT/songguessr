@@ -1037,14 +1037,16 @@ export const App: React.FC = () => {
       redSurviving: string[];
       blueSurviving: string[];
       autoMatched: string[];
+      bannedArtists?: string[];
     }
   ) => {
     setIsLoadingSongs(true);
     setGameHistory([]);
 
     try {
-      // Extract all banned artists across active draft state and room draft state
+      // Extract all banned artists across active draft state, room draft state, and rosterDetails
       const allBansRaw = [
+        ...(rosterDetails?.bannedArtists || []),
         ...(activeDraftState?.redPlayer?.bans || []),
         ...(activeDraftState?.bluePlayer?.bans || []),
         ...(roomState?.draftState?.redPlayer?.bans || []),

@@ -63,6 +63,7 @@ class MultiplayerService {
   private currentRoomState: RoomState | null = null;
   private callbacks: MultiplayerCallbacks | null = null;
   private heartbeatTimer: number | null = null;
+  private banPhaseTimeout: any = null;
 
   // Generate 4-character room code (without SG- prefix)
   generateRoomCode(): string {
@@ -452,10 +453,10 @@ class MultiplayerService {
       if (this.currentRoomState?.draftState) {
         const ds = this.currentRoomState.draftState;
         if (ds.redPlayer.playerId === msg.playerId) {
-          ds.redPlayer.bans = msg.bans;
+          ds.redPlayer.bans = msg.bans || [];
           ds.redPlayer.isBanLocked = true;
         } else if (ds.bluePlayer.playerId === msg.playerId) {
-          ds.bluePlayer.bans = msg.bans;
+          ds.bluePlayer.bans = msg.bans || [];
           ds.bluePlayer.isBanLocked = true;
         }
 
@@ -463,45 +464,15 @@ class MultiplayerService {
         this.publish({
           type: 'DRAFT_BAN_PROGRESS',
           playerId: msg.playerId,
-          bannedCount: msg.bans.length,
+          bannedCount: (msg.bans || []).length,
           isBanLocked: true,
-          bans: msg.bans
+          bans: msg.bans || []
         });
-        this.callbacks.onDraftBanProgress?.(msg.playerId, msg.bans.length, true, msg.bans);
+        this.callbacks.onDraftBanProgress?.(msg.playerId, (msg.bans || []).length, true, msg.bans || []);
 
         // Check if both players have locked bans!
         if (ds.redPlayer.isBanLocked && ds.bluePlayer.isBanLocked) {
-          const allBansNormalized = Array.from(new Set([
-            ...(ds.redPlayer.bans || []),
-            ...(ds.bluePlayer.bans || [])
-          ])).map((b) => b.trim().toLowerCase()).filter(Boolean);
-
-          const isArtistBanned = (name: string) =>
-            allBansNormalized.includes(name.trim().toLowerCase());
-
-          const redSurviving = ds.redPlayer.picks.filter((p) => !isArtistBanned(p));
-          const blueSurviving = ds.bluePlayer.picks.filter((p) => !isArtistBanned(p));
-          const surviving = Array.from(new Set([...redSurviving, ...blueSurviving, ...ds.autoMatchedArtists]))
-            .filter((p) => !isArtistBanned(p));
-
-          ds.phase = 'battle_roster';
-          ds.survivingArtists = surviving;
-
-          const updatedDraftState: SongDraftState = {
-            ...ds,
-            phase: 'battle_roster',
-            survivingArtists: surviving,
-            redPlayer: { ...ds.redPlayer },
-            bluePlayer: { ...ds.bluePlayer }
-          };
-
-          this.publish({
-            type: 'DRAFT_PHASE_CHANGE',
-            phase: 'battle_roster',
-            draftState: updatedDraftState
-          });
-
-          this.callbacks.onDraftPhaseChange?.('battle_roster', updatedDraftState);
+          this.hostFinalizeBans();
         }
       }
     } else if (msg.type === 'DRAFT_PHASE_CHANGE') {
@@ -683,12 +654,79 @@ class MultiplayerService {
   hostChangeDraftPhase(phase: SongDraftPhase) {
     if (!this.isHost || !this.currentRoomState?.draftState) return;
     this.currentRoomState.draftState.phase = phase;
+
+    // Clear any existing ban timeout if phase is changing
+    if (this.banPhaseTimeout) {
+      clearTimeout(this.banPhaseTimeout);
+      this.banPhaseTimeout = null;
+    }
+
+    // Host-authoritative 32-second safety timeout for ban phase:
+    // If one player idles or forgets to click, host finalizes bans automatically,
+    // treating unsubmitted as forfeited (0 bans), without stalling the room!
+    if (phase === 'ban_phase') {
+      this.banPhaseTimeout = setTimeout(() => {
+        console.log('[Multiplayer] Ban phase timer expired on host, auto-finalizing bans...');
+        this.hostFinalizeBans();
+      }, 32000);
+    }
+
     this.publish({
       type: 'DRAFT_PHASE_CHANGE',
       phase,
       draftState: this.currentRoomState.draftState
     });
     this.callbacks?.onDraftPhaseChange?.(phase, this.currentRoomState.draftState);
+  }
+
+  // Finalizes ban phase safely, ensuring any artist banned by EITHER side is strictly excluded
+  hostFinalizeBans() {
+    if (!this.isHost || !this.currentRoomState?.draftState) return;
+    if (this.banPhaseTimeout) {
+      clearTimeout(this.banPhaseTimeout);
+      this.banPhaseTimeout = null;
+    }
+
+    const ds = this.currentRoomState.draftState;
+    if (ds.phase === 'battle_roster') return; // already finalized
+
+    // Ensure both are marked locked
+    ds.redPlayer.isBanLocked = true;
+    ds.bluePlayer.isBanLocked = true;
+    ds.redPlayer.bans = ds.redPlayer.bans || [];
+    ds.bluePlayer.bans = ds.bluePlayer.bans || [];
+
+    const allBansNormalized = Array.from(new Set([
+      ...ds.redPlayer.bans,
+      ...ds.bluePlayer.bans
+    ])).map((b) => b.trim().toLowerCase()).filter(Boolean);
+
+    const isArtistBanned = (name: string) =>
+      allBansNormalized.includes(name.trim().toLowerCase());
+
+    const redSurviving = (ds.redPlayer.picks || []).filter((p) => !isArtistBanned(p));
+    const blueSurviving = (ds.bluePlayer.picks || []).filter((p) => !isArtistBanned(p));
+    const surviving = Array.from(new Set([...redSurviving, ...blueSurviving, ...(ds.autoMatchedArtists || [])]))
+      .filter((p) => !isArtistBanned(p));
+
+    ds.phase = 'battle_roster';
+    ds.survivingArtists = surviving;
+
+    const updatedDraftState: SongDraftState = {
+      ...ds,
+      phase: 'battle_roster',
+      survivingArtists: surviving,
+      redPlayer: { ...ds.redPlayer, bans: ds.redPlayer.bans },
+      bluePlayer: { ...ds.bluePlayer, bans: ds.bluePlayer.bans }
+    };
+
+    this.publish({
+      type: 'DRAFT_PHASE_CHANGE',
+      phase: 'battle_roster',
+      draftState: updatedDraftState
+    });
+
+    this.callbacks?.onDraftPhaseChange?.('battle_roster', updatedDraftState);
   }
   hostStartDraft(draftState: SongDraftState) {
     if (!this.isHost || !this.currentRoomState) return;
@@ -1306,6 +1344,10 @@ class MultiplayerService {
     if (this.heartbeatTimer) {
       clearInterval(this.heartbeatTimer);
       this.heartbeatTimer = null;
+    }
+    if (this.banPhaseTimeout) {
+      clearTimeout(this.banPhaseTimeout);
+      this.banPhaseTimeout = null;
     }
     if (this.client) {
       try {
