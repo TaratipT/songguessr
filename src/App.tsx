@@ -1043,37 +1043,47 @@ export const App: React.FC = () => {
     setGameHistory([]);
 
     try {
+      // Extract all banned artists across active draft state and room draft state
+      const allBansRaw = [
+        ...(activeDraftState?.redPlayer?.bans || []),
+        ...(activeDraftState?.bluePlayer?.bans || []),
+        ...(roomState?.draftState?.redPlayer?.bans || []),
+        ...(roomState?.draftState?.bluePlayer?.bans || [])
+      ];
+      const bannedSet = new Set(allBansRaw.map((b) => b.trim().toLowerCase()).filter(Boolean));
+      const isArtistBanned = (name: string) => bannedSet.has(name.trim().toLowerCase());
+
+      const cleanSurviving = survivingArtists.filter((a) => !isArtistBanned(a));
+
       const draftCat: Category = {
         id: 'song_draft_roster',
-        name: `⚔️ SongDraft 1v1 (${survivingArtists.length} ศิลปิน)`,
-        thaiName: `⚔️ SongDraft 1v1 (${survivingArtists.length} ศิลปิน)`,
+        name: `⚔️ SongDraft 1v1 (${cleanSurviving.length} ศิลปิน)`,
+        thaiName: `⚔️ SongDraft 1v1 (${cleanSurviving.length} ศิลปิน)`,
         emoji: '⚔️',
-        badge: `${survivingArtists.length} ศิลปิน`,
-        description: survivingArtists.join(', '),
+        badge: `${cleanSurviving.length} ศิลปิน`,
+        description: cleanSurviving.join(', '),
         gradient: 'from-amber-500 to-red-600',
-        searchQueries: survivingArtists,
-        selectedArtists: survivingArtists,
+        searchQueries: cleanSurviving,
+        selectedArtists: cleanSurviving,
         modeType: 'custom'
       };
 
       // 1. Determine surviving artists for Red Corner vs Blue Corner
-      let redArtists = rosterDetails?.redSurviving ? [...rosterDetails.redSurviving] : [];
-      let blueArtists = rosterDetails?.blueSurviving ? [...rosterDetails.blueSurviving] : [];
-      const autoMatched = rosterDetails?.autoMatched ? [...rosterDetails.autoMatched] : [];
+      let redArtists = (rosterDetails?.redSurviving ? [...rosterDetails.redSurviving] : []).filter((a) => !isArtistBanned(a));
+      let blueArtists = (rosterDetails?.blueSurviving ? [...rosterDetails.blueSurviving] : []).filter((a) => !isArtistBanned(a));
+      const autoMatched = (rosterDetails?.autoMatched ? [...rosterDetails.autoMatched] : []).filter((a) => !isArtistBanned(a));
 
       // Fallback derivation if rosterDetails was omitted
       if (redArtists.length === 0 && blueArtists.length === 0) {
         if (activeDraftState) {
           const rPicks = activeDraftState.redPlayer?.picks || [];
           const bPicks = activeDraftState.bluePlayer?.picks || [];
-          const rBans = activeDraftState.redPlayer?.bans || [];
-          const bBans = activeDraftState.bluePlayer?.bans || [];
-          redArtists = rPicks.filter((p) => !bBans.includes(p));
-          blueArtists = bPicks.filter((p) => !rBans.includes(p));
+          redArtists = rPicks.filter((p) => !isArtistBanned(p));
+          blueArtists = bPicks.filter((p) => !isArtistBanned(p));
         } else {
-          const mid = Math.ceil(survivingArtists.length / 2);
-          redArtists = survivingArtists.slice(0, mid);
-          blueArtists = survivingArtists.slice(mid);
+          const mid = Math.ceil(cleanSurviving.length / 2);
+          redArtists = cleanSurviving.slice(0, mid);
+          blueArtists = cleanSurviving.slice(mid);
         }
       }
 
@@ -1233,7 +1243,7 @@ export const App: React.FC = () => {
       setCategory(draftCat);
 
       if (roomState && isHost) {
-        multiplayerService.hostBroadcastDraftRoster(survivingArtists, preparedSongs, draftCat, totalRounds);
+        multiplayerService.hostBroadcastDraftRoster(cleanSurviving, preparedSongs, draftCat, totalRounds);
       }
 
       setCurrentRoundIndex(0);

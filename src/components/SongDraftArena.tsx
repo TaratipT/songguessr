@@ -114,6 +114,18 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
     return map;
   }, []);
 
+  // Set of all banned artist names (normalized lowercase) across all sources
+  const allBannedNamesSet = useMemo(() => {
+    const raw = [
+      ...myBans,
+      ...opponentBans,
+      ...(draftState.redPlayer?.bans || []),
+      ...(draftState.bluePlayer?.bans || []),
+      ...(isAiOpponent ? aiBansRef.current : [])
+    ];
+    return new Set(raw.map((b) => b.trim().toLowerCase()).filter(Boolean));
+  }, [myBans, opponentBans, draftState.redPlayer?.bans, draftState.bluePlayer?.bans, isAiOpponent]);
+
   // Filtered artists for selection drawer
   const filteredArtists = useMemo(() => {
     let list = GLOBAL_ARTISTS;
@@ -440,14 +452,23 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
 
     // Only host (multiplayer) or solo player initiates song preparation
     if (isAiOpponent || isHost) {
-      const redPicks = isAiOpponent ? (myCorner === 'red' ? myPicks : aiPicksRef.current) : draftState.redPlayer.picks;
-      const bluePicks = isAiOpponent ? (myCorner === 'blue' ? myPicks : aiPicksRef.current) : draftState.bluePlayer.picks;
-      const redBans = isAiOpponent ? (myCorner === 'red' ? myBans : aiBansRef.current) : draftState.redPlayer.bans;
-      const blueBans = isAiOpponent ? (myCorner === 'blue' ? myBans : aiBansRef.current) : draftState.bluePlayer.bans;
+      const redPicks = isAiOpponent ? (myCorner === 'red' ? myPicks : aiPicksRef.current) : (draftState.redPlayer.picks || []);
+      const bluePicks = isAiOpponent ? (myCorner === 'blue' ? myPicks : aiPicksRef.current) : (draftState.bluePlayer.picks || []);
 
-      const redSurv = redPicks.filter((p) => !blueBans.includes(p));
-      const blueSurv = bluePicks.filter((p) => !redBans.includes(p));
-      const surviving = Array.from(new Set([...redSurv, ...blueSurv, ...autoMatched]));
+      const allBansRaw = [
+        ...myBans,
+        ...opponentBans,
+        ...(draftState.redPlayer?.bans || []),
+        ...(draftState.bluePlayer?.bans || []),
+        ...(isAiOpponent ? aiBansRef.current : [])
+      ];
+      const bannedSet = new Set(allBansRaw.map((b) => b.trim().toLowerCase()).filter(Boolean));
+      const isArtistBanned = (name: string) => bannedSet.has(name.trim().toLowerCase());
+
+      const redSurv = redPicks.filter((p) => !isArtistBanned(p));
+      const blueSurv = bluePicks.filter((p) => !isArtistBanned(p));
+      const surviving = Array.from(new Set([...redSurv, ...blueSurv, ...autoMatched]))
+        .filter((p) => !isArtistBanned(p));
 
       const t = setTimeout(() => {
         onCompleteDraft(
@@ -461,7 +482,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
       }, 4200);
       return () => clearTimeout(t);
     }
-  }, [phase, isAiOpponent, isHost, myPicks, myBans, myCorner, draftState, autoMatched, onCompleteDraft]);
+  }, [phase, isAiOpponent, isHost, myPicks, myBans, opponentBans, myCorner, draftState, autoMatched, onCompleteDraft]);
 
   // Compute surviving lists for display in battle roster
   const survivingPicks = useMemo(() => {
@@ -471,16 +492,21 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
     const bluePicks = myCorner === 'blue'
       ? myPicks
       : (opponentPicksRevealed.length > 0 ? opponentPicksRevealed : (draftState.bluePlayer.picks || []));
-    const redBans = myCorner === 'red'
-      ? myBans
-      : (opponentBans.length > 0 ? opponentBans : (draftState.redPlayer.bans || []));
-    const blueBans = myCorner === 'blue'
-      ? myBans
-      : (opponentBans.length > 0 ? opponentBans : (draftState.bluePlayer.bans || []));
 
-    const redSurv = redPicks.filter((p) => !blueBans.includes(p));
-    const blueSurv = bluePicks.filter((p) => !redBans.includes(p));
-    const combined = Array.from(new Set([...redSurv, ...blueSurv, ...autoMatched]));
+    const allBansRaw = [
+      ...myBans,
+      ...opponentBans,
+      ...(draftState.redPlayer?.bans || []),
+      ...(draftState.bluePlayer?.bans || []),
+      ...(isAiOpponent ? aiBansRef.current : [])
+    ];
+    const bannedSet = new Set(allBansRaw.map((b) => b.trim().toLowerCase()).filter(Boolean));
+    const isArtistBanned = (name: string) => bannedSet.has(name.trim().toLowerCase());
+
+    const redSurv = redPicks.filter((p) => !isArtistBanned(p));
+    const blueSurv = bluePicks.filter((p) => !isArtistBanned(p));
+    const combined = Array.from(new Set([...redSurv, ...blueSurv, ...autoMatched]))
+      .filter((p) => !isArtistBanned(p));
     return { redSurv, blueSurv, combined };
   }, [
     myCorner,
@@ -492,7 +518,8 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
     draftState.redPlayer.picks,
     draftState.bluePlayer.picks,
     draftState.redPlayer.bans,
-    draftState.bluePlayer.bans
+    draftState.bluePlayer.bans,
+    isAiOpponent
   ]);
 
   return (
@@ -645,9 +672,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                   : (phase !== 'secret_pick' ? (opponentPicksRevealed[index] || draftState.redPlayer.picks?.[index]) : null);
                 const hasCard = Boolean(artistName);
                 const isAutoMatch = artistName && autoMatched.some((m) => m.toLowerCase().trim() === artistName.toLowerCase().trim());
-                const isBanned = artistName && (isMine
-                  ? (opponentBans.includes(artistName) || draftState.bluePlayer.bans?.includes(artistName))
-                  : (myBans.includes(artistName) || draftState.redPlayer.bans?.includes(artistName)));
+                const isBanned = Boolean(artistName && allBannedNamesSet.has(artistName.trim().toLowerCase()));
                 const artistObj = artistName ? artistMap.get(artistName.toLowerCase().trim()) : null;
 
                 // Mystery slot (opponent during secret pick)
@@ -667,6 +692,13 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                   );
                 }
 
+                const isSelectedForBan = Boolean(
+                  phase === 'ban_phase' &&
+                  !isMine &&
+                  artistName &&
+                  myBans.some((b) => b.trim().toLowerCase() === artistName.trim().toLowerCase())
+                );
+
                 return (
                   <div
                     key={`red_pick_${index}`}
@@ -674,7 +706,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                       isAutoMatch ? 'auto-matched' : ''
                     } ${isBanned ? 'is-banned' : ''} ${
                       phase === 'ban_phase' && !isMine && !isAutoMatch && !isMyBanLocked && hasCard ? 'bannable-target' : ''
-                    } ${phase === 'ban_phase' && !isMine && artistName && myBans.includes(artistName) ? 'selected-for-ban' : ''}`}
+                    } ${isSelectedForBan ? 'selected-for-ban' : ''}`}
                     onClick={() => {
                       if (phase === 'ban_phase' && !isMine && artistName) {
                         handleToggleBan(artistName);
@@ -1087,9 +1119,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                   : (phase !== 'secret_pick' ? (opponentPicksRevealed[index] || draftState.bluePlayer.picks?.[index]) : null);
                 const hasCard = Boolean(artistName);
                 const isAutoMatch = artistName && autoMatched.some((m) => m.toLowerCase().trim() === artistName.toLowerCase().trim());
-                const isBanned = artistName && (isMine
-                  ? (opponentBans.includes(artistName) || draftState.redPlayer.bans?.includes(artistName))
-                  : (myBans.includes(artistName) || draftState.bluePlayer.bans?.includes(artistName)));
+                const isBanned = Boolean(artistName && allBannedNamesSet.has(artistName.trim().toLowerCase()));
                 const artistObj = artistName ? artistMap.get(artistName.toLowerCase().trim()) : null;
 
                 // Mystery slot
@@ -1109,6 +1139,13 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                   );
                 }
 
+                const isSelectedForBan = Boolean(
+                  phase === 'ban_phase' &&
+                  !isMine &&
+                  artistName &&
+                  myBans.some((b) => b.trim().toLowerCase() === artistName.trim().toLowerCase())
+                );
+
                 return (
                   <div
                     key={`blue_pick_${index}`}
@@ -1116,7 +1153,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                       isAutoMatch ? 'auto-matched' : ''
                     } ${isBanned ? 'is-banned' : ''} ${
                       phase === 'ban_phase' && !isMine && !isAutoMatch && !isMyBanLocked && hasCard ? 'bannable-target' : ''
-                    } ${phase === 'ban_phase' && !isMine && artistName && myBans.includes(artistName) ? 'selected-for-ban' : ''}`}
+                    } ${isSelectedForBan ? 'selected-for-ban' : ''}`}
                     onClick={() => {
                       if (phase === 'ban_phase' && !isMine && artistName) {
                         handleToggleBan(artistName);

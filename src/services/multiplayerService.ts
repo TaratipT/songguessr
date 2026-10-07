@@ -471,9 +471,18 @@ class MultiplayerService {
 
         // Check if both players have locked bans!
         if (ds.redPlayer.isBanLocked && ds.bluePlayer.isBanLocked) {
-          const redSurviving = ds.redPlayer.picks.filter((p) => !ds.bluePlayer.bans.includes(p));
-          const blueSurviving = ds.bluePlayer.picks.filter((p) => !ds.redPlayer.bans.includes(p));
-          const surviving = Array.from(new Set([...redSurviving, ...blueSurviving, ...ds.autoMatchedArtists]));
+          const allBansNormalized = Array.from(new Set([
+            ...(ds.redPlayer.bans || []),
+            ...(ds.bluePlayer.bans || [])
+          ])).map((b) => b.trim().toLowerCase()).filter(Boolean);
+
+          const isArtistBanned = (name: string) =>
+            allBansNormalized.includes(name.trim().toLowerCase());
+
+          const redSurviving = ds.redPlayer.picks.filter((p) => !isArtistBanned(p));
+          const blueSurviving = ds.bluePlayer.picks.filter((p) => !isArtistBanned(p));
+          const surviving = Array.from(new Set([...redSurviving, ...blueSurviving, ...ds.autoMatchedArtists]))
+            .filter((p) => !isArtistBanned(p));
 
           ds.phase = 'battle_roster';
           ds.survivingArtists = surviving;
