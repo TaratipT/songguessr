@@ -686,6 +686,22 @@ export const THAI_ARTISTS: ThaiArtist[] = [
     groupLabel: 'Y2K & กามิกาเซ่',
     emoji: '💔',
     hitsHint: 'ตามใจปาก, ระหว่างเพื่อนกับแฟน, อวดเก่ง'
+  },
+  {
+    id: 'khiankai_lae_wanit',
+    name: 'เขียนไขและวานิช',
+    group: 'tpop',
+    groupLabel: 'T-POP & อินดี้รุ่นใหม่',
+    emoji: '🌾',
+    hitsHint: 'แก้มน้องนางนั้นแดงกว่าใคร, หนีห่าง, ภาพฝันในจักรวาล, ฤดูฝน'
+  },
+  {
+    id: 'themoonwillalwaysbewithme',
+    name: 'themoonwillalwaysbewithme',
+    group: 'tpop',
+    groupLabel: 'T-POP & อินดี้รุ่นใหม่',
+    emoji: '🌙',
+    hitsHint: 'ซูลูปาก้า ตาปาเฮ้, ไดโนเสาร์ไข่ดาวปาจังกี้, ให้ดาวช่วยปลอบประโลมหัวใจ'
   }
 ];
 

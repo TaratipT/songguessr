@@ -81,7 +81,8 @@ export const CATEGORIES: Category[] = [
       'Safeplanet', 'Dept', 'HYBS', "Zweed n' Roll", 'เรนิษรา', "AYLA's", 'Anatomy Rabbit',
       'Mirrr', 'Fellow Fellow', 'Polycat', 'Scrubb', 'Whal & Dolph', 'YENTED', 'The TOYS',
       'PURPEECH', 'YourMOOD', 'Landokmai', 'Television Off', 'guncharlie', 'SOYBAD',
-      'Blackbeans', 'Moving and Cut', 'Loserpop', 'Uncle Ben'
+      'Blackbeans', 'Moving and Cut', 'Loserpop', 'Uncle Ben',
+      'เขียนไขและวานิช', 'themoonwillalwaysbewithme'
     ]
   },
   {

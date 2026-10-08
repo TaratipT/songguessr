@@ -2239,6 +2239,28 @@ export const GLOBAL_ARTISTS: GlobalArtist[] = [
     hitsHint: 'ลูกอม, ร่มสีเทา, ทราย, Avenue, สถานีดวงจันทร์, จิ๊กซอว์',
     storefront: 'TH'
   },
+  {
+    id: 'khiankai_lae_wanit',
+    name: 'เขียนไขและวานิช',
+    region: 'thai',
+    regionLabel: 'ไทย',
+    genreLabel: 'โฟล์ก / อินดี้',
+    emoji: '🌾',
+    hitsHint: 'แก้มน้องนางนั้นแดงกว่าใคร, หนีห่าง, ภาพฝันในจักรวาล, ฤดูฝน',
+    storefront: 'TH',
+    itunesArtistId: 1482283266
+  },
+  {
+    id: 'themoonwillalwaysbewithme',
+    name: 'themoonwillalwaysbewithme',
+    region: 'thai',
+    regionLabel: 'ไทย',
+    genreLabel: 'อินดี้ป็อป / เบดรูมป็อป',
+    emoji: '🌙',
+    hitsHint: 'ซูลูปาก้า ตาปาเฮ้, ไดโนเสาร์ไข่ดาวปาจังกี้, ให้ดาวช่วยปลอบประโลมหัวใจ, ดาวที่เลือนลาง กับใจที่บางเบา',
+    storefront: 'TH',
+    itunesArtistId: 1500427863
+  },
 
   // =========================================================================
   // 2. 🌎 ศิลปินสากล (GLOBAL BILLBOARD ARTISTS) - 39
@@ -4579,8 +4601,8 @@ export const ARTIST_PRESETS: ArtistPreset[] = [
     id: 'preset_thai_indie_night',
     title: '🌙 อินดี้ไทย คาเฟ่ & ซินธ์ไนท์',
     region: 'thai',
-    subtitle: 'Safeplanet, Dept, HYBS, Zweed n\' Roll, เรนิษรา, AYLA\'s, Mirrr, Fellow Fellow, Polycat',
-    artists: ['Safeplanet', 'Dept', 'HYBS', "Zweed n' Roll", 'เรนิษรา', "AYLA's", 'Anatomy Rabbit', 'Mirrr', 'Fellow Fellow', 'Polycat', 'Scrubb', 'Whal & Dolph', 'YENTED', 'The TOYS', 'PURPEECH', 'YourMOOD', 'Landokmai', 'Television Off', 'guncharlie', 'SOYBAD']
+    subtitle: 'Safeplanet, Dept, HYBS, Zweed n\' Roll, เรนิษรา, AYLA\'s, Mirrr, Fellow Fellow, เขียนไขและวานิช, themoon',
+    artists: ['Safeplanet', 'Dept', 'HYBS', "Zweed n' Roll", 'เรนิษรา', "AYLA's", 'Anatomy Rabbit', 'Mirrr', 'Fellow Fellow', 'Polycat', 'Scrubb', 'Whal & Dolph', 'YENTED', 'The TOYS', 'PURPEECH', 'YourMOOD', 'Landokmai', 'Television Off', 'guncharlie', 'SOYBAD', 'เขียนไขและวานิช', 'themoonwillalwaysbewithme']
   },
   {
     id: 'preset_thai_tpop_hits',
@@ -4957,6 +4979,15 @@ export const ARTIST_ALIASES: Record<string, string[]> = {
   'แว่นใหญ่': ['Wanyai', 'WANYAi'],
   'whatcharawalee': ['วัชราวลี', 'Whatcharawalee', 'WhatChaRaWaLee'],
   'วัชราวลี': ['WhatChaRaWaLee', 'Whatcharawalee'],
+  // Folk & Indie
+  'เขียนไขและวานิช': ['เขียนไขและวาณิช', 'เขียนไขและวาณิข', 'เขียนไข', 'Khiankai and Wanit', 'Khiankai'],
+  'เขียนไขและวาณิช': ['เขียนไขและวานิช', 'เขียนไขและวาณิข', 'เขียนไข', 'Khiankai and Wanit', 'Khiankai'],
+  'เขียนไขและวาณิข': ['เขียนไขและวานิช', 'เขียนไขและวาณิช', 'เขียนไข', 'Khiankai and Wanit', 'Khiankai'],
+  'เขียนไข': ['เขียนไขและวานิช', 'เขียนไขและวาณิช', 'เขียนไขและวาณิข'],
+  'khiankai': ['เขียนไขและวานิช', 'เขียนไขและวาณิช'],
+  'themoonwillalwaysbewithme': ['THEMOONWILLALWAYSBEWITHME', 'The Moon Will Always Be With Me', 'the moon will always be with me', 'เดอะมูน'],
+  'the moon will always be with me': ['themoonwillalwaysbewithme', 'THEMOONWILLALWAYSBEWITHME'],
+  'เดอะมูน': ['themoonwillalwaysbewithme', 'THEMOONWILLALWAYSBEWITHME'],
   'carly rae jepsen': ['คาร์ลี เร เจปเซน', 'Carly'],
   'ellie goulding': ['เอลลี กูลดิง', 'Ellie'],
   'keshi': ['เคชิ'],
@@ -5107,6 +5138,14 @@ const ARTIST_ITUNES_IDS: Record<string, number> = {
   'purpeech': 1565492336,       // Thai Indie band PURPEECH
   'anatomyrabbit': 1456053491,  // Thai Indie band Anatomy Rabbit
   'littlejohn': 1790625632,     // Thai Rock band LITTLE JOHN (9Arkkhan)
+  'khiankailawanit': 1482283266, // เขียนไขและวานิช
+  'khiankailaewanit': 1482283266,
+  'เขียนไขและวานิช': 1482283266,
+  'เขียนไขและวาณิช': 1482283266,
+  'เขียนไขและวาณิข': 1482283266,
+  'เขียนไข': 1482283266,
+  'themoonwillalwaysbewithme': 1500427863, // THEMOONWILLALWAYSBEWITHME
+  'themoon': 1500427863,
 };
 
 export function getArtistItunesId(name: string): number | undefined {
