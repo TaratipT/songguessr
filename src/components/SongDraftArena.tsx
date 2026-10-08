@@ -524,6 +524,14 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
     isAiOpponent
   ]);
 
+  // Opponent picks list for ban phase center view
+  const opponentPicksList = useMemo(() => {
+    const picks = myCorner === 'red'
+      ? (opponentPicksRevealed.length > 0 ? opponentPicksRevealed : (draftState.bluePlayer.picks || []))
+      : (opponentPicksRevealed.length > 0 ? opponentPicksRevealed : (draftState.redPlayer.picks || []));
+    return picks.filter(Boolean) as string[];
+  }, [myCorner, opponentPicksRevealed, draftState.bluePlayer.picks, draftState.redPlayer.picks]);
+
   return (
     <div className="song-draft-arena-overlay">
       <div className="draft-arena-container">
@@ -813,7 +821,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                       onClick={() => setRegionFilter('all')}
                       className={`pill-btn ${regionFilter === 'all' ? 'active' : ''}`}
                     >
-                      ทั้งหมด (449)
+                      ทั้งหมด ({GLOBAL_ARTISTS.length})
                     </button>
                     <button
                       type="button"
@@ -954,16 +962,16 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                   </div>
 
                   <div className="drawer-action-buttons">
-                    {!isMyPickLocked && myPicks.length < 5 && (
-                      <button
-                        type="button"
-                        onClick={handleRandomFillPicks}
-                        className="btn-draft-secondary"
-                      >
-                        <Dice5 size={15} />
-                        <span>สุ่มให้ครบ 5 คน</span>
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      disabled={isMyPickLocked || myPicks.length >= 5}
+                      onClick={handleRandomFillPicks}
+                      className="btn-draft-secondary"
+                      title={myPicks.length >= 5 ? 'เลือกครบ 5 คนแล้ว' : 'สุ่มเลือกให้ครบ 5 คน'}
+                    >
+                      <Dice5 size={15} />
+                      <span>สุ่มให้ครบ 5 คน</span>
+                    </button>
 
                     <button
                       type="button"
@@ -1043,7 +1051,61 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                 <div className="ban-status-strip">
                   <div className="ban-target-tag">
                     <span>เป้าหมายที่คุณเลือกแบน:</span>
-                    <strong>{myBans.length > 0 ? myBans.join(', ') : 'ยังไม่ได้เลือก (คลิกที่การ์ดฝ่ายตรงข้าม)'}</strong>
+                    <strong>{myBans.length > 0 ? myBans.join(', ') : 'ยังไม่ได้เลือก (คลิกที่การ์ดด้านล่างหรือแถบด้านข้าง)'}</strong>
+                  </div>
+                </div>
+
+                {/* Opponent's Cards Center Deck for easy banning */}
+                <div className="ban-center-deck">
+                  <h4 className="ban-deck-title">
+                    🎯 คลิกที่การ์ดของฝ่ายตรงข้ามเพื่อเลือกแบน 1 คน:
+                  </h4>
+                  <div className="ban-targets-grid">
+                    {opponentPicksList.map((artistName, idx) => {
+                      const isAutoMatch = artistName && autoMatched.some((m) => m.toLowerCase().trim() === artistName.toLowerCase().trim());
+                      const isSelectedForBan = myBans.some((b) => b.trim().toLowerCase() === artistName.trim().toLowerCase());
+                      const artistObj = artistName ? artistMap.get(artistName.toLowerCase().trim()) : null;
+
+                      return (
+                        <div
+                          key={`ban_target_center_${idx}`}
+                          onClick={() => {
+                            if (!isAutoMatch && !isMyBanLocked && artistName) {
+                              handleToggleBan(artistName);
+                            }
+                          }}
+                          className={`ban-target-card ${isAutoMatch ? 'auto-protected' : ''} ${
+                            isSelectedForBan ? 'ban-selected' : ''
+                          } ${isMyBanLocked || isAutoMatch ? 'non-interactive' : ''}`}
+                          title={isAutoMatch ? 'ได้รับการคุ้มกัน (AUTO-MATCH) ไม่สามารถแบนได้' : `แบน ${artistName}`}
+                        >
+                          <div className="ban-target-top">
+                            <span className="ban-target-emoji">{artistObj?.emoji || '🎤'}</span>
+                            <div className="ban-target-info">
+                              <strong className="ban-target-name">{artistName}</strong>
+                              {artistObj?.genreLabel && (
+                                <span className="ban-target-genre">{artistObj.genreLabel}</span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="ban-target-footer">
+                            {isAutoMatch ? (
+                              <span className="ban-protect-tag">
+                                <Shield size={12} /> ได้รับการคุ้มกัน
+                              </span>
+                            ) : isSelectedForBan ? (
+                              <span className="ban-marked-tag">
+                                <Ban size={12} /> ถูกเลือกแบน (1/1)
+                              </span>
+                            ) : (
+                              <span className="ban-selectable-tag">
+                                แตะเพื่อแบน 🚫
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </section>
