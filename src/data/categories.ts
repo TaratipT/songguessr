@@ -82,7 +82,7 @@ export const CATEGORIES: Category[] = [
       'Mirrr', 'Fellow Fellow', 'Polycat', 'Scrubb', 'Whal & Dolph', 'YENTED', 'The TOYS',
       'PURPEECH', 'YourMOOD', 'Landokmai', 'Television Off', 'guncharlie', 'SOYBAD',
       'Blackbeans', 'Moving and Cut', 'Loserpop', 'Uncle Ben',
-      'เขียนไขและวานิช', 'themoonwillalwaysbewithme'
+      'เขียนไขและวานิช', 'themoonwillalwaysbewithme', 'Clockwork Motionless', 'มนัสวีร์', 'Mocca Garden'
     ]
   },
   {
@@ -97,7 +97,7 @@ export const CATEGORIES: Category[] = [
     searchQueries: [
       'Bodyslam', 'Potato', 'Cocktail', 'Clash', 'Big Ass', 'The Richman Toy', 'Labanoon',
       'Getsunova', 'Klear', 'Zeal', '25hours', 'So Cool', 'Kala', 'Paradox', 'Slot Machine',
-      'Dr.Fuu', 'Silly Fools', 'Loso', 'Ebola', 'Blackhead', 'Hangman'
+      'Dr.Fuu', 'Silly Fools', 'Loso', 'Ebola', 'Blackhead', 'Hangman', 'The Mousses', 'Ten To Twelve'
     ]
   },
   {
@@ -127,7 +127,8 @@ export const CATEGORIES: Category[] = [
     searchQueries: [
       'YOUNGOHM', 'illslick', 'UrboyTJ', 'AUTTA', 'GAVIN:D', 'SURIYA MQT', 'P6ICK', 'BLVCKHEART',
       'SPRITE', 'F.HERO', 'SARAN', 'D GERRARD', 'Twopee Southside', 'LAZYLOXY', 'MILLI',
-      'RachYO', 'TangBadVoice', '1MILL', 'MAIYARAP', 'DIAMOND MQT', 'WONDERFRAME', 'OG-ANIC'
+      'RachYO', 'TangBadVoice', '1MILL', 'MAIYARAP', 'DIAMOND MQT', 'WONDERFRAME', 'OG-ANIC',
+      'THAITANIUM', 'Joey Boy', 'CD Guntee', 'Jarvis'
     ]
   },
   {
@@ -157,7 +158,7 @@ export const CATEGORIES: Category[] = [
     searchQueries: [
       'พุ่มพวง ดวงจันทร์', 'สุนารี ราชสีมา', 'ศิริพร อำไพพงษ์', 'จินตหรา พูนลาภ', 'ยอดรัก สลักใจ',
       'ไรอัล กาจบัณฑิต', 'คาราบาว', 'พงษ์สิทธิ์ คำภีร์', 'เสก โลโซ', 'ป้าง นครินทร์',
-      'มาลีฮวนน่า', 'อัสนี วสันต์', 'หินเหล็กไฟ', 'วงฟลาย (Fly)'
+      'มาลีฮวนน่า', 'อัสนี วสันต์', 'หินเหล็กไฟ', 'วงฟลาย (Fly)', 'วงพัทลุง'
     ]
   },
   {
@@ -173,7 +174,8 @@ export const CATEGORIES: Category[] = [
       'แสตมป์ อภิวัชร์', 'สิงโต นำโชค', 'Zom Marie', 'TWO Popetorn', 'Lipta', 'No One Else',
       'Sarah Salola', 'Patrickananda', 'First Anuwat', 'Bell Supol', 'Wan Thanakrit',
       'Pop Pongkool', 'Boy Peacemaker', 'SERIOUS BACON', 'Armchair', 'Superbaker',
-      'Room39', 'Wanyai', 'WhatChaRaWaLee', 'Atom Chanakan', 'Oat Pramote'
+      'Room39', 'Wanyai', 'WhatChaRaWaLee', 'Atom Chanakan', 'Oat Pramote',
+      'Season Five', "Jetset'er", 'Singular'
     ]
   },
   {
@@ -188,7 +190,8 @@ export const CATEGORIES: Category[] = [
     searchQueries: [
       'Bird Thongchai', 'New & Jiew', 'Christina Aguilar', 'Nicole Theriault', 'Mos Patiparn',
       'Ploychompoo', 'Jay Jetrin', 'Peck Palitchoke', 'Bie Sukrit', 'Ice Saranyu',
-      'Aof Pongsak', 'Palmy', 'Endorphine', 'Tata Young', 'Ben Chalatit', 'James Ruangsak'
+      'Aof Pongsak', 'Palmy', 'Endorphine', 'Tata Young', 'Ben Chalatit', 'James Ruangsak',
+      'ใหม่ เจริญปุระ', 'แก้ม วิชญาณี', 'โรส ศิรินทิพย์', 'ติ๊ก ชิโร่'
     ]
   },
   {
@@ -202,7 +205,7 @@ export const CATEGORIES: Category[] = [
     gradient: 'from-red-800 to-zinc-900',
     searchQueries: [
       'Retrospect', 'Sweet Mullet', 'Ebola', 'Lomosonic', 'Taitosmith', 'Little John',
-      'Bomb at Track', 'Oblivious', 'The Yers', 'Silly Fools', 'Blackhead'
+      'Bomb at Track', 'Oblivious', 'The Yers', 'Silly Fools', 'Blackhead', 'The Darkest Romance'
     ]
   },
 
