@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import type { SongDraftState, SongDraftPhase } from '../types';
 import { GLOBAL_ARTISTS, getArtistAliases, type GlobalArtist, type ArtistRegion } from '../data/artistsData';
+import { isArtistNameBanned } from '../services/itunesApi';
 import { soundFX } from '../services/soundEffects';
 import './SongDraftArena.css';
 
@@ -115,16 +116,15 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
     return map;
   }, []);
 
-  // Set of all banned artist names (normalized lowercase) across all sources
-  const allBannedNamesSet = useMemo(() => {
-    const raw = [
+  // List of all banned artist names across all sources
+  const allBansList = useMemo(() => {
+    return [
       ...myBans,
       ...opponentBans,
       ...(draftState.redPlayer?.bans || []),
       ...(draftState.bluePlayer?.bans || []),
       ...(isAiOpponent ? aiBansRef.current : [])
-    ];
-    return new Set(raw.map((b) => b.trim().toLowerCase()).filter(Boolean));
+    ].filter(Boolean) as string[];
   }, [myBans, opponentBans, draftState.redPlayer?.bans, draftState.bluePlayer?.bans, isAiOpponent]);
 
   // Filtered artists for selection drawer
@@ -464,9 +464,8 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
         ...(draftState.redPlayer?.bans || []),
         ...(draftState.bluePlayer?.bans || []),
         ...(isAiOpponent ? aiBansRef.current : [])
-      ];
-      const bannedSet = new Set(allBansRaw.map((b) => b.trim().toLowerCase()).filter(Boolean));
-      const isArtistBanned = (name: string) => bannedSet.has(name.trim().toLowerCase());
+      ].filter(Boolean) as string[];
+      const isArtistBanned = (name: string) => isArtistNameBanned(name, allBansRaw);
 
       const redSurv = redPicks.filter((p) => !isArtistBanned(p));
       const blueSurv = bluePicks.filter((p) => !isArtistBanned(p));
@@ -479,8 +478,8 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
           {
             redSurviving: redSurv,
             blueSurviving: blueSurv,
-            autoMatched,
-            bannedArtists: Array.from(bannedSet)
+            autoMatched: autoMatched.filter((m) => !isArtistBanned(m)),
+            bannedArtists: allBansRaw
           }
         );
       }, 4200);
@@ -503,9 +502,8 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
       ...(draftState.redPlayer?.bans || []),
       ...(draftState.bluePlayer?.bans || []),
       ...(isAiOpponent ? aiBansRef.current : [])
-    ];
-    const bannedSet = new Set(allBansRaw.map((b) => b.trim().toLowerCase()).filter(Boolean));
-    const isArtistBanned = (name: string) => bannedSet.has(name.trim().toLowerCase());
+    ].filter(Boolean) as string[];
+    const isArtistBanned = (name: string) => isArtistNameBanned(name, allBansRaw);
 
     const redSurv = redPicks.filter((p) => !isArtistBanned(p));
     const blueSurv = bluePicks.filter((p) => !isArtistBanned(p));
@@ -676,7 +674,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                   : (phase !== 'secret_pick' ? (opponentPicksRevealed[index] || draftState.redPlayer.picks?.[index]) : null);
                 const hasCard = Boolean(artistName);
                 const isAutoMatch = artistName && autoMatched.some((m) => m.toLowerCase().trim() === artistName.toLowerCase().trim());
-                const isBanned = Boolean(artistName && allBannedNamesSet.has(artistName.trim().toLowerCase()));
+                const isBanned = Boolean(artistName && isArtistNameBanned(artistName, allBansList));
                 const artistObj = artistName ? artistMap.get(artistName.toLowerCase().trim()) : null;
 
                 // Mystery slot (opponent during secret pick)
@@ -1123,7 +1121,7 @@ export const SongDraftArena: React.FC<SongDraftArenaProps> = ({
                   : (phase !== 'secret_pick' ? (opponentPicksRevealed[index] || draftState.bluePlayer.picks?.[index]) : null);
                 const hasCard = Boolean(artistName);
                 const isAutoMatch = artistName && autoMatched.some((m) => m.toLowerCase().trim() === artistName.toLowerCase().trim());
-                const isBanned = Boolean(artistName && allBannedNamesSet.has(artistName.trim().toLowerCase()));
+                const isBanned = Boolean(artistName && isArtistNameBanned(artistName, allBansList));
                 const artistObj = artistName ? artistMap.get(artistName.toLowerCase().trim()) : null;
 
                 // Mystery slot

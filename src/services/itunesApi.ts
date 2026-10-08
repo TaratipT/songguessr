@@ -445,6 +445,59 @@ export function isMainArtistMatch(trackArtist: string, targetArtist: string): bo
   return false;
 }
 
+// Bulletproof banned artist detector: checks candidate against banned list including aliases & collaborations
+export function isArtistNameBanned(candidateArtist: string, bannedNames: (string | undefined)[]): boolean {
+  if (!candidateArtist) return false;
+  const normCandidate = cleanArtist(candidateArtist);
+  if (!normCandidate) return false;
+
+  const validBans = bannedNames.filter(Boolean) as string[];
+  if (validBans.length === 0) return false;
+
+  for (const ban of validBans) {
+    const normBan = cleanArtist(ban);
+    if (!normBan) continue;
+
+    // 1. Exact cleaned match
+    if (normCandidate === normBan) return true;
+
+    // 2. Direct inclusion (e.g. "Three Man Down & Tilly Birds" contains "Three Man Down")
+    if (normCandidate.includes(normBan) || normBan.includes(normCandidate)) {
+      if (normBan.length >= 3 && normCandidate.length >= 3) return true;
+    }
+
+    // 3. Main artist match check (splits by feat, &, x, etc.)
+    if (isMainArtistMatch(candidateArtist, ban) || isMainArtistMatch(ban, candidateArtist)) {
+      return true;
+    }
+
+    // 4. Aliases dictionary check (Thai <-> English, romanizations)
+    const banAliases = getArtistAliases(ban);
+    for (const al of banAliases) {
+      const normAl = cleanArtist(al);
+      if (!normAl) continue;
+      if (normCandidate === normAl) return true;
+      if ((normCandidate.includes(normAl) || normAl.includes(normCandidate)) && normAl.length >= 3) {
+        return true;
+      }
+      if (isMainArtistMatch(candidateArtist, al)) {
+        return true;
+      }
+    }
+
+    const candidateAliases = getArtistAliases(candidateArtist);
+    for (const al of candidateAliases) {
+      const normAl = cleanArtist(al);
+      if (!normAl) continue;
+      if (normAl === normBan || isMainArtistMatch(al, ban)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 // Fetch songs from iTunes Search API with clean fallback
 export async function getSongsForGame(category: Category, count: number = 10): Promise<Song[]> {
   // 🌟 Dedicated Mega Hits Handler (Fetches ONLY verified iconic mega hit songs)

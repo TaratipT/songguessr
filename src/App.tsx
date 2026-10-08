@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import type { Song, Category, HintStatus, AnswerMode, RoomState, PlayerSession, PlayerRoundAnswer, RoundResult, SongDraftState, RoomGameType } from './types';
 import { CATEGORIES } from './data/categories';
 import { CURATED_SONGS } from './data/curatedSongs';
-import { getSongsForGame, getSongsForCustomArtist, isSongMatch, cleanArtist, shuffleArray } from './services/itunesApi';
+import { getSongsForGame, getSongsForCustomArtist, isSongMatch, cleanArtist, shuffleArray, isArtistNameBanned } from './services/itunesApi';
 import { generateChoicesForSong } from './services/choiceGenerator';
 import { multiplayerService } from './services/multiplayerService';
 import { soundFX } from './services/soundEffects';
@@ -1051,9 +1051,9 @@ export const App: React.FC = () => {
         ...(activeDraftState?.bluePlayer?.bans || []),
         ...(roomState?.draftState?.redPlayer?.bans || []),
         ...(roomState?.draftState?.bluePlayer?.bans || [])
-      ];
-      const bannedSet = new Set(allBansRaw.map((b) => b.trim().toLowerCase()).filter(Boolean));
-      const isArtistBanned = (name: string) => bannedSet.has(name.trim().toLowerCase());
+      ].filter(Boolean) as string[];
+
+      const isArtistBanned = (name: string) => isArtistNameBanned(name, allBansRaw);
 
       const cleanSurviving = survivingArtists.filter((a) => !isArtistBanned(a));
 
@@ -1109,6 +1109,7 @@ export const App: React.FC = () => {
           artists.map(async (art) => {
             try {
               let tracks = await getSongsForCustomArtist(art, 8);
+              tracks = tracks.filter((t) => !isArtistBanned(t.artist));
               // Fallback if custom artist query returned 0
               if (tracks.length === 0) {
                 const subCat: Category = {
@@ -1117,7 +1118,7 @@ export const App: React.FC = () => {
                   searchQueries: [art],
                   selectedArtists: [art]
                 };
-                tracks = await getSongsForGame(subCat, 6);
+                tracks = (await getSongsForGame(subCat, 6)).filter((t) => !isArtistBanned(t.artist));
               }
               if (tracks.length > 0) {
                 poolMap.set(cleanArtist(art), shuffleArray(tracks));
@@ -1223,8 +1224,9 @@ export const App: React.FC = () => {
 
       // If still fewer than totalRounds due to sparse tracks on iTunes, backfill
       if (interleaved.length < totalRounds) {
-        const fallbackSongs = await getSongsForGame(draftCat, totalRounds);
+        const fallbackSongs = await getSongsForGame(draftCat, totalRounds * 2);
         for (const fs of fallbackSongs) {
+          if (isArtistBanned(fs.artist)) continue;
           const key = `${cleanArtist(fs.title)}___${cleanArtist(fs.artist)}`;
           if (!seenKeys.has(String(fs.id)) && !seenKeys.has(key)) {
             seenKeys.add(String(fs.id));
@@ -1235,7 +1237,8 @@ export const App: React.FC = () => {
         }
       }
 
-      const finalSongs = interleaved.slice(0, totalRounds);
+      const strictlyCleanInterleaved = interleaved.filter((s) => !isArtistBanned(s.artist));
+      const finalSongs = strictlyCleanInterleaved.slice(0, totalRounds);
       const preparedSongs = finalSongs.map((s) => ({
         ...s,
         choices: s.choices && s.choices.length === 4 ? s.choices : generateChoicesForSong(s, finalSongs, draftCat)

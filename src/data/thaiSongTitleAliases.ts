@@ -377,7 +377,15 @@ export const THAI_SONG_BIDIRECTIONAL_ALIASES: Record<string, string[]> = {
   'กระต่ายตัวแรก': ['กระต่ายตัวแรก', 'first rabbit', 'firstrabbit'],
   'firstrabbit': ['กระต่ายตัวแรก', 'first rabbit', 'firstrabbit'],
   'ริเวอร์': ['ริเวอร์', 'river', 'river (ริเวอร์)'],
-  'river': ['ริเวอร์', 'river', 'river (ริเวอร์)']
+  'river': ['ริเวอร์', 'river', 'river (ริเวอร์)'],
+
+  // themoonwillalwaysbewithme
+  'ซูลูปาก้าตาปาเฮ้': ['ซูลูปาก้า ตาปาเฮ้', 'zulu paka tapahey', 'zulupakatapahey', 'ซูลูปาก้า ตาปาเฮ้ (zulu paka tapahey)'],
+  'zulupakatapahey': ['ซูลูปาก้า ตาปาเฮ้', 'zulu paka tapahey', 'zulupakatapahey', 'ซูลูปาก้า ตาปาเฮ้ (zulu paka tapahey)'],
+  'zulu paka tapahey': ['ซูลูปาก้า ตาปาเฮ้', 'zulu paka tapahey', 'zulupakatapahey', 'ซูลูปาก้า ตาปาเฮ้ (zulu paka tapahey)'],
+
+  // เขียนไขและวานิช
+  'แก้มน้องนางนั้นแดงกว่าใคร': ['แก้มน้องนางนั้นแดงกว่าใคร', 'kaem nong nang', 'แก้มน้องนาง']
 };
 
 /**

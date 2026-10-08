@@ -1,6 +1,7 @@
 import mqtt, { type MqttClient } from 'mqtt';
 import type { PlayerSession, RoomState, Song, AnswerMode, Category, SongDraftState, SongDraftPhase, RoomGameType, PlayerStatus } from '../types';
 import { calculateRoundScore } from '../utils/scoreCalculator';
+import { isArtistNameBanned } from './itunesApi';
 
 export type MultiplayerMessage =
   | { type: 'JOIN_REQUEST'; player: PlayerSession }
@@ -696,13 +697,12 @@ class MultiplayerService {
     ds.redPlayer.bans = ds.redPlayer.bans || [];
     ds.bluePlayer.bans = ds.bluePlayer.bans || [];
 
-    const allBansNormalized = Array.from(new Set([
+    const allBansRaw = [
       ...ds.redPlayer.bans,
       ...ds.bluePlayer.bans
-    ])).map((b) => b.trim().toLowerCase()).filter(Boolean);
+    ].filter(Boolean) as string[];
 
-    const isArtistBanned = (name: string) =>
-      allBansNormalized.includes(name.trim().toLowerCase());
+    const isArtistBanned = (name: string) => isArtistNameBanned(name, allBansRaw);
 
     const redSurviving = (ds.redPlayer.picks || []).filter((p) => !isArtistBanned(p));
     const blueSurviving = (ds.bluePlayer.picks || []).filter((p) => !isArtistBanned(p));
