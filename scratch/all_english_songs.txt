@@ -1,0 +1,568 @@
+
+========================================
+ARTIST: Bodyslam (2 tracks)
+========================================
+  "Sticker" (Album: "คราม") [inAliases: false]
+  "Bodyslam" (Album: "Bodyslam: Since 1996 (10 Years Anniversary)") [inAliases: false]
+
+========================================
+ARTIST: Three Man Down (1 tracks)
+========================================
+  "Time Zone" (Album: "This City Won't Be Lonely Anymore") [inAliases: true]
+
+========================================
+ARTIST: Tilly Birds (2 tracks)
+========================================
+  "Retro-39" (Album: "Retro-39 - Single") [inAliases: false]
+  "Like a Dead Man" (Album: "Like a Dead Man - Single") [inAliases: false]
+
+========================================
+ARTIST: Jeff Satur (18 tracks)
+========================================
+  "Ghost" (Album: "Ghost - Single") [inAliases: false]
+  "Dum Dum" (Album: "Dum Dum - Single") [inAliases: false]
+  "Ride Or Die" (Album: "Ride Or Die - Single") [inAliases: false]
+  "Golden Night (English Version)" (Album: "Red Giant - EP") [inAliases: false]
+  "Yellow Leaf" (Album: "Space Shuttle No.8") [inAliases: false]
+  "Fade (English Version)" (Album: "Fade (English Version) - Single") [inAliases: false]
+  "Black Tie" (Album: "Black Tie - Single") [inAliases: false]
+  "Why Don't You Stay (WorldTour Ver.)" (Album: "Why Don't You Stay (WorldTour Ver.) - Single") [inAliases: false]
+  "Highway" (Album: "Highway - Single") [inAliases: false]
+  "Moment (From "Ingredients")" (Album: "Moment (From "Ingredients") - Single") [inAliases: false]
+  "Stranger" (Album: "Stranger - Single") [inAliases: false]
+  "Dum Dum (English Version)" (Album: "Dum Dum - Single") [inAliases: false]
+  "Lucid" (Album: "Space Shuttle No.8") [inAliases: false]
+  "Time Flies" (Album: "MONO / SPECTRUM") [inAliases: false]
+  "Tell Me The Name" (Album: "Tell Me The Name - Single") [inAliases: false]
+  "Almost over you" (Album: "Space Shuttle No.8") [inAliases: false]
+  "Comedy (Tragedy)" (Album: "Comedy (Tragedy) - Single") [inAliases: false]
+  "Hide (English Version)" (Album: "Hide (English Version) - Single") [inAliases: false]
+
+========================================
+ARTIST: NONT TANONT (10 tracks)
+========================================
+  "MI PHON TOR HUA JAI" (Album: "MI PHON TOR HUA JAI - Single") [inAliases: true]
+  "FEUN TUA AYNG MAI PEN" (Album: "FEUN TUA AYNG MAI PEN - Single") [inAliases: true]
+  "Kwam Rak Kum Lung Kor Tua" (Album: "Kwam Rak Kum Lung Kor Tua - Single") [inAliases: false]
+  "Time Flies (feat. Jeff Satur)" (Album: "Time Flies (feat. Jeff Satur) - Single") [inAliases: false]
+  "MAI SA NIT" (Album: "MAI SA NIT - Single") [inAliases: false]
+  "Dark Choc" (Album: "Cigarette Candy & Vanilla Sky") [inAliases: false]
+  "Meun Kam La" (Album: "I AM NONT TANONT SPECIAL HITZ") [inAliases: false]
+  "Kam Tam Jak Khon Kao Shouldn't ask" (Album: "Kam Tam Jak Khon Kao Shouldn't ask - Single") [inAliases: false]
+  "PLAY" (Album: "PLAY - Single") [inAliases: true]
+  "Memories" (Album: "Cigarette Candy & Vanilla Sky") [inAliases: false]
+
+========================================
+ARTIST: Ink Waruntorn (2 tracks)
+========================================
+  "Snap" (Album: "Snap - Single") [inAliases: false]
+  "Last Train (feat. THREE1989)" (Album: "Last Train (feat. THREE1989) - Single") [inAliases: false]
+
+========================================
+ARTIST: Palmy (5 tracks)
+========================================
+  "Tick Tock" (Album: "Beautiful Ride") [inAliases: false]
+  "Ooh!" (Album: "Beautiful Ride") [inAliases: false]
+  "Stay" (Album: "Stay") [inAliases: true]
+  "CRY CRY CRY" (Album: "PALMY 5") [inAliases: false]
+  "Neon" (Album: "Neon - Single") [inAliases: false]
+
+========================================
+ARTIST: Cocktail (1 tracks)
+========================================
+  "Yours Ever (feat. Q Flure)" (Album: "Yours Ever") [inAliases: false]
+
+========================================
+ARTIST: Getsunova (1 tracks)
+========================================
+  "Eek Krang" (Album: "Eek Krang - Single") [inAliases: false]
+
+========================================
+ARTIST: Labanoon (1 tracks)
+========================================
+  "191" (Album: "191") [inAliases: false]
+
+========================================
+ARTIST: Clash (1 tracks)
+========================================
+  "It's Gonna Be Ok" (Album: "CLASH ALL HITS") [inAliases: false]
+
+========================================
+ARTIST: Big Ass (2 tracks)
+========================================
+  "Goodbye" (Album: "My World") [inAliases: false]
+  "Good Bye" (Album: "Big Ass: Since 1996 (10 Years Anniversary)") [inAliases: false]
+
+========================================
+ARTIST: 4EVE (27 tracks)
+========================================
+  "hot2hot" (Album: "hot2hot - Single") [inAliases: false]
+  "Snooze" (Album: "GLOW - EP") [inAliases: false]
+  "Girls Like Me" (Album: "Girls Like Me - Single") [inAliases: false]
+  "Bloom" (Album: "Bloom - Single") [inAliases: false]
+  "Situationship" (Album: "Situationship - Single") [inAliases: false]
+  "Booty Bomb" (Album: "TRICK OR TREAT - EP") [inAliases: false]
+  "Boutchya (Thai Version)" (Album: "Boutchya (Thai Version) - Single") [inAliases: false]
+  "Trick or Treat" (Album: "TRICK OR TREAT - EP") [inAliases: false]
+  "LIKE A BLING" (Album: "The First Album") [inAliases: false]
+  "Reels" (Album: "TRICK OR TREAT - EP") [inAliases: false]
+  "VROOM VROOM" (Album: "VROOM VROOM - Single") [inAliases: false]
+  "I Like Boys" (Album: "I Like Boys - Single") [inAliases: false]
+  "MY CHAINZ" (Album: "MY CHAINZ - Single") [inAliases: false]
+  "4EVER" (Album: "The First Album") [inAliases: false]
+  "Jackpot" (Album: "Jackpot - Single") [inAliases: false]
+  "NO ONE" (Album: "The First Album") [inAliases: false]
+  "OOH LA LA! (一 二 三 四)" (Album: "The First Album") [inAliases: false]
+  "Keep a Secret" (Album: "GLOW - EP") [inAliases: false]
+  "CASUAL" (Album: "The First Album") [inAliases: false]
+  "BOMB!" (Album: "The First Album") [inAliases: false]
+  "Nobody's Perfect" (Album: "TRICK OR TREAT - EP") [inAliases: false]
+  "My Duty" (Album: "My Duty - Single") [inAliases: false]
+  "Salsa No Drama" (Album: "Salsa No Drama - Single") [inAliases: false]
+  "LaLaLook" (Album: "LaLaLook - Single") [inAliases: false]
+  "Like You" (Album: "Like You - Single") [inAliases: false]
+  "Starry Night" (Album: "GLOW - EP") [inAliases: false]
+  "Life is a Movie" (Album: "GLOW - EP") [inAliases: false]
+
+========================================
+ARTIST: PiXXiE (16 tracks)
+========================================
+  "Shake!" (Album: "Shake! - Single") [inAliases: false]
+  "DUSTY" (Album: "DUST") [inAliases: false]
+  "FEAT" (Album: "FEAT - Single") [inAliases: false]
+  "DEJAYOU" (Album: "rain - EP") [inAliases: false]
+  "HUH?" (Album: "HUH? - Single") [inAliases: false]
+  "Whatever (feat. Zom Marie)" (Album: "PiXXiE THE FIRST JAPANESE ALBUM") [inAliases: false]
+  "DEJAYOU (feat. NINEONE赵馨玥)" (Album: "DEJAYOU (feat. NINEONE赵馨玥) - Single") [inAliases: false]
+  "TOXIQUE" (Album: "TOXIQUE - Single") [inAliases: false]
+  "Pick A Card" (Album: "MOON") [inAliases: false]
+  "NOT BAD" (Album: "BLOOM") [inAliases: false]
+  "BADLY" (Album: "BADLY - Single") [inAliases: false]
+  "Calling you" (Album: "Calling you - Single") [inAliases: false]
+  "Aftercry" (Album: "Aftercry - Single") [inAliases: false]
+  "Magic Car" (Album: "Magic Car - Single") [inAliases: false]
+  "HOT Dangerous" (Album: "HOT Dangerous - Single") [inAliases: false]
+  "PiXXiELand" (Album: "BLOOM") [inAliases: false]
+
+========================================
+ARTIST: PROXIE (8 tracks)
+========================================
+  "Bad Shawty" (Album: "Bad Shawty - Single") [inAliases: false]
+  "Someone Someday" (Album: "Someone Someday - Single") [inAliases: false]
+  "STOP!" (Album: "Data Storage") [inAliases: false]
+  "TRAFFIC" (Album: "TRAFFIC - Single") [inAliases: false]
+  "KISS KISS" (Album: "KISS KISS - Single") [inAliases: false]
+  "Stand In" (Album: "Stand In - Single") [inAliases: false]
+  "Love You All The Way" (Album: "Love You All The Way - Single") [inAliases: false]
+  "Interlude : Data Storage" (Album: "Data Storage") [inAliases: false]
+
+========================================
+ARTIST: BUS (12 tracks)
+========================================
+  "K" (Album: "HOPEFULLY IT LEADS SOMEWHERE") [inAliases: true]
+  "CHEST VOICE" (Album: "HOPEFULLY IT LEADS SOMEWHERE") [inAliases: false]
+  "Because of You, I Shine" (Album: "Because of You, I Shine - Single") [inAliases: true]
+  "LIAR" (Album: "LIAR - Single") [inAliases: false]
+  "WATCH YOUR STEP" (Album: "WATCH YOUR STEP - Single") [inAliases: false]
+  "BB" (Album: "BB - Single") [inAliases: true]
+  "BOW WOW" (Album: "BOW WOW - Single") [inAliases: false]
+  "So Blue" (Album: "So Blue - Single") [inAliases: false]
+  "TRANSFORMER" (Album: "TRANSFORMER - Single") [inAliases: false]
+  "BOSS IN THE BUILDING" (Album: "BOSS IN THE BUILDING - Single") [inAliases: false]
+  "Wish you the best" (Album: "Wish you the best - Single") [inAliases: false]
+  "Because of You, I Shine (Japanese Version)" (Album: "Because of You, I Shine (Japanese Version) - Single") [inAliases: false]
+
+========================================
+ARTIST: Billkin (5 tracks)
+========================================
+  "Mr. Everything" (Album: "Mr. Everything - Single") [inAliases: true]
+  "Golden Hour" (Album: "Grow With The Flow") [inAliases: false]
+  "Surrender" (Album: "Surrender - Single") [inAliases: false]
+  "A Beautiful Ride" (Album: "LOVE'S APPRENTICE - EP") [inAliases: false]
+  "Daily Magic" (Album: "Daily Magic - Single") [inAliases: false]
+
+========================================
+ARTIST: PP Krit (12 tracks)
+========================================
+  "I'll Do It How You Like It" (Album: "I'll Do It How You Like It - Single") [inAliases: false]
+  "FIRE BOY" (Album: "FIRE BOY - Single") [inAliases: false]
+  "What's going on" (Album: "What's going on - Single") [inAliases: false]
+  "It's Okay Not To Be Alright" (Album: "It's Okay Not To Be Alright - Single") [inAliases: false]
+  "Surrender" (Album: "Surrender - Single") [inAliases: false]
+  "Your Candy" (Album: "Your Candy - Single") [inAliases: false]
+  "Oopsy Daisy" (Album: "Oopsy Daisy - Single") [inAliases: false]
+  "guilty pleasure" (Album: "guilty pleasure - Single") [inAliases: false]
+  "Our Story Never Ends" (Album: "Our Story Never Ends - Single") [inAliases: false]
+  "FIRE BOY (SpatChies Remix)" (Album: "FIRE BOY (SpatChies Remix) - Single") [inAliases: false]
+  "friend to friend (就范 jiu fan)" (Album: "friend to friend (就范 jiu fan) - Single") [inAliases: false]
+  "I'll Do It How You Like It (Live Session)" (Album: "I'll Do It How You Like It (Live Session) - Single") [inAliases: false]
+
+========================================
+ARTIST: The TOYS (6 tracks)
+========================================
+  "4:00" (Album: "SUN") [inAliases: false]
+  "TOY" (Album: "TOY - Single") [inAliases: false]
+  "Stars" (Album: "SUN") [inAliases: false]
+  "Who Else?" (Album: "Who Else? - Single") [inAliases: false]
+  "I'm rich" (Album: "I'm rich - Single") [inAliases: false]
+  "The Light" (Album: "The Light - Single") [inAliases: false]
+
+========================================
+ARTIST: Safeplanet (9 tracks)
+========================================
+  "The Wind" (Album: "The Wind - Single") [inAliases: false]
+  "Always" (Album: "Always - Single") [inAliases: true]
+  "The End" (Album: "The End - Single") [inAliases: false]
+  "Daydream" (Album: "Daydream - Single") [inAliases: false]
+  "Melatonin" (Album: "Melatonin - Single") [inAliases: false]
+  "The Maze" (Album: "The Maze - Single") [inAliases: false]
+  "Youth" (Album: "Cap, Capo, Cigarettes & Beer") [inAliases: false]
+  "Bon Voyage" (Album: "Cap, Capo, Cigarettes & Beer") [inAliases: false]
+  "THE PLANET" (Album: "THE PLANET - Single") [inAliases: false]
+
+========================================
+ARTIST: Dept (14 tracks)
+========================================
+  "17" (Album: "17 - Single") [inAliases: false]
+  "Slow Dance (feat. jnr.)" (Album: "Slow Dance") [inAliases: false]
+  "Just All the Night" (Album: "Just All the Night - Single") [inAliases: false]
+  "Lowkey (feat. jxmmyni)" (Album: "Slow Dance") [inAliases: false]
+  "All The Way (feat. Lilly Choi)" (Album: "Slow Dance") [inAliases: false]
+  "In Too Deep (feat. Lilly Choi)" (Album: "Slow Dance") [inAliases: false]
+  "Lowkey (feat. Oh Yun)" (Album: "Slow Dance") [inAliases: false]
+  "Slow Dance (feat. Oh Yun)" (Album: "Slow Dance") [inAliases: false]
+  "Birdsong" (Album: "Birdsong - Single") [inAliases: false]
+  "Let'S Cry" (Album: "Ceramics Runway") [inAliases: false]
+  "Whenever It Rains (feat. Nason & amin)" (Album: "Whenever It Rains - Single") [inAliases: false]
+  "Gossip" (Album: "Super Contrast - EP") [inAliases: false]
+  "Slow Dance (feat. jnr.) [Sped Up]" (Album: "Slow Dance") [inAliases: false]
+  "All The Way (feat. Lilly Choi) [Sped Up]" (Album: "Slow Dance") [inAliases: false]
+
+========================================
+ARTIST: PURPEECH (4 tracks)
+========================================
+  "I'm here" (Album: "I'm here - Single") [inAliases: true]
+  "It's me" (Album: "It's me - Single") [inAliases: false]
+  "Alright" (Album: "Alright - Single") [inAliases: false]
+  "See You Somewhere (LIVE SESSION)" (Album: "See You Somewhere (LIVE SESSION) - Single") [inAliases: false]
+
+========================================
+ARTIST: YourMOOD (5 tracks)
+========================================
+  "Jigsaw (lost.)" (Album: "Jigsaw (lost.) - Single") [inAliases: false]
+  "Your Guy" (Album: "Your Guy - Single") [inAliases: false]
+  "battle" (Album: "battle - Single") [inAliases: false]
+  "I Hate Red" (Album: "I Hate Red - Single") [inAliases: false]
+  "再见" (Album: "再见 - Single") [inAliases: false]
+
+========================================
+ARTIST: QLER (8 tracks)
+========================================
+  "ALICE" (Album: "ALICE - Single") [inAliases: false]
+  "Dear You (feat. Bibibesi)" (Album: "Dear You (feat. Bibibesi) - Single") [inAliases: false]
+  "I Just Wanna Make You Mine (feat. SURL)" (Album: "I Just Wanna Make You Mine (feat. SURL) - Single") [inAliases: false]
+  "30 cm" (Album: "30 cm - Single") [inAliases: false]
+  "old school (feat. culenasm)" (Album: "old school (feat. culenasm) - Single") [inAliases: false]
+  "Hey! (feat. Sure)" (Album: "Hey! (feat. Sure) - Single") [inAliases: false]
+  "I Just Wanna Make You Mine" (Album: "I Just Wanna Make You Mine - Single") [inAliases: false]
+  "The Best" (Album: "ลอง La Bye") [inAliases: false]
+
+========================================
+ARTIST: Txrbo (5 tracks)
+========================================
+  "Can't Take It Anymore" (Album: "Can't Take It Anymore - Single") [inAliases: false]
+  "Sad Movie (Cover Version)" (Album: "Sad Movie (Cover Version) - Single") [inAliases: false]
+  "Kem Dai Ngai(Game)" (Album: "Kem Dai Ngai(Game) - Single") [inAliases: false]
+  "B1" (Album: "Day 0 - The Singles Collection (2015)") [inAliases: false]
+  "My Luv" (Album: "Day 0 - The Singles Collection (2015)") [inAliases: false]
+
+========================================
+ARTIST: Bell Warisara (6 tracks)
+========================================
+  "Million Butterflies" (Album: "Million Butterflies - Single") [inAliases: false]
+  "Haam Jai Mai Yoo (Muzik Move Your Feeling Version)" (Album: "Haam Jai Mai Yoo (Muzik Move Your Feeling Version) - Single") [inAliases: false]
+  "ONLY YOU (Switching Voice Project)" (Album: "ONLY YOU (Switching Voice Project) - Single") [inAliases: false]
+  "Me Jai Gor Pai Gun" (Album: "Me Jai Gor Pai Gun - Single") [inAliases: false]
+  "Super Santa Claus" (Album: "Super Santa Claus - Single") [inAliases: false]
+  "Secret Code" (Album: "Secret Code - Single") [inAliases: false]
+
+========================================
+ARTIST: Bedroom Audio (2 tracks)
+========================================
+  "Lullaby" (Album: "Bedroom Audio") [inAliases: false]
+  "On The Floor" (Album: "Bedroom Audio") [inAliases: false]
+
+========================================
+ARTIST: Anatomy Rabbit (16 tracks)
+========================================
+  "Are You out yet ?" (Album: "Are You out yet ? - Single") [inAliases: false]
+  "Extraordinary" (Album: "Extraordinary - Single") [inAliases: true]
+  "Kab Rod Len" (Album: "Holland Lop") [inAliases: true]
+  "Single Mom" (Album: "Single Mom - Single") [inAliases: false]
+  "Mars Loner" (Album: "Holland Lop") [inAliases: false]
+  "Wonder Why ?" (Album: "Holland Lop") [inAliases: false]
+  "Udon Town" (Album: "Holland Lop") [inAliases: false]
+  "AntiVirus" (Album: "AntiVirus - Single") [inAliases: false]
+  "Happy Valentine's Day" (Album: "Happy Valentine's Day - Single") [inAliases: false]
+  "Wonder Why Lonely" (Album: "Wonder Why Lonely - Single") [inAliases: false]
+  "Every Time" (Album: "Holland Lop") [inAliases: false]
+  "Tapha" (Album: "Holland Lop") [inAliases: false]
+  "Young Yaow" (Album: "Holland Lop") [inAliases: false]
+  "Past & Present" (Album: "Past & Present - Single") [inAliases: false]
+  "Look at Me Baby" (Album: "Look at Me Baby - Single") [inAliases: false]
+  "Nittayasan" (Album: "Nittayasan - Single") [inAliases: false]
+
+========================================
+ARTIST: Zentyarb (7 tracks)
+========================================
+  "Countdown" (Album: "MASSTERPIECE") [inAliases: false]
+  "Get U Off (feat. FIIXD)" (Album: "MASSTERPIECE") [inAliases: false]
+  "Story" (Album: "Story - Single") [inAliases: false]
+  "NAH JA DEE" (Album: "NAH JA DEE - Single") [inAliases: false]
+  "Rain (feat. K.Aglet)" (Album: "Rain (feat. K.Aglet) - Single") [inAliases: false]
+  "Alcoholism" (Album: "The Last Lover") [inAliases: false]
+  "Nothing Else To Do (feat. EL+CITY)" (Album: "Nothing Else To Do (feat. EL+CITY) - Single") [inAliases: false]
+
+========================================
+ARTIST: Fellow Fellow (7 tracks)
+========================================
+  "Halley's Comet" (Album: "Halley's Comet - Single") [inAliases: true]
+  "Milky Way" (Album: "Milky Way - Single") [inAliases: false]
+  "Proud" (Album: "Proud - Single") [inAliases: false]
+  "Bloom" (Album: "Bloom - Single") [inAliases: false]
+  "Best Year" (Album: "Best Year - Single") [inAliases: false]
+  "Home" (Album: "Home - Single") [inAliases: false]
+  "FOLLOWERS" (Album: "แพ้ทุกที (LOOPER), FOLLOWERS - Single") [inAliases: false]
+
+========================================
+ARTIST: Paper Planes (1 tracks)
+========================================
+  "LEARN" (Album: "LEARN - Single") [inAliases: false]
+
+========================================
+ARTIST: UrboyTJ (10 tracks)
+========================================
+  "Everything" (Album: "Everything - Single") [inAliases: true]
+  "Do You Mind?" (Album: "Do You Mind? - Single") [inAliases: true]
+  "Unless" (Album: "Happy Never After - EP") [inAliases: false]
+  "Out of Time" (Album: "Happy Never After - EP") [inAliases: false]
+  "Sorry" (Album: "Sorry - Single") [inAliases: false]
+  "Selfmade (feat. Violette Wautier)" (Album: "Selfmade") [inAliases: false]
+  "Fact" (Album: "Fact - Single") [inAliases: false]
+  "Sub" (Album: "Happy Never After - EP") [inAliases: true]
+  "Okay" (Album: "Okay - Single") [inAliases: false]
+  "chemical" (Album: "chemical - Single") [inAliases: false]
+
+========================================
+ARTIST: YOUNGOHM (15 tracks)
+========================================
+  "Nakorn Dara" (Album: "Nakorn Dara") [inAliases: false]
+  "Sunset In Pattaya" (Album: "ไฟกลางคืน") [inAliases: false]
+  "Cold Fire" (Album: "BANGKOK LEGACY") [inAliases: false]
+  "Legends of a Love Story (feat. Gavin D)" (Album: "BANGKOK LEGACY") [inAliases: false]
+  "Thararat" (Album: "Thararat - Single") [inAliases: false]
+  "Sai Nam Peung (feat. SONOFO)" (Album: "THATTHONG SOUND") [inAliases: false]
+  "Warm up a Curry" (Album: "BANGKOK LEGACY") [inAliases: false]
+  "The Last Kiss" (Album: "BANGKOK LEGACY") [inAliases: false]
+  "Outside" (Album: "ไฟกลางคืน") [inAliases: false]
+  "Mata Ne (feat. FIIXD)" (Album: "BANGKOK LEGACY") [inAliases: false]
+  "OLA" (Album: "OLA - Single") [inAliases: false]
+  "Me Tung (feat. Sonofo & Young Bong)" (Album: "Me Tung (feat. Sonofo & Young Bong) - Single") [inAliases: false]
+  "The Light in the City (Intro)" (Album: "BANGKOK LEGACY") [inAliases: false]
+  "Keep Going" (Album: "BANGKOK LEGACY") [inAliases: false]
+  "White Gold Diamond Ring (feat. PENOMECO)" (Album: "White Gold Diamond Ring (feat. PENOMECO) - Single") [inAliases: false]
+
+========================================
+ARTIST: Violette Wautier (22 tracks)
+========================================
+  "Smoke" (Album: "Glitter and Smoke (Special Edition)") [inAliases: false]
+  "I’d Do It Again" (Album: "Glitter and Smoke") [inAliases: false]
+  "Stop Asking" (Album: "Stop Asking - Single") [inAliases: false]
+  "Whisper" (Album: "Whisper - Single") [inAliases: false]
+  "I'd Do It Again" (Album: "Glitter and Smoke (Special Edition)") [inAliases: false]
+  "Goodbye" (Album: "Goodbye - Single") [inAliases: false]
+  "ENVY" (Album: "ENVY - Single") [inAliases: false]
+  "IMAGINE" (Album: "IMAGINE - Single") [inAliases: false]
+  "Midnight Sun" (Album: "Midnight Sun - Single") [inAliases: false]
+  "BACK TO REALITY" (Album: "CALL ME DRAMATIC") [inAliases: false]
+  "Brassac" (Album: "Brassac - Single") [inAliases: false]
+  "Deep Down" (Album: "Deep Down - Single") [inAliases: false]
+  "Quarantine" (Album: "Your Girl") [inAliases: true]
+  "I’d Do It Again (Apple Music Home Session)" (Album: "Apple Music Home Session: Violette Wautier") [inAliases: false]
+  "Drive" (Album: "Glitter and Smoke (Special Edition)") [inAliases: false]
+  "Cool" (Album: "Glitter and Smoke (Special Edition)") [inAliases: false]
+  "Stop Asking (Acoustic Live Session)" (Album: "Stop Asking (Acoustic Live Session) - Single") [inAliases: false]
+  "All That I Can Do" (Album: "Glitter and Smoke (Special Edition)") [inAliases: false]
+  "I’d Do It Again (Acoustic)" (Album: "I’d Do It Again (Acoustic) - Single") [inAliases: false]
+  "give up, give in" (Album: "give up, give in - Single") [inAliases: false]
+  "Future Ghost" (Album: "Future Ghost - Single") [inAliases: false]
+  "FAVOURITE MISTAKE" (Album: "FAVOURITE MISTAKE - Single") [inAliases: false]
+
+========================================
+ARTIST: Scrubb (8 tracks)
+========================================
+  "See Scape" (Album: "Club") [inAliases: false]
+  "Do You?" (Album: "Do You? - Single") [inAliases: true]
+  "Breath" (Album: "Breath - Single") [inAliases: false]
+  "You" (Album: "You - Single") [inAliases: true]
+  "Surfing (feat. Plastic Plastic)" (Album: "Surfing (feat. Plastic Plastic) - Single") [inAliases: false]
+  "Everyday" (Album: "Everyday - Single") [inAliases: false]
+  "Art Bar" (Album: "SSS..S..S") [inAliases: false]
+  "Inchan Tree" (Album: "Mood - EP") [inAliases: false]
+
+========================================
+ARTIST: Tattoo Colour (6 tracks)
+========================================
+  "1-100" (Album: "Fitness Pop") [inAliases: false]
+  "Good Luck to The Both of Us" (Album: "Good Luck to The Both of Us - Single") [inAliases: false]
+  "No.1" (Album: "สัตว์จริง") [inAliases: false]
+  "Cinderella" (Album: "ชุดที่ 8 จงเพราะ") [inAliases: true]
+  "SuperCarCare (feat. D Gerrard)" (Album: "SuperCarCare (feat. D Gerrard) - Single") [inAliases: false]
+  "Luv @1 (Optional Lyrics)" (Album: "My Secret Folder") [inAliases: false]
+
+========================================
+ARTIST: Taitosmith (3 tracks)
+========================================
+  "Hello Mama" (Album: "Hello Mama - Single") [inAliases: false]
+  "Pattaya Lover" (Album: "Pattaya Lover - Single") [inAliases: false]
+  "Amazing Thailand" (Album: "ไททศมิตร") [inAliases: false]
+
+========================================
+ARTIST: Little John (17 tracks)
+========================================
+  "If Only You" (Album: "Reggae Dance") [inAliases: false]
+  "This Kind of Way" (Album: "Reggae Dance") [inAliases: false]
+  "Respect Your Lover" (Album: "Reggae Dance") [inAliases: false]
+  "Sweet Reggae Music" (Album: "Reggae Dance") [inAliases: false]
+  "Reggae Music" (Album: "Reggae Dance") [inAliases: false]
+  "Sweet Dreams" (Album: "Reggae Dance") [inAliases: false]
+  "Mr Babylon" (Album: "Reggae Dance") [inAliases: false]
+  "All Who Gone" (Album: "Reggae Dance") [inAliases: false]
+  "Take It Easy" (Album: "Take It Easy - Single") [inAliases: false]
+  "English Cowboy" (Album: "Ghetto Youth") [inAliases: false]
+  "Dancehall Style (Extended)" (Album: "Ghetto Youth") [inAliases: false]
+  "Smoke Ganja Hard" (Album: "Reggae Anthology - The Channel One Story") [inAliases: false]
+  "Clarkes Booty" (Album: "Clarks In Jamaica") [inAliases: false]
+  "51 Storm" (Album: "Ram Jam / 51 Storm - Single") [inAliases: false]
+  "Clarks Booty" (Album: "Clarkes Booty") [inAliases: false]
+  "In the Ghetto" (Album: "Clarkes Booty") [inAliases: false]
+  "United We Stand Divided We Fall" (Album: "Ghetto Youth") [inAliases: false]
+
+========================================
+ARTIST: Loso (1 tracks)
+========================================
+  "Loso" (Album: "The Very Best of Sek Loso II") [inAliases: false]
+
+========================================
+ARTIST: Silly Fools (4 tracks)
+========================================
+  "Jong Reak Tur Wa Nang Pha Ya" (Album: "Jong Reak Tur Wa Nang Pha Ya - Single") [inAliases: false]
+  "Hey..." (Album: "Candyman") [inAliases: true]
+  "Thep Lee La" (Album: "Thep Lee La - Single") [inAliases: false]
+  "Orange" (Album: "Orange - Single") [inAliases: false]
+
+========================================
+ARTIST: D2B (3 tracks)
+========================================
+  "C.I.A. (Khon Chai)" (Album: "D2B") [inAliases: false]
+  "Bypass" (Album: "Bypass") [inAliases: false]
+  "Ambiguous" (Album: "Ambiguous - Single") [inAliases: false]
+
+========================================
+ARTIST: Bird Thongchai (1 tracks)
+========================================
+  "Too Much So Much Very Much" (Album: "เบิร์ด อาสาสนุก") [inAliases: false]
+
+========================================
+ARTIST: ลำไย ไหทองคำ (1 tracks)
+========================================
+  "Byebye" (Album: "Byebye - Single") [inAliases: false]
+
+========================================
+ARTIST: ก้อง ห้วยไร่ (1 tracks)
+========================================
+  "Ba Ra Mee Hang Wang Nam Yen" (Album: "Ba Ra Mee Hang Wang Nam Yen - Single") [inAliases: false]
+
+========================================
+ARTIST: Mirrr (4 tracks)
+========================================
+  "Your Rules (feat. Jao YENTED)" (Album: "Your Rules (feat. Jao YENTED) - Single") [inAliases: false]
+  "Another pill" (Album: "Q.E.D") [inAliases: false]
+  "Designer" (Album: "Q.E.D") [inAliases: false]
+  "HEARTWALL (Speed Up)" (Album: "HEARTWALL (Speed Up) - Single") [inAliases: false]
+
+========================================
+ARTIST: SERIOUS BACON (4 tracks)
+========================================
+  "1001 (You're Lovely)" (Album: "1001 (You're Lovely) - Single") [inAliases: false]
+  "Your Worst Enemy!" (Album: "Your Worst Enemy! - Single") [inAliases: false]
+  "Someone Who Cares" (Album: "Someone Who Cares - Single") [inAliases: false]
+  "Is It Love? (feat. J_ust)" (Album: "BEST FRIEND OF THE YEAR") [inAliases: false]
+
+========================================
+ARTIST: MILLI (19 tracks)
+========================================
+  "SSAK (Prod. By GRAY) [feat. Loco]" (Album: "Show Me The Money 12 Episode 1 - EP") [inAliases: false]
+  "Mirror Mirror (feat. Changbin (Stray Kids))" (Album: "Mirror Mirror (feat. Changbin (Stray Kids)) - Single") [inAliases: false]
+  "MSG (Prod. by Spatchies, PapZilla, KIRWAV, Sawat) [feat. Omega Sapien]" (Album: "Show Me The Money 12 Final - EP") [inAliases: false]
+  "Saa-Tuu (feat. TangBadVoice)" (Album: "BABB BUM BUM") [inAliases: false]
+  "Not Yet!" (Album: "Not Yet! - Single") [inAliases: false]
+  "Boy Pablo (feat. BOWKYLION)" (Album: "BABB BUM BUM") [inAliases: false]
+  "I Luv U! (feat. NAMEMT)" (Album: "BABB BUM BUM") [inAliases: false]
+  "17 Mins (feat. mints)" (Album: "BABB BUM BUM") [inAliases: false]
+  "Mind Games (feat. Jackson Wang)" (Album: "Mind Games (feat. Jackson Wang) - Single") [inAliases: false]
+  "NEVER (Prod. by GRAY) [feat. Wonstein & lIlBOI]" (Album: "Show Me The Money 12 Semi Final") [inAliases: false]
+  "OnlyFans" (Album: "OnlyFans - Single") [inAliases: false]
+  "Mango Sticky Rice" (Album: "Mango Sticky Rice - Single") [inAliases: false]
+  "Homework" (Album: "BABB BUM BUM") [inAliases: false]
+  "Our Story Never Ends" (Album: "Our Story Never Ends - Single") [inAliases: false]
+  "Sood-Gon" (Album: "BABB BUM BUM") [inAliases: false]
+  "Say It (feat. JACKIE TRINITY)" (Album: "Say It (feat. JACKIE TRINITY) - Single") [inAliases: false]
+  "TO THE MAX" (Album: "TO THE MAX - Single") [inAliases: false]
+  "Good Day (Prod. CODE KUNST) [feat. Paloalto]" (Album: "Show Me the Money 777 (Episode 1) - EP") [inAliases: false]
+  "BBB" (Album: "BBB - Single") [inAliases: false]
+
+========================================
+ARTIST: Patrickananda (13 tracks)
+========================================
+  "Lavender" (Album: "Lavender - Single") [inAliases: true]
+  "Oasis" (Album: "Oasis - Single") [inAliases: true]
+  "Polaroid" (Album: "Polaroid - Single") [inAliases: false]
+  "WU (feat. Karn The Parkinson)" (Album: "WU (feat. Karn The Parkinson) - Single") [inAliases: false]
+  "Wine" (Album: "Wine - Single") [inAliases: false]
+  "12th" (Album: "12th - Single") [inAliases: false]
+  "White Gold Diamond Ring (feat. PENOMECO)" (Album: "White Gold Diamond Ring (feat. PENOMECO) - Single") [inAliases: false]
+  "CEDE" (Album: "CEDE - Single") [inAliases: false]
+  "Lavender (Live Session)" (Album: "LAVNDR (Live Session) - EP") [inAliases: false]
+  "12th (Stripped Down Version)" (Album: "12th (Stripped Down Version) - Single") [inAliases: false]
+  "Until The Sunrise" (Album: "Until The Sunrise - Single") [inAliases: false]
+  "Oasis (Live Session)" (Album: "LAVNDR (Live Session) - EP") [inAliases: false]
+  "12th (Stripped Down Version) [Instrumental]" (Album: "12th (Stripped Down Version) - Single") [inAliases: false]
+
+========================================
+ARTIST: Bow Maylada (9 tracks)
+========================================
+  "Whistle While You Work" (Album: "Disney's Snow White (Thai Original Motion Picture Soundtrack)") [inAliases: false]
+  "Waiting On A Wish (From "Disney's Snow White"/Thai Soundtrack Version)" (Album: "Waiting On A Wish (From "Disney's Snow White"/Thai Soundtrack Version) - Single") [inAliases: false]
+  "Waiting On A Wish" (Album: "Disney's Snow White (Thai Original Motion Picture Soundtrack)") [inAliases: false]
+  "A Hand Meets A Hand" (Album: "Disney's Snow White (Thai Original Motion Picture Soundtrack)") [inAliases: false]
+  "Princess Problems" (Album: "Disney's Snow White (Thai Original Motion Picture Soundtrack)") [inAliases: false]
+  "Snow White Returns" (Album: "Disney's Snow White (Thai Original Motion Picture Soundtrack)") [inAliases: false]
+  "Waiting On A Wish (Reprise)" (Album: "Disney's Snow White (Thai Original Motion Picture Soundtrack)") [inAliases: false]
+  "Good Things Grow (Finale)" (Album: "Disney's Snow White (Thai Original Motion Picture Soundtrack)") [inAliases: false]
+  "Good Things Grow (Villagers' Reprise)" (Album: "Disney's Snow White (Thai Original Motion Picture Soundtrack)") [inAliases: false]
+
+========================================
+ARTIST: Pop Pongkool (3 tracks)
+========================================
+  "Undo" (Album: "Undo - Single") [inAliases: true]
+  "Happy Ending" (Album: "Happy Ending - Single") [inAliases: false]
+  "North Star" (Album: "POP PONGKOOL BEST COLLECTION") [inAliases: false]
+
+========================================
+ARTIST: The Yers (4 tracks)
+========================================
+  "TV" (Album: "YOU") [inAliases: false]
+  "Dance in the Dark" (Album: "Y") [inAliases: false]
+  "LOOP" (Album: "YOU") [inAliases: false]
+  "CRY" (Album: "CRY") [inAliases: false]

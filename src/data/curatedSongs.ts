@@ -267,6 +267,78 @@ export const CURATED_SONGS: Record<string, Song[]> = {
       artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/53/24/ff/5324ff49-9bb2-46ad-6a00-8502cb671389/cover.jpg/600x600bb.jpg',
       firstCharHint: 'ห',
       mood: 'ชิลล์'
+    },
+    {
+      id: 'khiankai_1',
+      title: 'แก้มน้องนางนั้นแดงกว่าใคร',
+      artist: 'เขียนไขและวานิช',
+      album: 'เขียนไขและวานิช',
+      year: 2019,
+      genre: 'Folk/Indie',
+      previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/44/b7/5a/44b75af7-8c58-2b79-f5ff-5edc9d3fe6c5/mzaf_14751849910702136659.plus.aac.p.m4a',
+      artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/c0/52/6b/c0526b63-c029-7482-e123-64e8bf6431d4/0840102407280.jpg/600x600bb.jpg',
+      firstCharHint: 'ก',
+      mood: 'อบอุ่นฟังสบาย'
+    },
+    {
+      id: 'khiankai_2',
+      title: 'หนีห่าง',
+      artist: 'เขียนไขและวานิช',
+      album: 'เขียนไขและวานิช',
+      year: 2019,
+      genre: 'Folk/Indie',
+      previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3f/a7/e1/3fa7e1d7-975c-6a49-1d84-59752167aa9f/mzaf_7839170610992379305.plus.aac.p.m4a',
+      artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/c0/52/6b/c0526b63-c029-7482-e123-64e8bf6431d4/0840102407280.jpg/600x600bb.jpg',
+      firstCharHint: 'ห',
+      mood: 'คิดถึง'
+    },
+    {
+      id: 'khiankai_3',
+      title: 'ภาพฝันในจักรวาล',
+      artist: 'เขียนไขและวานิช',
+      album: 'เขียนไขและวานิช',
+      year: 2019,
+      genre: 'Folk/Indie',
+      previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ca/bd/1f/cabd1f78-d78b-3408-e20b-c6e0c4077e8a/mzaf_299356655105142377.plus.aac.p.m4a',
+      artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/c0/52/6b/c0526b63-c029-7482-e123-64e8bf6431d4/0840102407280.jpg/600x600bb.jpg',
+      firstCharHint: 'ภ',
+      mood: 'ละมุน'
+    },
+    {
+      id: 'themoon_1',
+      title: 'ซูลูปาก้า ตาปาเฮ้',
+      artist: 'themoonwillalwaysbewithme',
+      album: 'ซูลูปาก้า ตาปาเฮ้ - Single',
+      year: 2021,
+      genre: 'Indie Pop',
+      previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/eb/d7/57/ebd757cd-f9aa-342d-c6f0-2f3221526aab/mzaf_8667682640341965635.plus.aac.p.m4a',
+      artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9b/7f/a1/9b7fa1bb-4f62-511f-592e-3ba805324e66/0.jpg/600x600bb.jpg',
+      firstCharHint: 'ซ',
+      mood: 'สดใส'
+    },
+    {
+      id: 'themoon_2',
+      title: 'ให้ดาวช่วยปลอบประโลมหัวใจของเธอให้หายดี',
+      artist: 'themoonwillalwaysbewithme',
+      album: 'ให้ดาวช่วยปลอบประโลมหัวใจของเธอให้หายดี - Single',
+      year: 2023,
+      genre: 'Indie Pop',
+      previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/ed/99/88/ed9988e5-f64e-511c-6726-95b77fd7a5b4/mzaf_3386589093633275223.plus.aac.p.m4a',
+      artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/ee/ad/70/eead7058-c5c3-bd3b-4cdd-baa93e5e374b/cover.jpg/600x600bb.jpg',
+      firstCharHint: 'ห',
+      mood: 'ฮีลใจ'
+    },
+    {
+      id: 'themoon_3',
+      title: 'ไดโนเสาร์ไข่ดาวปาจังกี้',
+      artist: 'themoonwillalwaysbewithme',
+      album: 'ไดโนเสาร์ไข่ดาวปาจังกี้ - Single',
+      year: 2021,
+      genre: 'Indie Pop',
+      previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/06/89/18/0689185b-a962-5d54-bc94-cee59a036abf/mzaf_3969636819713679239.plus.aac.p.m4a',
+      artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b3/54/fe/b354fe86-21cc-6892-4940-39ac5126bbfc/0.jpg/600x600bb.jpg',
+      firstCharHint: 'ด',
+      mood: 'น่ารักสดใส'
     }
   ],
   inter_pop: [

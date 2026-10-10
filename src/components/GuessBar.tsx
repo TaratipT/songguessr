@@ -76,7 +76,7 @@ export const GuessBar: React.FC<GuessBarProps> = ({
     const filtered = availableSongs.filter((s) => {
       const matchTitle = s.title.toLowerCase().includes(query);
       const matchAlias = getKaraokeAliases(s.title).some((a) => a.toLowerCase().includes(query));
-      const matchTitleAlias = getSongTitleAliases(s.title).some((a) => a.toLowerCase().includes(query));
+      const matchTitleAlias = getSongTitleAliases(s.title, s.artist).some((a) => a.toLowerCase().includes(query));
       if ((matchTitle || matchAlias || matchTitleAlias) && !titlesSet.has(s.title)) {
         titlesSet.add(s.title);
         return true;

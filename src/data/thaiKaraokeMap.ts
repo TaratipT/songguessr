@@ -23,8 +23,38 @@ export const THAI_KARAOKE_TITLE_MAP: Record<string, string> = {
   'mi phon tor hua jai': 'มีผลต่อหัวใจ',
   'mee phon tor hua jai': 'มีผลต่อหัวใจ',
   'kwam rak kum lung kor tua': 'ความรักกำลังก่อตัว',
+  'meun kam la': 'หมื่นคำลา',
   'kam tam jak khon kao': 'คำถามจากคนเก่า',
   'kam tam jak khon kao shouldnt ask': 'คำถามจากคนเก่า',
+
+  // เขียนไขและวานิช
+  'kaem nong nang': 'แก้มน้องนางนั้นแดงกว่าใคร',
+  'kaem nong nang nan daeng kwa khrai': 'แก้มน้องนางนั้นแดงกว่าใคร',
+
+  // themoonwillalwaysbewithme
+  'zulu paka tapahey': 'ซูลูปาก้า ตาปาเฮ้',
+  'zulupakatapahey': 'ซูลูปาก้า ตาปาเฮ้',
+
+  // Anatomy Rabbit
+  'tapha': 'ตาฟา',
+  'young yaow': 'ยังเยาว์',
+  'nittayasan': 'นิตยสาร',
+
+  // YOUNGOHM
+  'thararat': 'ธารารัตน์',
+  'sai nam peung': 'สายน้ำผึ้ง',
+  'me tung': 'มีตังค์',
+
+  // MILLI
+  'saa tuu': 'สาธุ',
+  'saa-tuu': 'สาธุ',
+  'sood gon': 'สุดก่อน',
+
+  // Getsunova
+  'eek krang': 'อีกครั้ง',
+
+  // ก้อง ห้วยไร่
+  'ba ra mee hang wang nam yen': 'บารมีแห่งวังน้ำเย็น',
 
   // Lipta
   'tuk krub': 'ทักครับ',
